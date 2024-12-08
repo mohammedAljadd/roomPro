@@ -35,9 +35,9 @@ public class RegistrationService {
         // Create new user
         User user = new User();
         user.setEmail(email);
-        user.setPassword(user.getPassword());
-        user.setFirstName(user.getFirstName());
-        user.setLastName(user.getLastName());
+        user.setPassword(userRegistrationDto.getPassword());
+        user.setFirstName(userRegistrationDto.getFirstName());
+        user.setLastName(userRegistrationDto.getLastName());
         user.setRole(role);
 
         // Save user to the database
