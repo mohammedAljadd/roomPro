@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/roompro/users")
+@CrossOrigin(origins = "http://localhost:4209")
 public class UserController {
     @Autowired
     private RegistrationService registrationService;
