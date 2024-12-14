@@ -1,12 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RegistrationService } from '../../../services/auth/registration.service';
 import { RegistrationModel } from '../../../model/class/RegistrationModel';
+
 @Component({
   selector: 'app-register',
   imports: [FormsModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class RegisterComponent {
   
@@ -24,7 +26,19 @@ export class RegisterComponent {
         console.error('Registration failed', error);
       }
     );
-
   }
 
-}
+
+      resetForm() {
+        this.user = {
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          roleName: ''
+        };
+      }
+    }
+
+  
+

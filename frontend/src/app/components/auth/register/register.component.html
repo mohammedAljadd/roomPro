@@ -1,53 +1,70 @@
-
-<div class="container mt-5">
-    <div class="card">
+<div class="d-flex align-items-center" style="height: 90vh;">
+  <div class="container d-flex justify-content-center">
+    <div class="card w-75">
       <div class="card-body">
-        <!-- Form starts here -->
-        <div class="row justify-content-center">
-          <div class="col-7">
-            <label for="name">First name</label>
-            <input type="text" [(ngModel)]="user.firstName" class="form-control">
+        <!-- Row to divide the card into two sections -->
+        <div class="row align-items-stretch">
+          
+          <!-- 4 Columns Section -->
+          <div class="col-md-4 d-flex flex-column">
+            <!-- Content for the 4-column section -->
+            <div class="p-3 bg-light border rounded h-100 d-flex flex-column justify-content-center" id="roomProSide">
+              <h5 class="text-center">roomPro</h5>
+              <p class="text-center">Book Your Meeting Room with Ease and Professionalism.</p>
+            </div>
           </div>
-        </div>
-  
-        <div class="row justify-content-center">
-          <div class="col-7">
-            <label for="name">Last name</label>
-            <input type="text" [(ngModel)]="user.lastName" class="form-control">
+
+          <!-- 8 Columns for the Form -->
+          <div class="col-md-8 d-flex flex-column">
+            <div class="h-100 d-flex flex-column justify-content-center">
+              <!-- Form starts here -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="firstName">First Name</label>
+                  <input type="text" id="firstName" [(ngModel)]="user.firstName" class="form-control">
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" [(ngModel)]="user.lastName" class="form-control">
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label for="email">Email</label>
+                  <input type="text" id="email" [(ngModel)]="user.email" class="form-control">
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" [(ngModel)]="user.password" class="form-control">
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label for="role">Role</label>
+                  <input type="text" id="role" [(ngModel)]="user.roleName" class="form-control">
+                </div>
+              </div>
+
+              <!-- Buttons Row -->
+              <div class="row mt-4">
+                <div class="col text-center">
+                  <button class="btn btn-secondary mx-2" (click)="resetForm()">Reset</button>
+                  <button class="btn btn-success mx-2" (click)="onRegisterUser()">Register</button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-  
-        <div class="row justify-content-center">
-          <div class="col-7">
-            <label for="name">Email</label>
-            <input type="text" [(ngModel)]="user.email" class="form-control">
-          </div>
-        </div>
-  
-        <div class="row justify-content-center">
-          <div class="col-7">
-            <label for="name">Password</label>
-            <input type="password" [(ngModel)]="user.password" class="form-control">
-          </div>
-        </div>
-  
-        <div class="row justify-content-center">
-          <div class="col-7">
-            <label for="name">Role</label>
-            <input type="text" [(ngModel)]="user.roleName" class="form-control">
-          </div>
-        </div>
-  
-        <!-- Buttons Row -->
-        <div class="row justify-content-center mt-3">
-          <div class="col-2 text-center">
-            <button class="btn btn-secondary">Reset</button>
-          </div>
-          <div class="col-2 text-center">
-            <button class="btn btn-success" (click)="onRegisterUser()">Register</button>
-          </div>
+
         </div>
       </div>
     </div>
   </div>
-  
+</div>
