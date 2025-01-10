@@ -1,0 +1,57 @@
+<div class="d-flex align-items-center" style="height: 90vh;">
+    <div class="container d-flex justify-content-center">
+      <div class="card w-50">
+        <div class="card-body" style="background-color: #f2f7fa;">
+          <!-- Row to divide the card into two sections -->
+          <div class="row align-items-stretch">
+            
+            <!-- 4 Columns Branding Section -->
+            <div class="col-md-5 d-flex flex-column">
+              <div class="p-3 bg-gradient border rounded h-100 d-flex flex-column justify-content-center text-white" style="background-color: #173248;">
+                <h5 class="text-center">Welcome Back to roomPro</h5>
+                <p class="text-center">Sign in to access your account and manage your meeting room bookings effortlessly.</p>
+              </div>
+            </div>
+  
+            <!-- 7 Columns for the Login Form -->
+            <div class="col-md-7 d-flex flex-column">
+              <div class="h-100 d-flex flex-column justify-content-center">
+                <!-- Login Form starts here -->
+                <div class="row">
+                  <div class="col-12">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" [(ngModel)]="user.email" class="form-control">
+                  </div>
+                </div>
+  
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" [(ngModel)]="user.password" class="form-control">
+                  </div>
+                </div>
+  
+                <!-- Buttons Row -->
+                <div class="row mt-4">
+                  <div class="col text-center">
+                    <button class="btn btn-primary mx-2" (click)="onLogin()">Login</button>
+                  </div>
+                </div>
+  
+                <!-- Forgot Password & Register Links -->
+                <div class="row mt-3">
+                  <div class="col text-center">
+                    <a href="/forgot-password" class="text-decoration-none">Forgot Password?</a>
+                    <p class="mt-2">Don't have an account? <a href="/register" class="text-decoration-none">Register Here</a></p>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
