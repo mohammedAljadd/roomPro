@@ -8,7 +8,7 @@ import { RegistrationModel } from '../../model/class/RegistrationModel';
 })
 export class RegistrationService {
 
-  private apiUrl = 'http://localhost:8080/roompro/users/register'; 
+  private apiUrl = 'http://localhost:8080/roompro/register'; 
 
   constructor(private http: HttpClient) {}
 

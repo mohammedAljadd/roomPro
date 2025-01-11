@@ -7,12 +7,16 @@ import com.roompro.roompro.service.BookingService;
 import com.roompro.roompro.service.LoginService;
 import com.roompro.roompro.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
-@RequestMapping("/roompro/users")
+@RequestMapping("/roompro")
 @CrossOrigin(origins = "http://localhost:4209")
 public class UserController {
     @Autowired
@@ -26,10 +30,19 @@ public class UserController {
 
     // Registration endpoint
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
-
-        registrationService.registerUser(userRegistrationDto);
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<Map<String, String>> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+        try {
+            registrationService.registerUser(userRegistrationDto);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User registered successfully");
+            System.out.println("Dooooooooooooooooooooone");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            System.out.println("Noooooooooooooot Dooooooooooooooooooooone");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     }
 
     // Login endpoint

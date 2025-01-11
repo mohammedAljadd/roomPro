@@ -2,6 +2,7 @@ import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RegistrationService } from '../../../services/auth/registration.service';
 import { RegistrationModel } from '../../../model/class/RegistrationModel';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +13,7 @@ import { RegistrationModel } from '../../../model/class/RegistrationModel';
 })
 export class RegisterComponent {
   
+  constructor(private router: Router){};
 
   registrationService = inject(RegistrationService);
 
@@ -20,10 +22,11 @@ export class RegisterComponent {
   onRegisterUser(): void {
     this.registrationService.registerUser(this.user).subscribe(
       response => {
-        console.log('User registered successfully:', response);
+        console.log('User registered successfully:', response.message);
+        this.router.navigate(['/login']);
       },
       error => {
-        console.error('Registration failed', error);
+        console.error('Registration failed:', error.error?.error || 'Unknown error occurred');
       }
     );
   }

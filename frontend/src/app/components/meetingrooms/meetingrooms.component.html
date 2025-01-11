@@ -1,0 +1,110 @@
+<div class="container my-5">
+    <!-- Filter Section -->
+    <div class="filter-section mb-4 p-3 bg-light rounded">
+      <h4 class="mb-3">Filter Meeting Rooms</h4>
+      <form class="row g-3">
+        <div class="col-md-3">
+          <label for="capacity" class="form-label">Capacity</label>
+          <select id="capacity" class="form-select">
+            <option selected>Any</option>
+            <option>1-5</option>
+            <option>6-10</option>
+            <option>11-15</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="amenities" class="form-label">Amenities</label>
+          <select id="amenities" class="form-select">
+            <option selected>Any</option>
+            <option>Projector</option>
+            <option>Whiteboard</option>
+            <option>Video Conferencing</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="status" class="form-label">Status</label>
+          <select id="status" class="form-select">
+            <option selected>Any</option>
+            <option>Available</option>
+            <option>Booked</option>
+          </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+          <button type="button" class="btn btn-primary w-100">Apply Filters</button>
+        </div>
+      </form>
+    </div>
+  
+    <!-- Meeting Rooms Section -->
+    <h2 class="text-center mb-4">Available Meeting Rooms</h2>
+  
+    <div class="row">
+      <!-- Cards Section -->
+      <!-- Room 1 -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="room1.jpg" class="card-img-top" alt="Room A">
+          <div class="card-body">
+            <h5 class="card-title">Room A</h5>
+            <p>
+              <strong>Capacity:</strong> 8 people<br>
+              <strong>Amenities:</strong> Projector, Whiteboard<br>
+              <strong>Status:</strong> Available
+            </p>
+            <button class="btn btn-success w-100">Book Now</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Room 2 -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="room2.jpg" class="card-img-top" alt="Room B">
+          <div class="card-body">
+            <h5 class="card-title">Room B</h5>
+            <p>
+              <strong>Capacity:</strong> 12 people<br>
+              <strong>Amenities:</strong> Video Conferencing<br>
+              <strong>Status:</strong> Booked
+            </p>
+            <button class="btn btn-secondary w-100" disabled>Booked</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Room 3 -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="room3.jpg" class="card-img-top" alt="Room C">
+          <div class="card-body">
+            <h5 class="card-title">Room C</h5>
+            <p>
+              <strong>Capacity:</strong> 6 people<br>
+              <strong>Amenities:</strong> Whiteboard<br>
+              <strong>Status:</strong> Available
+            </p>
+            <button class="btn btn-success w-100">Book Now</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Add more rooms dynamically -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="room4.jpg" class="card-img-top" alt="Room D">
+          <div class="card-body">
+            <h5 class="card-title">Room D</h5>
+            <p>
+              <strong>Capacity:</strong> 10 people<br>
+              <strong>Amenities:</strong> Projector, Video Conferencing<br>
+              <strong>Status:</strong> Available
+            </p>
+            <button class="btn btn-success w-100">Book Now</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Add additional cards as needed -->
+    </div>
+  </div>
+  
