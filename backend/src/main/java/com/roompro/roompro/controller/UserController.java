@@ -35,10 +35,8 @@ public class UserController {
             registrationService.registerUser(userRegistrationDto);
             Map<String, String> response = new HashMap<>();
             response.put("message", "User registered successfully");
-            System.out.println("Dooooooooooooooooooooone");
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            System.out.println("Noooooooooooooot Dooooooooooooooooooooone");
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -47,15 +45,24 @@ public class UserController {
 
     // Login endpoint
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserLoginDto userLoginDto) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            boolean isAuthenticated = loginService.loginUser(userLoginDto);
 
-        boolean isAuthenticated = loginService.loginUser(userLoginDto);
+            if (isAuthenticated) {
+                response.put("message", "User logged in successfully");
+                return ResponseEntity.ok(response);
+            }
 
-        if(isAuthenticated){
-            return ResponseEntity.ok("Login successful");
+            response.put("error", "Invalid email or password");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-        return ResponseEntity.status(401).body("Invalid email or password");
     }
+
 
     @PostMapping("/booking")
     public ResponseEntity<String> createBooking(@RequestBody BookingDto bookingDto) {

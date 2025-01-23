@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { RegistrationModel } from '../../../model/class/RegistrationModel';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LoginModel } from '../../../model/class/LoginModel';
+import { LoginService } from '../../../services/auth/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +11,25 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  user: RegistrationModel = new RegistrationModel();
 
-  onLogin(){
+  constructor(private router: Router){};
+
+  user: LoginModel = new LoginModel();
+
+  loginService = inject(LoginService);
+
+  onLogin(): void{
+    this.loginService.loginUser(this.user).subscribe(
+      response => {
+        console.log('User logged in successfully:', response.message);
+        this.router.navigate(['/home']);
+      },
+      error => {
+        console.error('Registration failed:', error.error?.error || 'Unknown error occurred');
+      }
+    );
     
   }
+
+  
 }
