@@ -31,7 +31,9 @@ public class UserController {
     // Registration endpoint
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+
         try {
+
             registrationService.registerUser(userRegistrationDto);
             Map<String, String> response = new HashMap<>();
             response.put("message", "User registered successfully");
