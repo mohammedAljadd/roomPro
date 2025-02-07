@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginModel } from '../../../model/class/LoginModel';
 import { LoginService } from '../../../services/auth/login.service';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private router: Router){};
+  constructor(private router: Router, private cdr: ChangeDetectorRef){};
 
   user: LoginModel = new LoginModel();
 
@@ -23,6 +23,7 @@ export class LoginComponent {
       response => {
         console.log('User logged in successfully:', response.message);
         this.loginService.saveToken(response.token);
+        this.cdr.detectChanges();
         this.router.navigate(['/home']);
       },
       error => {

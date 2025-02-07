@@ -1,6 +1,9 @@
 package com.roompro.roompro.service;
 
 
+import com.roompro.roompro.model.Users;
+import com.roompro.roompro.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
@@ -16,11 +19,15 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
+    @Autowired
+    UserRepository userRepository;
+
     private String secretKey = System.getenv("JWT_SECRET_KEY");;
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-
+        String firstName = userRepository.findByEmail(username).getFirstName();
+        claims.put("firstName", firstName);
         String myToken =  Jwts.builder()
                 .claims(claims)
                 .subject(username)

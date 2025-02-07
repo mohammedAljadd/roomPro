@@ -9,9 +9,10 @@
           <a class="nav-link" routerLink="/home" routerLinkActive="active-link">Home</a>
           <a class="nav-link" routerLink="/meeting-rooms" routerLinkActive="active-link">Meeting Rooms</a>
           <a class="nav-link" routerLink="/my-bookings" routerLinkActive="active-link">My bookings</a>
-          <a class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
+          <a *ngIf="!jwtToken" class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
           
-          
+          <div *ngIf="jwtToken" class="nav-link" style="color: white;position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">Welcome {{ userName }}!</div>
+          <button *ngIf="jwtToken" class="btn btn-danger" style="position: absolute; right: 180px; top: 50%; transform: translateY(-50%); margin-left: 10px;" (click)="logout()">Logout!</button>
         </div>
       </div>
     </div>

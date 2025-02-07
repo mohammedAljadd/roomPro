@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginModel } from '../../model/class/LoginModel';
 
 @Injectable({
@@ -9,9 +9,15 @@ import { LoginModel } from '../../model/class/LoginModel';
 export class LoginService {
   
   private apiUrl = 'http://localhost:8080/roompro/login'; 
+  private jwtTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    const token = localStorage.getItem('jwtToken');
+    this.jwtTokenSubject.next(token);
+  }
+
+  
 
   loginUser(user: LoginModel): Observable<any> {
     return this.http.post<{ token: string }>(this.apiUrl, user)
@@ -20,10 +26,11 @@ export class LoginService {
 
   saveToken(token: string) {
     localStorage.setItem('jwtToken', token);
+    this.jwtTokenSubject.next(token);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('jwtToken');
+  getToken() {
+    return this.jwtTokenSubject.asObservable();
   }
 
   isLoggedIn(): boolean {
@@ -32,6 +39,7 @@ export class LoginService {
 
   logout() {
     localStorage.removeItem('jwtToken');
+    this.jwtTokenSubject.next(null);
   }
 }
 
