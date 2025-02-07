@@ -2,10 +2,11 @@ package com.roompro.roompro.service;
 
 import com.roompro.roompro.dto.UserRegistrationDto;
 import com.roompro.roompro.model.Role;
-import com.roompro.roompro.model.User;
+import com.roompro.roompro.model.Users;
 import com.roompro.roompro.repository.RoleRepository;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +18,13 @@ public class RegistrationService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public User registerUser(UserRegistrationDto userRegistrationDto) {
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    public Users registerUser(UserRegistrationDto userRegistrationDto) {
         // Check if user already exists
         String email = userRegistrationDto.getEmail();
-        if (userRepository.findByEmail(email).isPresent()) {
+
+        if (userRepository.findByEmail(email) != null) {
             throw new RuntimeException("User already exists with this email");
         }
 
@@ -33,9 +37,9 @@ public class RegistrationService {
         }
 
         // Create new user
-        User user = new User();
+        Users user = new Users();
         user.setEmail(email);
-        user.setPassword(userRegistrationDto.getPassword());
+        user.setPassword(encoder.encode(userRegistrationDto.getPassword()));
         user.setFirstName(userRegistrationDto.getFirstName());
         user.setLastName(userRegistrationDto.getLastName());
         user.setRole(role);

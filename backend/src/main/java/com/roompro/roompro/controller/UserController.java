@@ -47,22 +47,10 @@ public class UserController {
 
     // Login endpoint
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserLoginDto userLoginDto) {
-        Map<String, String> response = new HashMap<>();
-        try {
-            boolean isAuthenticated = loginService.loginUser(userLoginDto);
-
-            if (isAuthenticated) {
-                response.put("message", "User logged in successfully");
-                return ResponseEntity.ok(response);
-            }
-
-            response.put("error", "Invalid email or password");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        } catch (Exception e) {
-            response.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
+    public ResponseEntity<Map<String, String>> login(@RequestBody UserLoginDto user) {
+        System.out.println("User : "+user);
+        Map<String, String> response = loginService.verify(user);
+        return ResponseEntity.ok(response);  // Return JSON response (either token or error message)
     }
 
 
