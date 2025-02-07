@@ -1,5 +1,7 @@
 package com.roompro.roompro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
+    @JsonIgnore
     private Room room;
 
     private LocalDateTime startTime;

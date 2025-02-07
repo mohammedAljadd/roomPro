@@ -36,7 +36,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         http.csrf(csrf -> csrf.disable());
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("roompro/register", "roompro/login").permitAll()
+                .requestMatchers("roompro/register", "roompro/login", "roompro/meeting-rooms", "roompro/meeting-rooms/filter").permitAll()
                 .anyRequest().authenticated());
 
 

@@ -1,5 +1,6 @@
 package com.roompro.roompro.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class RoomEquipment {
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
+    @JsonIgnore
     private Room room;
 
 }
