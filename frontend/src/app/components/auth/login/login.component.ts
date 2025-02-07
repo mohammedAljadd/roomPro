@@ -22,6 +22,7 @@ export class LoginComponent {
     this.loginService.loginUser(this.user).subscribe(
       response => {
         console.log('User logged in successfully:', response.message);
+        this.loginService.saveToken(response.token);
         this.router.navigate(['/home']);
       },
       error => {

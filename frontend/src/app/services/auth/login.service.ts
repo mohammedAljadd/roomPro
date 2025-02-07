@@ -14,9 +14,24 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   loginUser(user: LoginModel): Observable<any> {
-    return this.http.post(this.apiUrl, user)
+    return this.http.post<{ token: string }>(this.apiUrl, user)
   }
 
-  // need to save token
+
+  saveToken(token: string) {
+    localStorage.setItem('jwtToken', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('jwtToken');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  logout() {
+    localStorage.removeItem('jwtToken');
+  }
 }
 
