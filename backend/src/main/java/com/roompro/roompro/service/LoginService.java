@@ -21,6 +21,8 @@ public class LoginService {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    JWTService jwtService;
 
     public Map<String, String> verify(UserLoginDto user) {
 
@@ -30,8 +32,8 @@ public class LoginService {
 
         // If authentication is successful, generate the token and return it as JSON
         if (authentication.isAuthenticated()) {
-            //String token = jwtService.generateToken(user.getUsername());
-            return Map.of("token", "token");  // Return token as JSON response
+            String token = jwtService.generateToken(user.getEmail());
+            return Map.of("token", token);  // Return token as JSON response
         }
 
         // If authentication fails, return an error message as JSON
