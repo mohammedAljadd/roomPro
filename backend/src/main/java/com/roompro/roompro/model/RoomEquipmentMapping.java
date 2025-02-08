@@ -1,29 +1,30 @@
 package com.roompro.roompro.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
-@Table(name = "room_equipment")
-public class RoomEquipment {
+@Table(name = "room_equipment_mapping")
+public class RoomEquipmentMapping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long equipmentId;
-
-    private String name;
+    private long id;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     @JsonIgnore
     private Room room;
+
+    @ManyToOne
+    @JoinColumn(name = "equipment_id", nullable = false)
+    private Equipment equipment;
 
 }

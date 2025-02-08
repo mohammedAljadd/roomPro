@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Room } from '../../model/class/rooms';
+import { Room } from '../../model/class/Room';
 import { RoomService } from '../../services/room.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +30,11 @@ export class MeetingroomsComponent implements OnInit {
         this.filteredRooms = data;
         this.uniqueLocations = [...new Set(data.map(room => room.location))];
         this.uniqueEquipment = [
-          ...new Set(data.flatMap(room => room.equipment.map(equip => equip.name)))
+          ...new Set(data.flatMap(room => 
+            room.roomEquipmentMappings.flatMap(mapping => 
+              mapping.equipment.name
+            )
+          ))
         ];
         console.log(this.rooms);
       },

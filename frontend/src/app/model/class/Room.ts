@@ -1,5 +1,5 @@
 import { Booking } from "./Booking";
-import { RoomEquipment } from "./RoomEquipment";
+import { roomEquipmentMapping } from "./roomEquipmentMapping";
 export interface Room {
     roomId: number;
     name: string;
@@ -7,7 +7,7 @@ export interface Room {
     location: string;
     description: string;
     bookings: Booking[];
-    equipment: RoomEquipment[];
+    roomEquipmentMappings: roomEquipmentMapping[];
   }
   
 

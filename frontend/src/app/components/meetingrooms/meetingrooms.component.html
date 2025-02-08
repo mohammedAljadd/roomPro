@@ -9,7 +9,7 @@
       <div class="col-md-3">
         <label for="capacity" class="form-label fw-bold">Capacity</label>
         <select id="capacity" class="form-select" [(ngModel)]="selectedCapacity" name="capacity">
-          <option [value]="null">Any</option>
+          <option [value]="0">Any</option>
           <option [value]="5">5+</option>
           <option [value]="10">10+</option>
           <option [value]="20">20+</option>
@@ -53,9 +53,9 @@
             <strong>Description:</strong> {{ room.description }}
           </p>
           <h6 class="text-primary">Equipment:</h6>
-          <ul *ngIf="room.equipment.length > 0; else noEquipment" class="list-unstyled">
-            <li *ngFor="let equip of room.equipment">
-              <span class="badge bg-secondary">{{ equip.name }}</span>
+          <ul >
+            <li *ngFor="let mapping of room.roomEquipmentMappings">
+              <span class="badge bg-secondary">{{ mapping.equipment.name }}</span>
             </li>
           </ul>
           <ng-template #noEquipment>

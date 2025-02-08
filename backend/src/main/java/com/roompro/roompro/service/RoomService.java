@@ -16,46 +16,12 @@ public class RoomService {
     private RoomRepository roomRepository;
 
     public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+        return roomRepository.findAllWithEquipment();
     }
 
-    public List<Room> filterRooms(Integer capacity, String location, String equipment) {
-        List<Room> rooms = roomRepository.findAll();
 
-        // Filter capacity
-        if (capacity != null) {
-            rooms = rooms.stream()
-                    .filter(room -> room.getCapacity() >= capacity)
-                    .collect(Collectors.toList());
-        }
-
-        // Filter location (case-insensitive partial match)
-        if (location != null && !location.isEmpty()) {
-            String lowerLocation = location.toLowerCase();
-            rooms = rooms.stream()
-                    .filter(room -> room.getLocation().toLowerCase().contains(lowerLocation))
-                    .collect(Collectors.toList());
-        }
-
-        // Filter equipment (case-insensitive and trim whitespace)
-        if (equipment != null && !equipment.isEmpty()) {
-            List<String> equipmentList = Arrays.stream(equipment.split(","))
-                    .map(String::trim)
-                    .map(String::toLowerCase)
-                    .collect(Collectors.toList());
-
-            // Check if room contains ALL selected equipment (AND logic)
-            rooms = rooms.stream()
-                    .filter(room -> {
-                        Set<String> roomEquipment = room.getEquipment().stream()
-                                .map(eq -> eq.getName().toLowerCase())
-                                .collect(Collectors.toSet());
-                        return roomEquipment.containsAll(equipmentList);
-                    })
-                    .collect(Collectors.toList());
-        }
-
-        return rooms;
+    public List<Room> getFilteredRooms(Integer capacity, String location, String equipmentName) {
+        return roomRepository.findAllWithFilters(capacity, location, equipmentName);
     }
 }
 

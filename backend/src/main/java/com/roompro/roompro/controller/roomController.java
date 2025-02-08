@@ -21,8 +21,7 @@ public class roomController {
 
     @GetMapping("/meeting-rooms")
     public List<Room> getRooms() {
-        List<Room> rooms = roomService.getAllRooms();
-        return rooms;
+        return roomService.getAllRooms();
     }
 
     @GetMapping("/meeting-rooms/filter")
@@ -30,7 +29,7 @@ public class roomController {
             @RequestParam(required = false) Integer capacity,
             @RequestParam(required = false) String location,
             @RequestParam(required = false) String equipment) {
-        System.out.println(equipment + location + equipment);
-        return roomService.filterRooms(capacity, location, equipment);
+        System.out.println(capacity + " " + location + " " + equipment);
+        return roomService.getFilteredRooms(capacity, location, equipment);
     }
 }
