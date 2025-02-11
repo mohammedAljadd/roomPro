@@ -22,7 +22,6 @@ export class RegisterComponent {
   onRegisterUser(): void {
     this.registrationService.registerUser(this.user).subscribe(
       response => {
-        console.log('User registered successfully:', response.message);
         this.router.navigate(['/login']);
       },
       error => {

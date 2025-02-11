@@ -21,7 +21,6 @@ export class LoginComponent {
   onLogin(): void{
     this.loginService.loginUser(this.user).subscribe(
       response => {
-        console.log('User logged in successfully:', response.message);
         this.loginService.saveToken(response.token);
         this.cdr.detectChanges();
         this.router.navigate(['/home']);

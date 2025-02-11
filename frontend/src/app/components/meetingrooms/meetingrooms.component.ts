@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Room } from '../../model/class/Room';
 import { RoomService } from '../../services/room.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Booking } from '../../model/class/Booking';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BookingService } from '../../services/booking.service';
 
 declare global {
   interface Window {
@@ -31,13 +33,16 @@ export class MeetingroomsComponent implements OnInit {
   selectedRoom: Room | null = null;  // To store selected room for booking
   bookingTime: string = '';  // Time selected for booking
   bookingHours: number = 0;
+  token = localStorage.getItem('jwtToken');
   userBooking: Booking = {
-    bookingId: 0, 
+    roomId: 0, 
     startTime: '',
-    endTime: ''
+    bookingHours: 0
   };
 
-  constructor(private roomService: RoomService) {}
+  bookingService = inject(BookingService);
+
+  constructor(private roomService: RoomService, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.roomService.getAllRooms().subscribe({
@@ -52,7 +57,6 @@ export class MeetingroomsComponent implements OnInit {
             )
           ))
         ];
-        console.log(this.rooms);
       },
       error: (error) => console.error('Error fetching rooms:', error)
     });
@@ -68,33 +72,41 @@ export class MeetingroomsComponent implements OnInit {
     this.roomService.getFilteredRooms(this.selectedCapacity, this.selectedLocation, equipmentFilter).subscribe({
       next: (data) => {
         this.filteredRooms = data; // store filtered rooms in filteredRooms array
-        console.log(this.filteredRooms);
+  
       },
       error: (error) => console.error('Error fetching filtered rooms:', error)
     });
   }
 
+
+  
   openBookingForm(room: Room): void {
-    console.log(room);
     this.selectedRoom = room;  // Set the selected room to the clicked room
     // Open the modal using Bootstrap's modal API
     const modal = new window.bootstrap.Modal(document.getElementById('bookingModal'));
     modal.show();
   }
 
+
+
+  
   onSubmitBooking(): void {
-    
-  console.log(`Room: ${this.selectedRoom?.name}`);
-  console.log(`Booking Time: ${this.bookingTime}`);
+
   
   // Send booking details along with token
-
+  this.userBooking.roomId=this.selectedRoom!.roomId;
   this.userBooking.startTime=this.bookingTime;
-  this.userBooking.endTime = this.userBooking.startTime+this.bookingHours;
-  console.log("Bda m3a "+this.userBooking.startTime);
-  console.log("Sala m3a "+this.userBooking.endTime);
+  this.userBooking.bookingHours = this.bookingHours;
   
-
+  
+  this.bookingService.submitBooking(this.userBooking).subscribe(
+    response => {
+      console.log('User booked a room successfully:', response.message);
+    },
+    error => {
+      console.error('Booking failed:', error.error?.error || 'Unknown error occurred');
+    }
+  );
 
  
   // Move focus away from the modal before closing
