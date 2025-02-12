@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -28,8 +29,24 @@ public class roomController {
     public List<Room> filterRooms(
             @RequestParam(required = false) Integer capacity,
             @RequestParam(required = false) String location,
-            @RequestParam(required = false) String equipment) {
-        System.out.println(capacity + " " + location + " " + equipment);
-        return roomService.getFilteredRooms(capacity, location, equipment);
+            @RequestParam(required = false) String equipmentNames) {
+
+
+        if(capacity==null && location == null && equipmentNames == null){
+            return roomService.getAllRooms();
+        }
+        List<String> equipmentList;
+
+        if(equipmentNames==null){
+            equipmentList = null;
+        }
+        else if(equipmentNames.contains(",")){
+            equipmentList = Arrays.asList(equipmentNames.split(","));
+        }
+        else{
+            equipmentList = Arrays.asList(equipmentNames);
+        }
+
+        return roomService.getFilteredRooms(capacity, location, equipmentList);
     }
 }

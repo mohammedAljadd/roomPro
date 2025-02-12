@@ -20,8 +20,8 @@ public class RoomService {
     }
 
 
-    public List<Room> getFilteredRooms(Integer capacity, String location, String equipmentName) {
-        return roomRepository.findAllWithFilters(capacity, location, equipmentName);
+    public List<Room> getFilteredRooms(Integer capacity, String location, List<String>equipmentNames) {
+        return roomRepository.findAllWithFilters(capacity, location, equipmentNames);
     }
 }
 

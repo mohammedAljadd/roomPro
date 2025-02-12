@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BookingDto {
     private Long roomId;
-    private LocalDateTime startTime;
-    private  LocalDateTime endTime;
+    private String startTime;
+    private  int hours;
 }

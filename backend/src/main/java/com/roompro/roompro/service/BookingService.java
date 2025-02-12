@@ -9,9 +9,12 @@ import com.roompro.roompro.repository.BookingRepository;
 import com.roompro.roompro.repository.RoomRepository;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @Service
 public class BookingService {
@@ -27,26 +30,25 @@ public class BookingService {
 
 
 
-    public void createBooking(BookingDto bookingDto){
+    public Map<String, String> createBooking(BookingDto bookingDto){
 
 
-        List<Booking> overlappingBookings = bookingRepository.findOverlappingBookings(bookingDto.getRoomId(),
-                bookingDto.getStartTime(), bookingDto.getEndTime());
-
-        if (!overlappingBookings.isEmpty()) {
-            throw new RuntimeException("The room is already booked during this time.");
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
 
         Room room = roomRepository.findById(bookingDto.getRoomId()).orElse(null);
-        Long userId = 1L;
-        Users user = userRepository.findById(userId).orElse(null);
+
+        Users user = userRepository.findByEmail(email);
         Booking newBooking = new Booking();
         newBooking.setRoom(room);
         newBooking.setUser(user);
-        newBooking.setStartTime(bookingDto.getStartTime());
-        newBooking.setEndTime(bookingDto.getEndTime());
+        LocalDateTime startDateTime = LocalDateTime.parse(bookingDto.getStartTime());
+        LocalDateTime endDateTime = startDateTime.plusHours(bookingDto.getHours());
+        newBooking.setStartTime(startDateTime);
+        newBooking.setEndTime(endDateTime);
 
         bookingRepository.save(newBooking);
 
+        return Map.of("message", "Booking done");
     }
 }
