@@ -2,12 +2,14 @@ package com.roompro.roompro.controller;
 
 
 import com.roompro.roompro.dto.BookingDto;
+import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,8 +25,12 @@ public class BookingController {
         System.out.println(bookingDto);
 
         Map<String, String> response = bookingService.createBooking(bookingDto);
-
-
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/my-bookings")
+    public List<Booking> getUserBookings(){
+
+        return bookingService.getUserBookings();
     }
 }

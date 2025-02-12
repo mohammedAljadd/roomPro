@@ -1,0 +1,25 @@
+<div class="container">
+    <h3 class="mb-4">You can cancel any booking by clicking on it</h3>
+    
+    <div *ngIf="userBookings.length > 0; else noBookings" class="user-bookings-container">
+      <div *ngFor="let booking of userBookings" 
+           class="user-booking-card" 
+           (click)="cancelBooking(booking.bookingId)">
+        
+        <div class="card-header">
+          <h5>{{ booking.room.name }}</h5>
+          <p>{{ booking.room.location }} | Capacity: {{ booking.room.capacity }}</p>
+        </div>
+        
+        <div class="card-body">
+          <p><strong>Start Time:</strong> {{ booking.startTime | date: 'yyyy-MM-dd @ h:mm a' }}</p>
+          <p><strong>End Time:</strong> {{ booking.endTime | date: 'yyyy-MM-dd @ h:mm a' }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #noBookings>
+      <p>You have no bookings.</p>
+    </ng-template>
+  </div>
+  

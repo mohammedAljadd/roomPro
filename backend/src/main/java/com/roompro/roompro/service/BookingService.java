@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -50,5 +51,12 @@ public class BookingService {
         bookingRepository.save(newBooking);
 
         return Map.of("message", "Booking done");
+    }
+
+    public List<Booking> getUserBookings(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Users user = userRepository.findByEmail(email);
+        return bookingRepository.findUserBookings(user.getUserId());
     }
 }

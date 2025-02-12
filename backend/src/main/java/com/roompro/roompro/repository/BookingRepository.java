@@ -20,6 +20,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "OR (b.endTime BETWEEN :startTime AND :endTime))")
     List<Booking> findOverlappingBookings(Long roomId, LocalDateTime startTime, LocalDateTime endTime);
 
+    List<Booking> findAll();
 
+
+    @Query("SELECT b FROM Booking b WHERE b.user.id = :userId")
+    List<Booking> findUserBookings(Long userId);
 
 }
