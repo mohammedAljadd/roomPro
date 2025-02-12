@@ -25,8 +25,4 @@ export class BookingService {
   }
 
   
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> resolve-issues
