@@ -9,16 +9,20 @@ import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
     Optional<Room> findById(Long roomId);
+
     List<Room> findAll();
+
     @Query("SELECT r FROM Room r LEFT JOIN FETCH r.roomEquipmentMappings rem LEFT JOIN FETCH rem.equipment")
     List<Room> findAllWithEquipment();
 
-    @Query("SELECT r FROM Room r " +
+    @Query("SELECT DISTINCT r FROM Room r " +
             "LEFT JOIN r.roomEquipmentMappings rem " +
             "LEFT JOIN rem.equipment e " +
-            "WHERE (:capacity IS NULL OR r.capacity >= :capacity) " + // Capacity filter
-            "AND (:location IS NULL OR r.location LIKE %:location%) " + // Location filter
-            "AND (:equipmentName IS NULL OR e.name LIKE %:equipmentName%)") // Equipment filter
-    List<Room> findAllWithFilters(int capacity, String location, String equipmentName);
-
+            "WHERE (:capacity IS NULL OR r.capacity >= :capacity) " +
+            "AND (:location IS NULL OR r.location LIKE %:location%) " +
+            "AND (:equipmentList IS NULL OR " +
+            "     (SELECT COUNT(DISTINCT rem2.equipment.equipmentId) FROM RoomEquipmentMapping rem2 " +
+            "      WHERE rem2.room.roomId = r.roomId AND rem2.equipment.name IN :equipmentList) = " +
+            "     (SELECT COUNT(DISTINCT e3.name) FROM Equipment e3 WHERE e3.name IN :equipmentList))")
+    List<Room> findAllWithFilters(Integer capacity, String location, List<String> equipmentList);
 }

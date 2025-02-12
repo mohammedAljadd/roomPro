@@ -20,8 +20,8 @@ export class RoomService {
     let params = new HttpParams();
     if (capacity) params = params.set('capacity', capacity.toString());
     if (location) params = params.set('location', location);
-    if (equipment) params = params.set('equipment', equipment);
-  
+    if (equipment) params = params.set('equipmentNames', equipment);
+    
     return this.http.get<Room[]>('http://localhost:8080/roompro/meeting-rooms/filter', { params });
   }
   

@@ -37,7 +37,11 @@ export class MeetingroomsComponent implements OnInit {
   userBooking: Booking = {
     roomId: 0, 
     startTime: '',
+<<<<<<< HEAD
     bookingHours: 0
+=======
+  bookingHours: 0
+>>>>>>> resolve-issues
   };
 
   bookingService = inject(BookingService);
@@ -96,7 +100,11 @@ export class MeetingroomsComponent implements OnInit {
   // Send booking details along with token
   this.userBooking.roomId=this.selectedRoom!.roomId;
   this.userBooking.startTime=this.bookingTime;
+<<<<<<< HEAD
   this.userBooking.bookingHours = this.bookingHours;
+=======
+  this.userBooking.hours = this.bookingHours;
+>>>>>>> resolve-issues
   
   
   this.bookingService.submitBooking(this.userBooking).subscribe(

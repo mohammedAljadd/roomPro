@@ -25,8 +25,6 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired
-    private BookingService bookingService;
 
     // Registration endpoint
     @PostMapping("/register")
@@ -53,10 +51,4 @@ public class UserController {
         return ResponseEntity.ok(response);  // Return JSON response (either token or error message)
     }
 
-
-    @PostMapping("/booking")
-    public ResponseEntity<String> createBooking(@RequestBody BookingDto bookingDto) {
-        bookingService.createBooking(bookingDto);
-        return ResponseEntity.ok("Booking successfully");
-    }
 }
