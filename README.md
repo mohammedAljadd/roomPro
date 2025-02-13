@@ -23,6 +23,11 @@ RoomPro is a web application designed to streamline room booking and management.
 <img src="imgs_readme/my_bookings.png" style="border: 1px solid #666666; !important;">
 
 
+### 4️⃣ Booking cancelation popup ( /my-bookings/cancel )
+
+<img src="imgs_readme/my_bookings_cancel.png" style="border: 1px solid #666666; !important;">
+
+
 ## Key Features
 
 ### User Management:
