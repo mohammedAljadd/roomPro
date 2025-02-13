@@ -11,7 +11,7 @@
   
   /* User Booking Cards */
   .user-booking-card {
-    width: 360px; /* Adjust width as desired */
+    width: 380px; /* Adjust width as desired */
     margin: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -75,5 +75,37 @@
     left: 120px; /* The fixed margin from the left border of the card */
   }
   
+  .booking-details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
   
+  .booking-details p {
+    display: flex;
+    align-items: center;
+  }
+  
+  .booking-details strong {
+    width: 140px; /* Ensures all labels are aligned */
+    text-align: left; /* Aligns text to the left */
+  }
+  
+  .booking-details span {
+    flex: 1; /* Makes sure all values stay aligned */
+    text-align: left; /* Aligns values to the left */
+    padding-left: 10px; /* Adjusts spacing after ":" */
+  }
+  
+  .booking-details-container {
+    display: flex;
+    justify-content: center; /* Centers the whole block horizontally */
+    align-items: center; /* Centers vertically (if needed) */
+    width: 100%; /* Makes sure it spans full width */
+  }
+  
+  .booking-details {
+    display: flex;
+    flex-direction: column;
+  }
   

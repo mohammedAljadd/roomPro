@@ -4,7 +4,7 @@
     <div *ngIf="userBookings.length > 0; else noBookings" class="user-bookings-container">
       <div *ngFor="let booking of userBookings" 
            class="user-booking-card" 
-           (click)="cancelBooking(booking.bookingId)">
+           (click)="openBookingCancelationForm(booking)">
         
         <div class="card-header">
           <h5>{{ booking.room.name }}</h5>
@@ -32,3 +32,38 @@
     </ng-template>
   </div>
   
+
+
+<!-- Modal to cancel booking -->
+<div class="modal fade" id="cancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bookingModalLabel" style="text-align: center;">Please confirm if you wish to cancel this booking:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        
+        
+        <div class="booking-details-container">
+          <div class="booking-details">
+            <p><strong>Room</strong> <span>:&nbsp;&nbsp;&nbsp; {{ selectedBooking?.room?.name }}</span></p>
+            <p><strong>Booking Date</strong> <span>:&nbsp;&nbsp;&nbsp; {{ selectedBooking?.startTime | date: 'EEEE, yyyy-MM-dd' }}</span></p>
+            <p><strong>Start Time</strong> <span>:&nbsp;&nbsp;&nbsp; {{ selectedBooking?.startTime | date: 'h:mm a' }}</span></p>
+            <p><strong>End Time</strong> <span>:&nbsp;&nbsp;&nbsp; {{ selectedBooking?.endTime | date: 'h:mm a' }}</span></p>
+          </div>
+        </div>
+        
+        
+        
+        
+        <form>
+            <button type="submit" class="btn btn-danger" (click)="cancelBooking(selectedBooking!.bookingId)">Cancel Booking</button>
+          </form>
+    
+
+
+      </div>
+    </div>
+  </div>
+</div>

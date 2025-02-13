@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { UserBooking } from '../../model/class/UserBooking';
 import { UserbookingsService } from '../../services/userbookings.service';
+import { Booking } from '../../model/class/Booking';
 
 @Component({
   selector: 'app-mybookings',
@@ -14,6 +15,8 @@ export class MybookingsComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef){};
   
   userBookings: UserBooking[] = [];
+  
+  selectedBooking: UserBooking | null = null;
 
   userbookingsService = inject(UserbookingsService);
 
@@ -38,6 +41,12 @@ export class MybookingsComponent implements OnInit {
     }
 
   }
+
+  openBookingCancelationForm(userBooking: UserBooking): void {
+    this.selectedBooking = userBooking;
+      const modal = new window.bootstrap.Modal(document.getElementById('cancelBookingModal'));
+      modal.show();
+    }
 
   cancelBooking(bookingId: number): void {
     const token = localStorage.getItem('jwtToken');
