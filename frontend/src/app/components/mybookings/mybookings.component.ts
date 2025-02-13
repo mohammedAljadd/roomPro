@@ -37,6 +37,6 @@ export class MybookingsComponent implements OnInit {
 
 
   cancelBooking(bookingId: number): void {
-   
+    console.log("Testing PRs");
   }
 }
