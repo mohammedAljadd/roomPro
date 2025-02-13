@@ -22,8 +22,6 @@ public class BookingController {
 
     @PostMapping("/booking")
     public ResponseEntity<Map<String, String>> createBooking(@RequestBody BookingDto bookingDto) {
-        System.out.println(bookingDto);
-
         Map<String, String> response = bookingService.createBooking(bookingDto);
         return ResponseEntity.ok(response);
     }

@@ -11,5 +11,5 @@ import java.time.LocalDateTime;
 public class BookingDto {
     private Long roomId;
     private String startTime;
-    private  int hours;
+    private  int bookingHours;
 }

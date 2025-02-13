@@ -27,7 +27,6 @@ export class MybookingsComponent implements OnInit {
       // Call the service to get user bookings
       this.userbookingsService.getUserBookings(token).subscribe({
         next: (data) => {
-          console.log(data);
           this.userBookings = data;  // Assign the fetched bookings to userBookings
         },
         error: (error) => {
@@ -39,7 +38,6 @@ export class MybookingsComponent implements OnInit {
     }
 
   }
-
 
   cancelBooking(bookingId: number): void {
     const token = localStorage.getItem('jwtToken');

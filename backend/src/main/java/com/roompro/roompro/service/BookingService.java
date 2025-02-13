@@ -44,7 +44,7 @@ public class BookingService {
         newBooking.setRoom(room);
         newBooking.setUser(user);
         LocalDateTime startDateTime = LocalDateTime.parse(bookingDto.getStartTime());
-        LocalDateTime endDateTime = startDateTime.plusHours(bookingDto.getHours());
+        LocalDateTime endDateTime = startDateTime.plusHours(bookingDto.getBookingHours());
         newBooking.setStartTime(startDateTime);
         newBooking.setEndTime(endDateTime);
 

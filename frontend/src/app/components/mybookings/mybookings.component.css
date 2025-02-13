@@ -11,7 +11,7 @@
   
   /* User Booking Cards */
   .user-booking-card {
-    width: 350px; /* Adjust width as desired */
+    width: 360px; /* Adjust width as desired */
     margin: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -60,3 +60,20 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
   }
+
+  .card-body {
+    position: relative; /* Make the card-body container relative */
+  }
+  
+  .card-body p {
+    position: relative;
+    padding-left: 0px; /* Give some space for the label */
+  }
+  
+  .card-body span {
+    position: absolute;
+    left: 120px; /* The fixed margin from the left border of the card */
+  }
+  
+  
+  

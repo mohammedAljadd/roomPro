@@ -11,10 +11,19 @@
           <p>{{ booking.room.location }} | Capacity: {{ booking.room.capacity }}</p>
         </div>
         
+        
+        
         <div class="card-body">
-          <p><strong>Start Time:</strong> {{ booking.startTime | date: 'yyyy-MM-dd @ h:mm a' }}</p>
-          <p><strong>End Time:</strong> {{ booking.endTime | date: 'yyyy-MM-dd @ h:mm a' }}</p>
+
+          <p><strong>Booking Date</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ booking.startTime | date: 'EEEE, yyyy-MM-dd' }}</span></p>
+          <p><strong>Start Time</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ booking.startTime | date: 'h:mm a' }}</span></p>
+          <p><strong>End Time</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ booking.endTime | date: 'h:mm a' }}</span></p>
+
         </div>
+
+
+
+
       </div>
     </div>
   
