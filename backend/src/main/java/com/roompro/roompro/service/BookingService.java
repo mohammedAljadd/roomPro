@@ -59,4 +59,17 @@ public class BookingService {
         Users user = userRepository.findByEmail(email);
         return bookingRepository.findUserBookings(user.getUserId());
     }
+
+    public Map<String, String> cancelBooking(Long id){
+
+        if(bookingRepository.findById(id).isPresent()){
+            bookingRepository.deleteById(id);
+            return Map.of("message", "Booking cancelled successfully.");
+        }
+
+        return Map.of("message", "Booking not found.");
+
+
+
+    }
 }
