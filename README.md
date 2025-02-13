@@ -11,16 +11,16 @@ RoomPro is a web application designed to streamline room booking and management.
 ### 1️⃣ Home Page ( /home )
 
 
-<img src="imgs_readme/home.png">
+<img src="imgs_readme/home.png" style="border: 1px solid black;">
 
 ### 2️⃣ Rooms Page ( /rooms )
 
-<img src="imgs_readme/meeting_rooms.png">
+<img src="imgs_readme/meeting_rooms.png" style="border: 1px solid black;">
 
 
 ### 3️⃣ My Bookings Page ( /my-bookings )
 
-<img src="imgs_readme/my_bookings.png">
+<img src="imgs_readme/my_bookings.png" style="border: 1px solid black;">
 
 
 ## Key Features
