@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -56,7 +56,7 @@ export class RoomcallendarComponent implements OnInit {
 
   bookingService = inject(BookingService);
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.roomId = Number(this.route.snapshot.paramMap.get('id'));  
@@ -117,11 +117,14 @@ export class RoomcallendarComponent implements OnInit {
     this.bookingService.submitBooking(this.userBooking).subscribe(
       response => {
         console.log('User booked a room successfully:', response.message);
+        this.fetchBookings();
+        this.cdr.detectChanges();
       },
       error => {
         console.error('Booking failed:', error.error?.error || 'Unknown error occurred');
       }
     );
 
+    
 }
 }
