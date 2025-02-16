@@ -46,7 +46,6 @@ public class UserController {
     // Login endpoint
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody UserLoginDto user) {
-        System.out.println("User : "+user);
         Map<String, String> response = loginService.verify(user);
         return ResponseEntity.ok(response);  // Return JSON response (either token or error message)
     }

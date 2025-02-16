@@ -29,7 +29,7 @@ export class RoomcallendarComponent implements OnInit {
 
   roomId!: number;
 
-  roomBookings: { start: Date; end: Date }[] = [];
+  roomBookings: { start: Date; end: Date ; userEmail: string}[] = [];
 
   @Input() roomName: string = '';
 
@@ -74,13 +74,13 @@ export class RoomcallendarComponent implements OnInit {
           this.roomBookings = data.map(booking => {
             const start = new Date(booking.startTime);
             const end = new Date(new Date(booking.endTime));
+            const userEmail = booking.user.email;
 
-            console.log("Start Date: ", start);
-            console.log("End Date: ", end);
 
             return {
               start: start,
-              end: end
+              end: end,
+              userEmail: userEmail
             };
           });
 
@@ -95,13 +95,32 @@ export class RoomcallendarComponent implements OnInit {
   }
 
   loadEvents(): void {
-    this.calendarOptions.events = this.roomBookings.map(booking => ({
-      title: 'Booked Slot',
-      start: booking.start,
-      end: booking.end,
-      backgroundColor: '#f50505',
-      borderColor: '#ff5733'
-    }));
+    const userEmail = this.getUserEmail();
+
+    this.calendarOptions.events = this.roomBookings.map(booking => {
+
+        // Check if current booking is the user's
+        const isCurrentUser = userEmail === booking.userEmail;
+        
+        
+        // Calculate the booking duration
+        const startTime = new Date(booking.start);
+        const endTime = new Date(booking.end);
+        const timeDifference = endTime.getTime() - startTime.getTime();
+        const durationInHours = Math.floor(timeDifference / (1000 * 3600));
+        const durationInMinutes = Math.floor((timeDifference % (1000 * 3600)) / (1000 * 60)); 
+        const roundedDuration = `${durationInHours} hour${durationInHours !== 1 ? 's' : ''} ${durationInMinutes} minute${durationInMinutes !== 1 ? 's' : ''}`;
+
+
+        return {
+            title: `${roundedDuration}`,
+            start: booking.start,
+            end: booking.end,
+            email: booking.userEmail,
+            backgroundColor: isCurrentUser ? '#4682fa' : '#f50505',
+            borderColor: isCurrentUser ? '#4682fa' : '#f50505'
+        };
+    });
   }
 
 
@@ -127,4 +146,20 @@ export class RoomcallendarComponent implements OnInit {
 
     
 }
+
+ getUserEmail(): string | null {
+  const token = localStorage.getItem('jwtToken');
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1])); // Decode and parse payload
+    return payload?.sub || null;
+  } catch (e) {
+    console.error('Invalid token:', e);
+    return null;
+  }
+}
+
+
+
 }

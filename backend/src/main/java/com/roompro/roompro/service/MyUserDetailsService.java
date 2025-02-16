@@ -24,7 +24,6 @@ public class MyUserDetailsService implements UserDetailsService {
         Users user = repo.findByEmail(email);
 
         if(user==null){
-            System.out.println("The user is not Found");
             throw  new UsernameNotFoundException("User Not Found");
         }
 

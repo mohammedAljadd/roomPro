@@ -23,7 +23,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
+
     private Users user;
 
     @ManyToOne

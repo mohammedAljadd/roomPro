@@ -36,7 +36,6 @@ public class JWTService {
                 .signWith(getKey(), Jwts.SIG.HS256)
                 .compact();
 
-        System.out.println("Generated Token: " + myToken);
 
         return myToken;
     }
