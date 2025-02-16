@@ -99,7 +99,7 @@ export class RoomcallendarComponent implements OnInit {
       title: 'Booked Slot',
       start: booking.start,
       end: booking.end,
-      backgroundColor: '#ff5733',
+      backgroundColor: '#f50505',
       borderColor: '#ff5733'
     }));
   }
