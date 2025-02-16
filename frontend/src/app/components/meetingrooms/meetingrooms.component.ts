@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Booking } from '../../model/class/Booking';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BookingService } from '../../services/booking.service';
+import { Router } from '@angular/router';
+import { RoomcallendarComponent } from '../roomcallendar/roomcallendar.component';
 
 declare global {
   interface Window {
@@ -26,7 +28,8 @@ export class MeetingroomsComponent implements OnInit {
   selectedCapacity: number = 0;
   selectedLocation: string = '';
   selectedEquipment: string[] = [];
-  
+  ChosenRoomName!: string 
+
   uniqueLocations: string[] = [];
   uniqueEquipment: string[] = [];
   
@@ -42,7 +45,7 @@ export class MeetingroomsComponent implements OnInit {
 
   bookingService = inject(BookingService);
 
-  constructor(private roomService: RoomService, private http: HttpClient) {}
+  constructor(private roomService: RoomService, private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.roomService.getAllRooms().subscribe({
@@ -80,44 +83,14 @@ export class MeetingroomsComponent implements OnInit {
 
 
   
-  openBookingForm(room: Room): void {
-    this.selectedRoom = room;  // Set the selected room to the clicked room
-    // Open the modal using Bootstrap's modal API
-    const modal = new window.bootstrap.Modal(document.getElementById('bookingModal'));
-    modal.show();
+
+
+
+
+  
+  openRoomCalendarPage(room: Room):void{
+    this.ChosenRoomName = room.name;
+    this.router.navigate(['/meeting-rooms', room.roomId, room.name]);
   }
 
-
-
-  
-  onSubmitBooking(): void {
-
-  
-  // Send booking details along with token
-  this.userBooking.roomId=this.selectedRoom!.roomId;
-  this.userBooking.startTime=this.bookingTime;
-  this.userBooking.bookingHours = this.bookingHours;
-  
-  
-  this.bookingService.submitBooking(this.userBooking).subscribe(
-    response => {
-      console.log('User booked a room successfully:', response.message);
-    },
-    error => {
-      console.error('Booking failed:', error.error?.error || 'Unknown error occurred');
-    }
-  );
-
- 
-  // Move focus away from the modal before closing
-  document.body.focus();  // This ensures no element inside the modal retains focus
-
-  // Close the modal properly
-  const modalElement = document.getElementById('bookingModal');
-  if (modalElement) {
-    const modal = window.bootstrap.Modal.getInstance(modalElement);
-    if (modal) {
-      modal.hide();
-    }
-  }
-  }}
+}

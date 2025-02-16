@@ -16,6 +16,7 @@ export class RoomService {
     return this.http.get<Room[]>(this.apiUrl);
   }
 
+
   getFilteredRooms(capacity?: number, location?: string, equipment?: string): Observable<Room[]> {
     let params = new HttpParams();
     if (capacity) params = params.set('capacity', capacity.toString());

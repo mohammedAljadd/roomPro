@@ -24,4 +24,14 @@ public class Equipment {
     private String model;
     private String description;
 
+    @Override
+    public String toString() {
+        return "Equipment{" +
+                "equipmentId=" + equipmentId +
+                ", name='" + name + '\'' +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

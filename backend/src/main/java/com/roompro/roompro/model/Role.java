@@ -28,4 +28,14 @@ public class Role {
     @JsonIgnore
     private List<Users> users;
 
+    @Override
+    public String toString() {
+        return "Role{" +
+                "roleId=" + roleId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", users=" + (users != null ? users.size() : 0) +  // Avoiding recursion and printing the size of users list
+                '}';
+    }
+
 }

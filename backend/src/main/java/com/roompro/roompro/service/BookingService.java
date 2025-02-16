@@ -60,6 +60,11 @@ public class BookingService {
         return bookingRepository.findUserBookings(user.getUserId());
     }
 
+    public List<Booking> getBookingsByRoomId(Long room_id){
+        return bookingRepository.findByRoomId(room_id);
+
+    }
+
     public Map<String, String> cancelBooking(Long id){
 
         if(bookingRepository.findById(id).isPresent()){

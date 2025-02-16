@@ -27,8 +27,20 @@ public class Users {
     private String lastName;
 
     @ManyToOne
+
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", role=" + (role != null ? role.getRoleId() : null) +  // Avoiding recursion by printing only roleId
+                '}';
+    }
 
 
 }

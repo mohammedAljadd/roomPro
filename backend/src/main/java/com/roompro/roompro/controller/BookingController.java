@@ -31,6 +31,11 @@ public class BookingController {
         return bookingService.getUserBookings();
     }
 
+    @GetMapping("/bookings/room/{room_id}")
+    public List<Booking> getARoomBooking(@PathVariable Long room_id){
+        return bookingService.getBookingsByRoomId(room_id);
+    }
+
     @DeleteMapping("/my-bookings/cancel/{booking_id}")
     public ResponseEntity<Map<String, String>> cancelBooking(@PathVariable Long booking_id){
         System.out.println(booking_id);

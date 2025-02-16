@@ -27,4 +27,14 @@ public class RoomEquipmentMapping {
     @JoinColumn(name = "equipment_id", nullable = false)
     private Equipment equipment;
 
+    @Override
+    public String toString() {
+        return "RoomEquipmentMapping{" +
+                "id=" + id +
+                ", room=" + (room != null ? room.getRoomId() : null) +  // Avoiding recursion by printing only roomId
+                ", equipment=" + (equipment != null ? equipment.getEquipmentId() : null) +  // Avoiding recursion by printing only equipmentId
+                '}';
+    }
+
+
 }

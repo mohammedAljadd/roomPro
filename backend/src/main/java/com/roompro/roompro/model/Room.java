@@ -36,4 +36,19 @@ public class Room {
     
     private List<RoomEquipmentMapping> roomEquipmentMappings;
 
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomId=" + roomId +
+                ", name='" + name + '\'' +
+                ", capacity=" + capacity +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", bookings=" + (bookings != null ? bookings.size() : 0) +  // Avoiding recursion and printing the size of bookings list
+                ", roomEquipmentMappings=" + (roomEquipmentMappings != null ? roomEquipmentMappings.size() : 0) +  // Avoiding recursion and printing the size of roomEquipmentMappings list
+                '}';
+    }
+
+
 }

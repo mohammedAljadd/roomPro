@@ -27,6 +27,7 @@ public class Booking {
     private Users user;
 
     @ManyToOne
+
     @JoinColumn(name = "room_id", nullable = false)
 
     private Room room;
@@ -34,5 +35,16 @@ public class Booking {
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "bookingId=" + bookingId +
+                ", user=" + (user != null ? user.getUserId() : null) +  // Assuming Users class has getId() method
+                ", room=" + (room != null ? room.getRoomId() : null) +  // Assuming Room class has getRoomId() method
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 
 }
