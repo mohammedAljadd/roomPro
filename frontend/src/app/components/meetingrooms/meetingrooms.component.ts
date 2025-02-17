@@ -53,13 +53,7 @@ export class MeetingroomsComponent implements OnInit {
         this.rooms = data;
         this.filteredRooms = data;
         this.uniqueLocations = [...new Set(data.map(room => room.location))];
-        this.uniqueEquipment = [
-          ...new Set(data.flatMap(room =>
-            room.roomEquipmentMappings.flatMap(mapping =>
-              mapping.equipment.name
-            )
-          ))
-        ];
+        this.uniqueEquipment = [...new Set(data.flatMap(room => room.equipments))];
       },
       error: (error) => console.error('Error fetching rooms:', error)
     });
@@ -75,7 +69,7 @@ export class MeetingroomsComponent implements OnInit {
     this.roomService.getFilteredRooms(this.selectedCapacity, this.selectedLocation, equipmentFilter).subscribe({
       next: (data) => {
         this.filteredRooms = data; // store filtered rooms in filteredRooms array
-  
+        console.log(data);
       },
       error: (error) => console.error('Error fetching filtered rooms:', error)
     });

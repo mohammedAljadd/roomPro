@@ -54,8 +54,8 @@
           </p>
           <h6 class="text-primary">Equipment:</h6>
           <ul>
-            <li *ngFor="let mapping of room.roomEquipmentMappings">
-              <span class="badge bg-secondary">{{ mapping.equipment.name }}</span>
+            <li *ngFor="let equipment of room.equipments">
+              <span class="badge bg-secondary">{{ equipment }}</span>
             </li>
           </ul>
           <ng-template #noEquipment>

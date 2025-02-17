@@ -7,7 +7,7 @@ export interface Room {
     location: string;
     description: string;
     bookings: Booking[];
-    roomEquipmentMappings: roomEquipmentMapping[];
+    equipments: string[];
   }
   
 

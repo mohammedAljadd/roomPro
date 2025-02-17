@@ -2,15 +2,18 @@ package com.roompro.roompro.controller;
 
 
 import com.roompro.roompro.dto.BookingDto;
+import com.roompro.roompro.dto.response.RoomResponseDTO;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.service.BookingService;
 import com.roompro.roompro.service.RoomService;
+import com.roompro.roompro.service.mapper.RoomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/roompro")
@@ -20,20 +23,30 @@ public class roomController {
     @Autowired
     RoomService roomService;
 
+    @Autowired
+    RoomMapper roomMapper;
+
+
     @GetMapping("/meeting-rooms")
-    public List<Room> getRooms() {
-        return roomService.getAllRooms();
+    public List<RoomResponseDTO> getRooms() {
+        List<Room> rooms = roomService.getAllRooms();
+        return rooms.stream()
+                .map(roomMapper::roomToRoomResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/meeting-rooms/filter")
-    public List<Room> filterRooms(
+    public List<RoomResponseDTO> filterRooms(
             @RequestParam(required = false) Integer capacity,
             @RequestParam(required = false) String location,
             @RequestParam(required = false) String equipmentNames) {
 
 
         if(capacity==null && location == null && equipmentNames == null){
-            return roomService.getAllRooms();
+            List<Room> rooms =  roomService.getAllRooms();
+            return rooms.stream()
+                    .map(roomMapper::roomToRoomResponseDTO)
+                    .collect(Collectors.toList());
         }
         List<String> equipmentList;
 
@@ -47,6 +60,9 @@ public class roomController {
             equipmentList = Arrays.asList(equipmentNames);
         }
 
-        return roomService.getFilteredRooms(capacity, location, equipmentList);
+        List<Room> rooms = roomService.getFilteredRooms(capacity, location, equipmentList);
+        return rooms.stream()
+                .map(roomMapper::roomToRoomResponseDTO)
+                .collect(Collectors.toList());
     }
 }
