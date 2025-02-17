@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { UserbookingsService } from '../../services/userbookings.service';
 import { BookingRequest } from '../../model/class/Request/BookingRequest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mybookings',
@@ -11,7 +12,7 @@ import { BookingRequest } from '../../model/class/Request/BookingRequest';
 })
 export class MybookingsComponent implements OnInit {
   
-  constructor(private cdr: ChangeDetectorRef){};
+  constructor(private cdr: ChangeDetectorRef, private router: Router){};
   
   userBookings: BookingRequest[] = [];
   
@@ -36,7 +37,7 @@ export class MybookingsComponent implements OnInit {
         }
       });
     } else {
-      console.log('No token found');
+      this.router.navigate(['/login']);
     }
 
   }
