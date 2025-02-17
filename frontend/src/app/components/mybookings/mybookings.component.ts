@@ -64,5 +64,16 @@ export class MybookingsComponent implements OnInit {
     } else {
       console.log('No token found');
     }
-  }
+
+    document.body.focus();  // This ensures no element inside the modal retains focus
+
+    // Close the modal properly
+    const modalElement = document.getElementById('bookingModal');
+    if (modalElement) {
+      const modal = window.bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
+    } 
 }
