@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -44,9 +45,14 @@ public class UserController {
 
     // Login endpoint
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody UserRequestDTO user) {
-        Map<String, String> response = loginService.verify(user);
-        return ResponseEntity.ok(response);  // Return JSON response (either token or error message)
+    public ResponseEntity<?> login(@RequestBody UserRequestDTO user) {
+
+        Optional<String> token = loginService.authenticate(user);
+        if(!token.isPresent()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
+        }
+        Map<String, String> response = Map.of("token", token.toString());
+        return ResponseEntity.ok(response);
     }
 
 }

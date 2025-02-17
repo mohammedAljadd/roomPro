@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class LoginService {
@@ -24,20 +26,23 @@ public class LoginService {
     @Autowired
     JWTService jwtService;
 
-    public Map<String, String> verify(UserRequestDTO user) {
+    public Optional<String> authenticate(UserRequestDTO user) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
+            );
 
-        // Attempt to authenticate the user with the provided username and password
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-
-        // If authentication is successful, generate the token and return it as JSON
-        if (authentication.isAuthenticated()) {
-            String token = jwtService.generateToken(user.getEmail());
-            return Map.of("token", token);  // Return token as JSON response
+            // If authentication succeeds, generate the token
+            if (authentication.isAuthenticated()) {
+                String token = jwtService.generateToken(user.getEmail());
+                return Optional.of(token);
+            }
+        } catch (AuthenticationException e) {  // Catches ALL authentication failures
+            return Optional.empty();
         }
 
-        // If authentication fails, return an error message as JSON
-        return Map.of("message", "Invalid credentials");
+        return Optional.empty();
     }
+
 
 }
