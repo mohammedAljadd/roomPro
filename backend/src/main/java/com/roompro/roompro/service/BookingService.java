@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -41,9 +42,23 @@ public class BookingService {
         LocalDateTime startDateTime = LocalDateTime.parse(bookingDto.getStartTime());
         LocalDateTime endDateTime = startDateTime.plusHours(bookingDto.getBookingHours());
 
+        LocalTime businessStart = LocalTime.of(8, 0);  // 8:00 AM
+        LocalTime businessEnd = LocalTime.of(18, 0);
+
+        if (startDateTime.toLocalTime().isBefore(businessStart) ||
+                endDateTime.toLocalTime().isAfter(businessEnd) ||
+                startDateTime.toLocalTime().isAfter(businessEnd) ||
+                endDateTime.toLocalTime().isBefore(businessStart)) {
+
+            return Map.of("message", "Booking must be scheduled between 08:00 AM and 06:00 PM.");
+        }
+
+
         if(bookingRepository.isOverlappingWithOtherBookings(room.getRoomId(), startDateTime, endDateTime)){
             return Map.of("message", "This time slot is already booked");
         }
+
+
 
         Users user = userRepository.findByEmail(email);
         Booking newBooking = new Booking();
