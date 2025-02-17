@@ -1,8 +1,8 @@
 package com.roompro.roompro.service;
 
 
-import com.roompro.roompro.dto.UserLoginDto;
-import com.roompro.roompro.model.Users;
+import com.roompro.roompro.dto.request.BookingRequestDTO;
+import com.roompro.roompro.dto.request.UserRequestDTO;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,7 @@ public class LoginService {
     @Autowired
     JWTService jwtService;
 
-    public Map<String, String> verify(UserLoginDto user) {
+    public Map<String, String> verify(UserRequestDTO user) {
 
         // Attempt to authenticate the user with the provided username and password
         Authentication authentication =

@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LoginModel } from '../../../model/class/LoginModel';
 import { LoginService } from '../../../services/auth/login.service';
 import { Router } from '@angular/router';
+import { UserLoginResponse } from '../../../model/class/Response/UserLoginResponse';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,7 @@ export class LoginComponent {
 
   constructor(private router: Router, private cdr: ChangeDetectorRef){};
 
-  user: LoginModel = new LoginModel();
+  user: UserLoginResponse = new UserLoginResponse();
 
   loginService = inject(LoginService);
 

@@ -1,13 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Room } from '../../model/class/Room';
 import { RoomService } from '../../services/room.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Booking } from '../../model/class/Booking';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BookingService } from '../../services/booking.service';
 import { Router } from '@angular/router';
-import { RoomcallendarComponent } from '../roomcallendar/roomcallendar.component';
+import { RoomRequest } from '../../model/class/Request/RoomRequest';
+import { BookingResponse } from '../../model/class/Response/BookingResponse';
 
 declare global {
   interface Window {
@@ -23,8 +22,8 @@ declare global {
   styleUrls: ['./meetingrooms.component.css']
 })
 export class MeetingroomsComponent implements OnInit {
-  rooms: Room[] = [];
-  filteredRooms: Room[] = [];
+  rooms: RoomRequest[] = [];
+  filteredRooms: RoomRequest[] = [];
   selectedCapacity: number = 0;
   selectedLocation: string = '';
   selectedEquipment: string[] = [];
@@ -33,11 +32,11 @@ export class MeetingroomsComponent implements OnInit {
   uniqueLocations: string[] = [];
   uniqueEquipment: string[] = [];
   
-  selectedRoom: Room | null = null;  // To store selected room for booking
+  selectedRoom: RoomRequest | null = null;  // To store selected room for booking
   bookingTime: string = '';  // Time selected for booking
   bookingHours: number = 0;
   token = localStorage.getItem('jwtToken');
-  userBooking: Booking = {
+  userBooking: BookingResponse = {
     roomId: 0, 
     startTime: '',
     bookingHours: 0
@@ -82,7 +81,7 @@ export class MeetingroomsComponent implements OnInit {
 
 
   
-  openRoomCalendarPage(room: Room):void{
+  openRoomCalendarPage(room: RoomRequest):void{
     this.ChosenRoomName = room.name;
     this.router.navigate(['/meeting-rooms', room.roomId, room.name]);
   }

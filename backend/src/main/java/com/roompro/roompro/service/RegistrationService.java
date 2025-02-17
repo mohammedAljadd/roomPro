@@ -1,6 +1,7 @@
 package com.roompro.roompro.service;
 
-import com.roompro.roompro.dto.UserRegistrationDto;
+import com.roompro.roompro.dto.request.BookingRequestDTO;
+import com.roompro.roompro.dto.request.UserRegistrationRequestDTO;
 import com.roompro.roompro.model.Role;
 import com.roompro.roompro.model.Users;
 import com.roompro.roompro.repository.RoleRepository;
@@ -20,7 +21,7 @@ public class RegistrationService {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    public Users registerUser(UserRegistrationDto userRegistrationDto) {
+    public Users registerUser(UserRegistrationRequestDTO userRegistrationDto) {
         // Check if user already exists
         String email = userRegistrationDto.getEmail();
 

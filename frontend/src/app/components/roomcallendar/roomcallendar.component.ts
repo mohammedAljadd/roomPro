@@ -8,7 +8,7 @@ import { BookingService } from '../../services/booking.service';
 import { CalendarOptions } from '@fullcalendar/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Booking } from '../../model/class/Booking';
+import { BookingResponse } from '../../model/class/Response/BookingResponse';
 
 @Component({
   selector: 'app-roomcallendar',
@@ -21,7 +21,7 @@ export class RoomcallendarComponent implements OnInit {
 
   bookingTime: string = '';  // Time selected for booking
   bookingHours: number = 0;
-  userBooking: Booking = {
+  userBooking: BookingResponse = {
     roomId: 0, 
     startTime: '',
     bookingHours: 0
@@ -74,8 +74,7 @@ export class RoomcallendarComponent implements OnInit {
           this.roomBookings = data.map(booking => {
             const start = new Date(booking.startTime);
             const end = new Date(new Date(booking.endTime));
-            const userEmail = booking.user.email;
-
+            const userEmail = booking.userEmail;
 
             return {
               start: start,

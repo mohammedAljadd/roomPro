@@ -1,7 +1,7 @@
 package com.roompro.roompro.service;
 
 
-import com.roompro.roompro.dto.BookingDto;
+import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.model.Users;
@@ -31,7 +31,7 @@ public class BookingService {
 
 
 
-    public Map<String, String> createBooking(BookingDto bookingDto){
+    public Map<String, String> createBooking(BookingRequestDTO bookingDto){
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

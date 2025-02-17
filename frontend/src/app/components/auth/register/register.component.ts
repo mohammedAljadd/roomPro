@@ -1,8 +1,8 @@
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RegistrationService } from '../../../services/auth/registration.service';
-import { RegistrationModel } from '../../../model/class/RegistrationModel';
 import { Router } from '@angular/router';
+import { UserRegistrationResponse } from '../../../model/class/Response/UserRegistrationResponse';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +17,7 @@ export class RegisterComponent {
 
   registrationService = inject(RegistrationService);
 
-  user: RegistrationModel = new RegistrationModel();
+  user: UserRegistrationResponse = new UserRegistrationResponse();
 
   onRegisterUser(): void {
     this.registrationService.registerUser(this.user).subscribe(

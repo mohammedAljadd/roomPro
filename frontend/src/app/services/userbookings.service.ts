@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserBooking } from '../model/class/UserBooking';
 import { Observable } from 'rxjs';
+import { BookingRequest } from '../model/class/Request/BookingRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,9 @@ export class UserbookingsService {
 
   private apiUrl = 'http://localhost:8080/roompro/my-bookings';
 
-  getUserBookings(token: string): Observable<UserBooking[]> {
+  getUserBookings(token: string): Observable<BookingRequest[]> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<UserBooking[]>(this.apiUrl, { headers });
+    return this.http.get<BookingRequest[]>(this.apiUrl, { headers });
   }
 
   cancelBooking(token: string, bookingId: number): Observable<{ message: string }> {

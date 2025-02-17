@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Room } from '../model/class/Room';
+import { RoomRequest } from '../model/class/Request/RoomRequest';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,18 +12,18 @@ export class RoomService {
 
   constructor(private http: HttpClient) {}
 
-  getAllRooms(): Observable<Room[]> {
-    return this.http.get<Room[]>(this.apiUrl);
+  getAllRooms(): Observable<RoomRequest[]> {
+    return this.http.get<RoomRequest[]>(this.apiUrl);
   }
 
 
-  getFilteredRooms(capacity?: number, location?: string, equipment?: string): Observable<Room[]> {
+  getFilteredRooms(capacity?: number, location?: string, equipment?: string): Observable<RoomRequest[]> {
     let params = new HttpParams();
     if (capacity) params = params.set('capacity', capacity.toString());
     if (location) params = params.set('location', location);
     if (equipment) params = params.set('equipmentNames', equipment);
     
-    return this.http.get<Room[]>('http://localhost:8080/roompro/meeting-rooms/filter', { params });
+    return this.http.get<RoomRequest[]>('http://localhost:8080/roompro/meeting-rooms/filter', { params });
   }
   
 }

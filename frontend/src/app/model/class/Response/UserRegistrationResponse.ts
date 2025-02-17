@@ -1,4 +1,4 @@
-export class RegistrationModel{
+export class UserRegistrationResponse{
     firstName: string = '';
     lastName: string = '';
     email: string = '';

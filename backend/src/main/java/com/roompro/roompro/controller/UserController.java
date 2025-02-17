@@ -1,9 +1,8 @@
 package com.roompro.roompro.controller;
 
-import com.roompro.roompro.dto.BookingDto;
-import com.roompro.roompro.dto.UserLoginDto;
-import com.roompro.roompro.dto.UserRegistrationDto;
-import com.roompro.roompro.service.BookingService;
+import com.roompro.roompro.dto.request.BookingRequestDTO;
+import com.roompro.roompro.dto.request.UserRegistrationRequestDTO;
+import com.roompro.roompro.dto.request.UserRequestDTO;
 import com.roompro.roompro.service.LoginService;
 import com.roompro.roompro.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class UserController {
 
     // Registration endpoint
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+    public ResponseEntity<Map<String, String>> registerUser(@RequestBody UserRegistrationRequestDTO userRegistrationDto) {
 
         try {
 
@@ -45,7 +44,7 @@ public class UserController {
 
     // Login endpoint
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody UserLoginDto user) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody UserRequestDTO user) {
         Map<String, String> response = loginService.verify(user);
         return ResponseEntity.ok(response);  // Return JSON response (either token or error message)
     }

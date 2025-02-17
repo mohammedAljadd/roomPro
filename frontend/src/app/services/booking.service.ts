@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Booking } from '../model/class/Booking';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BookingResponse } from '../model/class/Response/BookingResponse';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserBooking } from '../model/class/UserBooking';
+import { BookingRequest } from '../model/class/Request/BookingRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class BookingService {
   
   constructor(private http: HttpClient) {}
 
-  submitBooking(booking: Booking):Observable<any>{
+  submitBooking(booking: BookingResponse):Observable<any>{
     const token = localStorage.getItem('jwtToken');
 
     const headers = new HttpHeaders({
@@ -25,12 +25,9 @@ export class BookingService {
     return this.http.post(this.apiUrl+"booking", booking, { headers, responseType: 'text' });
   }
 
-  getBookingsByRoomId(token: string, roomId: number):Observable<UserBooking[]>{
+  getBookingsByRoomId(token: string, roomId: number):Observable<BookingRequest[]>{
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<UserBooking[]>(this.apiUrl+"bookings/room/"+roomId, { headers });
+    return this.http.get<BookingRequest[]>(this.apiUrl+"bookings/room/"+roomId, { headers });
   }
 
-
-
-  
 }

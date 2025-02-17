@@ -1,14 +1,11 @@
 package com.roompro.roompro.controller;
 
 
-import com.roompro.roompro.dto.BookingDto;
 import com.roompro.roompro.dto.response.RoomResponseDTO;
 import com.roompro.roompro.model.Room;
-import com.roompro.roompro.service.BookingService;
 import com.roompro.roompro.service.RoomService;
 import com.roompro.roompro.service.mapper.RoomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { LoginModel } from '../../model/class/LoginModel';
+import { UserLoginResponse } from '../../model/class/Response/UserLoginResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class LoginService {
 
   
 
-  loginUser(user: LoginModel): Observable<any> {
+  loginUser(user: UserLoginResponse): Observable<any> {
     return this.http.post<{ token: string }>(this.apiUrl, user)
   }
 
