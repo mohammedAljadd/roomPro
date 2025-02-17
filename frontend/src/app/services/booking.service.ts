@@ -22,7 +22,7 @@ export class BookingService {
     });
 
     // Send POST request with booking data and headers
-    return this.http.post(this.apiUrl+"booking", booking, { headers, responseType: 'text' });
+    return this.http.post(this.apiUrl+"booking", booking, { headers });
   }
 
   getBookingsByRoomId(token: string, roomId: number):Observable<BookingRequest[]>{
