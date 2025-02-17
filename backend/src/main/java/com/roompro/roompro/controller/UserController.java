@@ -35,24 +35,18 @@ public class UserController {
             userRegistrationDto.getFirstName() == null || userRegistrationDto.getFirstName().isEmpty() ||
             userRegistrationDto.getLastName() == null || userRegistrationDto.getLastName().isEmpty() ||
             userRegistrationDto.getRoleName() == null || userRegistrationDto.getRoleName().isEmpty()) {
-
-            System.out.println("All fileds are required");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("All fields are required.");
         }
 
 
         try {
-            System.out.println("Before Good registration");
+
             registrationService.registerUser(userRegistrationDto);
             Map<String, String> response = new HashMap<>();
             response.put("message", "User registered successfully");
-            System.out.println("Good registration");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", e.getMessage());
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -63,15 +57,14 @@ public class UserController {
         if (userRequestDTO.getEmail() == null || userRequestDTO.getEmail().isEmpty() ||
                 userRequestDTO.getPassword() == null || userRequestDTO.getPassword().isEmpty()) {
 
-            System.out.println("All fileds are required");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("All fields are required.");
-        }
+}
 
         Optional<String> token = loginService.authenticate(userRequestDTO);
         if(!token.isPresent()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
         }
-        Map<String, String> response = Map.of("token", token.toString());
+        Map<String, String> response = Map.of("token", token.get());
         return ResponseEntity.ok(response);
     }
 
