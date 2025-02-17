@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RegistrationService {
 
@@ -21,12 +23,16 @@ public class RegistrationService {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    public Users registerUser(UserRegistrationRequestDTO userRegistrationDto) {
+    public void registerUser(UserRegistrationRequestDTO userRegistrationDto) throws Exception {
+
         // Check if user already exists
         String email = userRegistrationDto.getEmail();
 
+
+
+
         if (userRepository.findByEmail(email) != null) {
-            throw new RuntimeException("User already exists with this email");
+            throw new Exception("Invalid registration details: User already exists with this email");
         }
 
 
@@ -34,7 +40,7 @@ public class RegistrationService {
         Role role = roleRepository.findByName(roleName).orElse(null);
 
         if (role == null) {
-            throw new RuntimeException("Invalid role");
+            throw new Exception("Invalid registration details: Invalid role");
         }
 
         // Create new user
@@ -46,6 +52,6 @@ public class RegistrationService {
         user.setRole(role);
 
         // Save user to the database
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 }

@@ -26,8 +26,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       },
       error => {
-       
-        console.error('Login failed:' , error.error?.error || 'Unknown error occurred');
+        console.error('Login failed:' , error.error || 'Unknown error occurred');
         
       }
     );

@@ -25,7 +25,8 @@ export class RegisterComponent {
         this.router.navigate(['/login']);
       },
       error => {
-        console.error('Registration failed:', error.error?.error || 'Unknown error occurred');
+        console.log("Error how "+error.error );
+        console.error('Registration failed:', error.error || 'Unknown error occurred');
       }
     );
   }
