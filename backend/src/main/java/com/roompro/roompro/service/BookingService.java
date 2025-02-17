@@ -38,13 +38,18 @@ public class BookingService {
         String email = authentication.getName();
 
         Room room = roomRepository.findById(bookingDto.getRoomId()).orElse(null);
+        LocalDateTime startDateTime = LocalDateTime.parse(bookingDto.getStartTime());
+        LocalDateTime endDateTime = startDateTime.plusHours(bookingDto.getBookingHours());
+
+        if(bookingRepository.isOverlappingWithOtherBookings(room.getRoomId(), startDateTime, endDateTime)){
+            return Map.of("message", "This time slot is already booked");
+        }
 
         Users user = userRepository.findByEmail(email);
         Booking newBooking = new Booking();
         newBooking.setRoom(room);
         newBooking.setUser(user);
-        LocalDateTime startDateTime = LocalDateTime.parse(bookingDto.getStartTime());
-        LocalDateTime endDateTime = startDateTime.plusHours(bookingDto.getBookingHours());
+
         newBooking.setStartTime(startDateTime);
         newBooking.setEndTime(endDateTime);
 
