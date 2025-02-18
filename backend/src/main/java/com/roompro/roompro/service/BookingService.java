@@ -32,7 +32,7 @@ public class BookingService {
 
 
 
-    public Map<String, String> createBooking(BookingRequestDTO bookingDto){
+    public void createBooking(BookingRequestDTO bookingDto) throws Exception {
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,12 +50,12 @@ public class BookingService {
                 startDateTime.toLocalTime().isAfter(businessEnd) ||
                 endDateTime.toLocalTime().isBefore(businessStart)) {
 
-            return Map.of("message", "Booking must be scheduled between 08:00 AM and 06:00 PM.");
+            throw new Exception("Booking must be scheduled between 08:00 AM and 06:00 PM.");
         }
 
 
         if(bookingRepository.isOverlappingWithOtherBookings(room.getRoomId(), startDateTime, endDateTime)){
-            return Map.of("message", "This time slot is already booked");
+            throw new Exception("This time slot is already booked");
         }
 
 
@@ -69,8 +69,6 @@ public class BookingService {
         newBooking.setEndTime(endDateTime);
 
         bookingRepository.save(newBooking);
-
-        return Map.of("message", "Booking done");
     }
 
     public List<Booking> getUserBookings(){

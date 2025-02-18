@@ -55,6 +55,7 @@ export class RoomcallendarComponent implements OnInit {
   
 
   bookingService = inject(BookingService);
+  
 
   constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
@@ -134,12 +135,13 @@ export class RoomcallendarComponent implements OnInit {
     
     this.bookingService.submitBooking(this.userBooking).subscribe(
       response => {
+        this
         console.log('User booked a room successfully:', response.message);
         this.fetchBookings();
         this.cdr.detectChanges();
       },
       error => {
-        console.error('Booking failed:', error.error?.error || 'Unknown error occurred');
+        console.error('Booking failed:', error.error || 'Unknown error occurred');
       }
     );
 

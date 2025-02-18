@@ -7,9 +7,11 @@ import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.service.BookingService;
 import com.roompro.roompro.service.mapper.BookingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,9 +28,23 @@ public class BookingController {
     BookingMapper bookingMapper;
 
     @PostMapping("/booking")
-    public ResponseEntity<Map<String, String>> createBooking(@RequestBody BookingRequestDTO bookingDto) {
-        Map<String, String> response = bookingService.createBooking(bookingDto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> createBooking(@RequestBody BookingRequestDTO bookingDto) {
+
+        if (bookingDto.getStartTime() == null || bookingDto.getStartTime().isEmpty() ||
+                bookingDto.getBookingHours() == 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("All fields are required.");
+        }
+
+        try{
+            bookingService.createBooking(bookingDto);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Your booking was successful! Thank you for using our service.");
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 
     @GetMapping("/my-bookings")
