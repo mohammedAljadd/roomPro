@@ -22,6 +22,37 @@ export class BookingService {
       }));
     }
 
+    if(booking.startTime == null || booking.startTime == "" || booking.bookingHours == 0){
+      return throwError(() => ({
+        error: 'All fields are required.'
+      }));
+    }
+
+
+    // Check if booking slot fall between 8AM-6PM
+
+    const startDateTime = new Date(booking.startTime);
+    const endDateTime = new Date(startDateTime);
+    endDateTime.setHours(startDateTime.getHours() + booking.bookingHours);
+    const businessStart = new Date(startDateTime);
+    businessStart.setHours(8, 0, 0, 0);  // 08AM
+    const businessEnd = new Date(startDateTime);
+    businessEnd.setHours(18, 0, 0, 0); // 6PM
+
+    if (
+      startDateTime < businessStart || 
+      endDateTime > businessEnd ||      
+      startDateTime > businessEnd || 
+      endDateTime < businessStart   
+    ) {
+      return throwError(() => ({
+        error: 'Booking must be scheduled between 08:00 AM and 06:00 PM.'
+      }));
+    }
+
+
+
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,  // Attach token as Bearer Token
       'Content-Type': 'application/json'   // Ensure JSON payload
