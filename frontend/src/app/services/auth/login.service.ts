@@ -27,6 +27,13 @@ export class LoginService {
       }));
     }
 
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(user.email)) {
+      return throwError(() => ({
+        error: 'Please enter a valid email address.'
+      }));
+    }
+
     return this.http.post<{ token: string }>(this.apiUrl, user)
   }
 
