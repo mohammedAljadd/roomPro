@@ -29,7 +29,6 @@ export class LoginComponent {
         this.loginService.saveToken(response.token);
         this.cdr.detectChanges();
         this.toastNotif.showSuccess('You have successfully logged in!', 'Login Success');
-
         this.router.navigate(['/home']);
       },
       error => {

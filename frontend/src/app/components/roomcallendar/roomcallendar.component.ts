@@ -139,8 +139,6 @@ export class RoomcallendarComponent implements OnInit {
     
     this.bookingService.submitBooking(this.userBooking).subscribe(
       response => {
-        this
-        console.log('User booked a room successfully:', response.message);
         this.fetchBookings();
         this.cdr.detectChanges();
         this.toastNotif.showSuccess('Your booking was successful! Thank you for using our service.', 'Booking Confirmed');

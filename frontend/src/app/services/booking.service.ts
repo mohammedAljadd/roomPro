@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BookingResponse } from '../model/class/Response/BookingResponse';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BookingRequest } from '../model/class/Request/BookingRequest';
 
@@ -15,6 +15,12 @@ export class BookingService {
 
   submitBooking(booking: BookingResponse):Observable<any>{
     const token = localStorage.getItem('jwtToken');
+
+    if (!token) {
+      return throwError(() => ({
+        error: 'Please log in to continue.'
+      }));
+    }
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,  // Attach token as Bearer Token

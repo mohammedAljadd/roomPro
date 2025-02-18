@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { UserLoginResponse } from '../../model/class/Response/UserLoginResponse';
 
 @Injectable({
@@ -20,6 +20,13 @@ export class LoginService {
   
 
   loginUser(user: UserLoginResponse): Observable<any> {
+
+    if(user.email == null || user.email == "" || user.password == null || user.password == null){
+      return throwError(() => ({
+        error: 'All fields are required.'
+      }));
+    }
+
     return this.http.post<{ token: string }>(this.apiUrl, user)
   }
 
