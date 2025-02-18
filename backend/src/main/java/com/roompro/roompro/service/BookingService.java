@@ -34,13 +34,16 @@ public class BookingService {
 
     public void createBooking(BookingRequestDTO bookingDto) throws Exception {
 
-
+        System.out.println(bookingDto.getBookingHours());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
         Room room = roomRepository.findById(bookingDto.getRoomId()).orElse(null);
         LocalDateTime startDateTime = LocalDateTime.parse(bookingDto.getStartTime());
-        LocalDateTime endDateTime = startDateTime.plusHours(bookingDto.getBookingHours());
+        double bookingHours = bookingDto.getBookingHours();
+        long bookingMinutes = (long) (bookingHours * 60);
+        LocalDateTime endDateTime = startDateTime.plusMinutes(bookingMinutes);
+
 
         LocalTime businessStart = LocalTime.of(8, 0);  // 8:00 AM
         LocalTime businessEnd = LocalTime.of(18, 0);
