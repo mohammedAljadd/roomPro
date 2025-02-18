@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { UserRegistrationResponse } from '../../model/class/Response/UserRegistrationResponse';
 
 @Injectable({
@@ -13,6 +13,30 @@ export class RegistrationService {
   constructor(private http: HttpClient) {}
 
   registerUser(user: UserRegistrationResponse): Observable<any> {
+
+
+    const isAnyFieldEmpty = Object.values(user).some(value => value == null || value === "");
+    if (isAnyFieldEmpty) {
+      return throwError(() => ({
+        error: 'All fields are required.'
+      }));
+    }
+
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(user.email)) {
+      return throwError(() => ({
+        error: 'Please enter a valid email address.'
+      }));
+    }
+
+    
+    const validRoles = ['Admin', 'Manager', 'Employee'];
+    if (!validRoles.includes(user.roleName)) {
+      return throwError(() => ({
+        error: 'Invalid registration details: Invalid role.'
+      }));
+    }
     return this.http.post(this.apiUrl, user)
   }
 }
