@@ -141,9 +141,11 @@ export class RoomcallendarComponent implements OnInit {
         console.log('User booked a room successfully:', response.message);
         this.fetchBookings();
         this.cdr.detectChanges();
+        this.toastNotif.showSuccess('Your booking was successful! Thank you for using our service.', 'Booking Confirmed');
+
       },
       error => {
-        console.error('Booking failed:', error.error || 'Unknown error occurred');
+        this.toastNotif.showError(error.error, 'Booking Failed');
       }
     );
 
