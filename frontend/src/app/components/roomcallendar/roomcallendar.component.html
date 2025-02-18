@@ -24,11 +24,11 @@
           <form (ngSubmit)="onSubmitBooking()">
             <div class="mb-3">
               <label for="bookingTime" class="form-label">Select Time</label>
-              <input type="datetime-local" id="bookingTime" class="form-control" [(ngModel)]="bookingTime" name="bookingTime" required>
+              <input type="datetime-local" id="bookingTime" class="form-control" [(ngModel)]="bookingTime" name="bookingTime" [min]="minDateTime" required>
             </div>
             <div class="mb-3">
               <label for="bookingHours" class="form-label">Number of Hours</label>
-              <input type="number" class="form-control" id="bookingHours" [(ngModel)]="bookingHours" name="bookingHours" min="1" max="24" required />
+              <input type="number" class="form-control" id="bookingHours" [(ngModel)]="bookingHours" name="bookingHours" min="1" max="4" required />
             </div>
             <button type="submit" class="btn btn-primary w-100">Submit Booking</button>
           </form>

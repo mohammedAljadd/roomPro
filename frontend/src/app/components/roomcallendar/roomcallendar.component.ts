@@ -28,6 +28,10 @@ export class RoomcallendarComponent implements OnInit {
     bookingHours: 0
   };
 
+  minDateTime!: string;
+
+
+
   roomId!: number;
 
   roomBookings: { start: Date; end: Date ; userEmail: string}[] = [];
@@ -63,6 +67,10 @@ export class RoomcallendarComponent implements OnInit {
   constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust for timezone
+    this.minDateTime = now.toISOString().slice(0, 16);
+    
     this.roomId = Number(this.route.snapshot.paramMap.get('id'));  
     this.roomName = String(this.route.snapshot.paramMap.get('roomName'));
     this.fetchBookings();
