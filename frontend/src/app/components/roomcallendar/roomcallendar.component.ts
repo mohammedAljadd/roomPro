@@ -9,6 +9,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookingResponse } from '../../model/class/Response/BookingResponse';
+import { ToastnotificationService } from '../../services/toastnotification.service';
 
 @Component({
   selector: 'app-roomcallendar',
@@ -56,6 +57,8 @@ export class RoomcallendarComponent implements OnInit {
 
   bookingService = inject(BookingService);
 
+  toastNotif = inject(ToastnotificationService);
+
   constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -89,7 +92,8 @@ export class RoomcallendarComponent implements OnInit {
         error: (error) => console.error('Error fetching bookings:', error)
       });
     } else {
-      console.log("No token found");
+      this.toastNotif.showWarning('You need to be logged in to make a booking. Please log in and try again.', 'Login Required');
+
     }
   }
 
@@ -139,7 +143,7 @@ export class RoomcallendarComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error => {
-        console.error('Booking failed:', error.error?.error || 'Unknown error occurred');
+        console.error('Booking failed:', error.error || 'Unknown error occurred');
       }
     );
 
