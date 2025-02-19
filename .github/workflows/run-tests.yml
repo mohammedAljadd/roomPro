@@ -19,8 +19,5 @@ jobs:
           distribution: 'temurin'
           java-version: '21'  
 
-      - name: Locate test folder
-        run: cd backend
-
       - name: Run Tests with Maven
-        run:  dir #.\mvnw test 
+        run:  .\backend\mvnw test
