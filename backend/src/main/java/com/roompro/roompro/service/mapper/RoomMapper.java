@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface RoomMapper {
 
-    RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
-
     @Mapping(source = "roomEquipmentMappings", target = "equipments")
     RoomResponseDTO roomToRoomResponseDTO(Room room);
 

@@ -9,6 +9,8 @@ import com.roompro.roompro.model.Users;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -17,10 +19,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 class BookingMapperTest {
 
+    @Autowired
     private BookingMapper bookingMapper;
+
+    @Autowired
     private RoomMapper roomMapper;
+
+
     private Users user;
     private Room room;
     private LocalDateTime start;
@@ -29,8 +37,6 @@ class BookingMapperTest {
 
     @BeforeEach
     void setUp() {
-        bookingMapper = Mappers.getMapper(BookingMapper.class);
-        roomMapper = Mappers.getMapper(RoomMapper.class);
         Role role = new Role(52L, "Admin", "Admin with full access", Collections.emptyList());
         user = new Users(1L, "test@gmail.com", "testpassword", "Said", "Hamza", role);
         room = new Room(1L, "Room1", (short) 50, "5th floor", "Very large room", Collections.emptyList(), Collections.emptyList());
