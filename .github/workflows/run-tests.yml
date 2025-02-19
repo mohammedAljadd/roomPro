@@ -20,4 +20,4 @@ jobs:
           java-version: '21'  
 
       - name: Run Tests with Maven
-        run: mvn test
+        run:  .\mvnw test
