@@ -8,19 +8,19 @@ import com.roompro.roompro.model.RoomEquipmentMapping;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 
+@SpringBootTest
 class RoomMapperTest {
 
+    @Autowired
     private RoomMapper roomMapper;
-
-    @BeforeEach
-    void setUp() {
-        roomMapper = Mappers.getMapper(RoomMapper.class);
-    }
 
     @Test
     public void shouldMapRoomEntToRoomDTO(){
