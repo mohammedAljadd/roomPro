@@ -51,6 +51,14 @@ export class BookingService {
     }
 
 
+    // Check if chosen hour is not the paste
+    const currentTime = new Date();
+    const  selectedTime = new Date(booking.startTime);
+    if(selectedTime < currentTime){
+      return throwError(() => ({
+        error: 'Please select a time that is equal to or later than the current hour.'
+      }));
+    }
 
 
     const headers = new HttpHeaders({

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class BookingRequestDTO {
     private Long roomId;
     private String startTime;
-    private  int bookingHours;
+    private  double bookingHours;
 }
