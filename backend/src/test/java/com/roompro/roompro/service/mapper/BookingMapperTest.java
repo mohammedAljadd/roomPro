@@ -8,9 +8,10 @@ import com.roompro.roompro.model.Room;
 import com.roompro.roompro.model.Users;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -19,14 +20,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class BookingMapperTest {
 
-    @Autowired
-    private BookingMapper bookingMapper;
+    @Mock
+    private RoomMapper roomMapper; // Mock RoomMapper
 
-    @Autowired
-    private RoomMapper roomMapper;
+    @InjectMocks
+    private BookingMapperImpl bookingMapper;
 
 
     private Users user;

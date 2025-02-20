@@ -16,11 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import java.util.Collections;
 
-@SpringBootTest
+
 class RoomMapperTest {
 
-    @Autowired
-    private RoomMapper roomMapper;
+    private RoomMapper roomMapper = new RoomMapperImpl();
 
     @Test
     public void shouldMapRoomEntToRoomDTO(){
