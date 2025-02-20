@@ -34,7 +34,6 @@ public class BookingService {
 
     public void createBooking(BookingRequestDTO bookingDto) throws Exception {
 
-        System.out.println(bookingDto.getBookingHours());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
