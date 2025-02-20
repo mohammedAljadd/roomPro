@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @RestController
@@ -38,6 +40,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("All fields are required.");
         }
 
+        // Check if email is valid
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(userRegistrationDto.getEmail());
+        if (!matcher.matches()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please enter a valid email address.");
+        }
 
         try {
 
