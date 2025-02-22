@@ -3,6 +3,7 @@ package com.roompro.roompro.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roompro.roompro.config.TestSecurityConfig;
 import com.roompro.roompro.dto.request.UserRegistrationRequestDTO;
+import com.roompro.roompro.dto.request.UserRequestDTO;
 import com.roompro.roompro.service.JWTService;
 import com.roompro.roompro.service.LoginService;
 import com.roompro.roompro.service.RegistrationService;
@@ -14,6 +15,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -144,6 +147,78 @@ class UserControllerTest {
 
     }
 
+    @Test
+    void shouldNotLoginIfNullFields() throws Exception{
+        UserRequestDTO userDTO =
+                new UserRequestDTO(null, null);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(userDTO);
+
+        mockMvc.perform(post("/roompro/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonContent))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("All fields are required."));
+
+    }
+
+    @Test
+    void shouldNotLoginIfInvalidEmail() throws Exception{
+        UserRequestDTO userDTO =
+                new UserRequestDTO("invalidemail", "testpass");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(userDTO);
+
+        mockMvc.perform(post("/roompro/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonContent))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Please enter a valid email address."));
+
+    }
+
+    @Test
+    void shouldNotLoginIfInvalidCredentials() throws Exception{
+        UserRequestDTO userDTO =
+                new UserRequestDTO("test@gmail.com", "testpass");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(userDTO);
 
 
-}
+        when(loginService.authenticate(userDTO)).thenReturn(Optional.empty());
+
+        mockMvc.perform(post("/roompro/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonContent))
+                .andDo(print())
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Invalid username or password."));
+
+    }
+
+    @Test
+    void shouldLoginIfValidCredentials() throws Exception {
+        UserRequestDTO userDTO =
+                new UserRequestDTO("test@gmail.com", "testpass");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(userDTO);
+
+        String token = "valid-jwt-token";
+        when(loginService.authenticate(userDTO)).thenReturn(Optional.of(token));
+
+        mockMvc.perform(post("/roompro/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonContent))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value(token));
+    }
+
+
+    }
