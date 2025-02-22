@@ -5,6 +5,7 @@ import com.roompro.roompro.dto.response.RoomResponseDTO;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.service.RoomService;
 import com.roompro.roompro.service.mapper.RoomMapper;
+import com.roompro.roompro.service.mapper.RoomMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,7 @@ public class RoomController {
     @Autowired
     RoomService roomService;
 
-    @Autowired
-    RoomMapper roomMapper;
+    private RoomMapper roomMapper = new RoomMapperImpl();
 
 
     @GetMapping("/meeting-rooms")
