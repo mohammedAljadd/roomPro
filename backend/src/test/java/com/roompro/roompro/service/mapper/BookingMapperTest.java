@@ -23,11 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class BookingMapperTest {
 
-    @Mock
-    private RoomMapper roomMapper; // Mock RoomMapper
+    private RoomMapper roomMapper = new RoomMapperImpl();
 
-    @InjectMocks
-    private BookingMapperImpl bookingMapper;
+    private BookingMapperImp bookingMapper = new BookingMapperImp();
+
 
 
     private Users user;

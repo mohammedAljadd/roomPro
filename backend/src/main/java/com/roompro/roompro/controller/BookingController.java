@@ -5,7 +5,7 @@ import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.response.BookingResponseDTO;
 import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.service.BookingService;
-import com.roompro.roompro.service.mapper.BookingMapper;
+import com.roompro.roompro.service.mapper.BookingMapperImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,9 @@ public class BookingController {
     @Autowired
     BookingService bookingService;
 
-    @Autowired
-    BookingMapper bookingMapper;
+
+    private BookingMapperImp bookingMapper = new BookingMapperImp();
+
 
     @PostMapping("/booking")
     public ResponseEntity<?> createBooking(@RequestBody BookingRequestDTO bookingDto) {
