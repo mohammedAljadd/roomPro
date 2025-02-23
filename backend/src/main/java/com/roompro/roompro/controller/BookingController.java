@@ -66,9 +66,14 @@ public class BookingController {
     }
 
     @DeleteMapping("/my-bookings/cancel/{booking_id}")
-    public ResponseEntity<Map<String, String>> cancelBooking(@PathVariable Long booking_id){
-        Map<String, String> response = Map.of("message", "Deleted");
-        bookingService.cancelBooking(booking_id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> cancelBooking(@PathVariable Long booking_id) {
+        
+        try{
+            Map<String, String>  response = bookingService.cancelBooking(booking_id);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        
     }
 }

@@ -180,9 +180,9 @@ class BookingControllerTest {
     void shouldReturnBadRequestIfCancelBookingfail() throws Exception {
         Long bookingId = 1L;
 
-        when(bookingService.cancelBooking(bookingId)).thenReturn(Map.of("message", "Booking not found."));
+        when(bookingService.cancelBooking(bookingId)).thenThrow(new Exception("Booking not found."));
         mockMvc.perform(delete("/roompro/my-bookings/cancel/{booking_id}", bookingId))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Booking not found."));
+                .andExpect(content().string("Booking not found."));
     }
 }

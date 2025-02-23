@@ -85,16 +85,14 @@ public class BookingService {
 
     }
 
-    public Map<String, String> cancelBooking(Long id){
+    public Map<String, String> cancelBooking(Long id) throws Exception {
 
-        if(bookingRepository.findById(id).isPresent()){
-            bookingRepository.deleteById(id);
-            return Map.of("message", "Booking cancelled successfully.");
+        if(bookingRepository.findById(id).isEmpty()){
+            throw new Exception("Booking not found.");
         }
 
-        return Map.of("message", "Booking not found.");
-
-
+        bookingRepository.deleteById(id);
+        return Map.of("message", "Booking cancelled successfully.");
 
     }
 }
