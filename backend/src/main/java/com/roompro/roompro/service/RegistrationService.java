@@ -36,12 +36,10 @@ public class RegistrationService {
         }
 
 
-        String roleName = userRegistrationDto.getRoleName();
-        Role role = roleRepository.findByName(roleName).orElse(null);
+        // automatically assign employee role to users
+        Optional<Role> role = roleRepository.findById(3L);
 
-        if (role == null) {
-            throw new Exception("Invalid registration details: Invalid role");
-        }
+
 
         // Create new user
         Users user = new Users();
@@ -49,7 +47,7 @@ public class RegistrationService {
         user.setPassword(encoder.encode(userRegistrationDto.getPassword()));
         user.setFirstName(userRegistrationDto.getFirstName());
         user.setLastName(userRegistrationDto.getLastName());
-        user.setRole(role);
+        user.setRole(role.get());
 
         // Save user to the database
         userRepository.save(user);

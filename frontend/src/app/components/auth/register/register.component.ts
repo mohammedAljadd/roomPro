@@ -41,8 +41,7 @@ export class RegisterComponent {
           firstName: '',
           lastName: '',
           email: '',
-          password: '',
-          roleName: ''
+          password: ''
         };
       }
     }
