@@ -61,6 +61,14 @@ export class BookingService {
     }
 
 
+    // Check if chosen date is not on weekend
+    if(selectedTime.getDay()==6 || selectedTime.getDay()==0){
+      return throwError(() => ({
+        error: 'Bookings are available Monday through Friday. Please choose a weekday to continue.'
+      }));
+    }
+    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,  // Attach token as Bearer Token
       'Content-Type': 'application/json'   // Ensure JSON payload
