@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -53,6 +54,12 @@ public class BookingService {
                 endDateTime.toLocalTime().isBefore(businessStart)) {
 
             throw new Exception("Booking must be scheduled between 08:00 AM and 06:00 PM.");
+        }
+
+        System.out.println("Day of the week " + startDateTime.getDayOfWeek());
+
+        if(startDateTime.getDayOfWeek()== DayOfWeek.SATURDAY || startDateTime.getDayOfWeek()==DayOfWeek.SUNDAY){
+            throw new Exception("Bookings are available Monday through Friday. Please choose a weekday to continue.");
         }
 
 
