@@ -2,26 +2,20 @@
 
 ## Project Overview
 
-<img src="banner.png">
+RoomPro is a web application that simplifies room booking and management. Built with `Spring Boot` for the backend and `Angular` for the frontend, it follows a clean architecture that separates concerns into Controllers, Services, Repositories, and Entities for scalability and maintainability. The app securely stores user and room data in a relational database.
 
-RoomPro is a web application designed to streamline room booking and management. This project is built using `Spring Boot` for the backend and `Angular 19` for the frontend. It features a clean architecture, separating concerns into Controllers, Services, Repositories, and Entities for maintainability and scalability. The application integrates with a relational database to persist user and room data securely.
+# 🚀 Current Release: v1.2.0
+## 🎉 Features up to this Release:
 
-## 🚀 Current Release: v1.1.1
-### 🎉 Features up to  this Release:
+- `Toast Notifications`: Real-time updates for events like successful logins and bookings.
 
-- Room Booking System: Users can view available rooms, check their details, and make bookings for events or meetings.
+- `Weekend Booking Restriction`: Prevents weekend bookings, allowing only future bookings during business hours.
 
-- Dynamic Room Capacities: Room capacities now vary across floors, ensuring better variety and resource allocation.
+- `Invalid Booking Restriction`: No double bookings and disallowing bookings outside of business hours (8 AM - 6 PM).
 
-- Equipment Availability: Rooms are equipped with different options (e.g., projectors, whiteboards, microphones) that are dynamically assigned to each room.
+- `Calendar Integration`: FullCalendar to display room bookings with week view and dynamic reservations.
 
-- Booking Management: Users can view and cancel their existing bookings with ease.
-
-- Display toast notifications for key events (e.g., login failure, booking success, etc.).
-
-- Handles errors for different status codes (e.g., 400, 401, 403).
-
-- Versioning & Release Workflow: Set up CI/CD with GitHub Actions for smooth version management and releases.
+- `CI/CD Setup`: GitHub Actions for smooth version management and automated releases.
 
 ## 🏠 Pages Overview (current progress)
 
