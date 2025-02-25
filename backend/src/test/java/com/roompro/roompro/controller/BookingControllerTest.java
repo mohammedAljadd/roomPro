@@ -5,7 +5,6 @@ import com.roompro.roompro.config.TestSecurityConfig;
 import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.response.BookingResponseDTO;
 import com.roompro.roompro.model.Booking;
-import com.roompro.roompro.model.Role;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.model.Users;
 import com.roompro.roompro.service.BookingService;
