@@ -35,8 +35,7 @@ public class UserController {
         if (userRegistrationDto.getEmail() == null || userRegistrationDto.getEmail().isEmpty() ||
             userRegistrationDto.getPassword() == null || userRegistrationDto.getPassword().isEmpty() ||
             userRegistrationDto.getFirstName() == null || userRegistrationDto.getFirstName().isEmpty() ||
-            userRegistrationDto.getLastName() == null || userRegistrationDto.getLastName().isEmpty() ||
-            userRegistrationDto.getRoleName() == null || userRegistrationDto.getRoleName().isEmpty()) {
+            userRegistrationDto.getLastName() == null || userRegistrationDto.getLastName().isEmpty()) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("All fields are required.");
         }
 

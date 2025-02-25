@@ -31,12 +31,6 @@ export class RegistrationService {
     }
 
     
-    const validRoles = ['Admin', 'Manager', 'Employee'];
-    if (!validRoles.includes(user.roleName)) {
-      return throwError(() => ({
-        error: 'Invalid registration details: Invalid role.'
-      }));
-    }
     return this.http.post(this.apiUrl, user)
   }
 }

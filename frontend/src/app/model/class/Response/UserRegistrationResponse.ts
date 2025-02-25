@@ -3,6 +3,5 @@ export class UserRegistrationResponse{
     lastName: string = '';
     email: string = '';
     password: string = '';
-    roleName: string = '';
     
 }
