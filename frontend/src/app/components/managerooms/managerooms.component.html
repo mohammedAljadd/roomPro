@@ -1,0 +1,33 @@
+<div class="container my-5">
+    <h2 class="text-center mb-4">Add/Remove equipements</h2>
+
+
+    <!-- Filter Section -->
+    <input id="roomname"  type="text" [(ngModel)]="chosenRoomName" (ngModelChange)="getChosenRoomName()" placeholder="Search by name" class="form-control mb-3 mx-3"> 
+
+
+    <div class="row">
+        <div class="col-md-4" *ngFor="let room of filteredRooms">
+        <div class="card mb-4 shadow-lg border-0" style="background-color: #f8f9fa;cursor: pointer">
+            <div class="card-body">
+            <h5 class="card-title text-dark">{{ room.name }}</h5>
+            <p class="text-muted">
+                <strong>Capacity:</strong> {{ room.capacity }} <br>
+                <strong>Location:</strong> <span class="badge bg-info text-dark">{{ room.location }}</span> <br>
+                <strong>Description:</strong> {{ room.description }}
+            </p>
+            <h6 class="text-primary">Equipment:</h6>
+            <ul>
+                <li *ngFor="let equipment of room.equipments">
+                <span class="badge bg-secondary">{{ equipment }}</span>
+                </li>
+            </ul>
+            <ng-template #noEquipment>
+                <span class="text-muted">No Equipment</span>
+            </ng-template>
+    
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
