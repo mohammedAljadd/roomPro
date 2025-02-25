@@ -1,6 +1,7 @@
 package com.roompro.roompro.service;
 
 
+import com.roompro.roompro.model.Role;
 import com.roompro.roompro.model.Users;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ public class JWTService {
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         String firstName = userRepository.findByEmail(username).getFirstName();
+        Role role = userRepository.findByEmail(username).getRole();
         claims.put("firstName", firstName);
+        claims.put("role", role.getName());
         String myToken =  Jwts.builder()
                 .claims(claims)
                 .subject(username)

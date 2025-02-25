@@ -18,6 +18,7 @@ export class HeaderComponent {
 
   jwtToken: string | null = null;
   userName: string | null = null;
+  isAdmin: boolean = false;
 
   loginService = inject(LoginService);
 
@@ -27,6 +28,8 @@ export class HeaderComponent {
       this.jwtToken = token;
       if (token) {
         this.userName = this.decodeToken(token).firstName;
+        this.isAdmin = this.decodeToken(token).role == "Admin";
+        
       } else {
         this.userName = null;
       }
