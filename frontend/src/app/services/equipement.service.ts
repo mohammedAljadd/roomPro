@@ -16,7 +16,6 @@ export class EquipementService {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       let params = new HttpParams();
       if (roomId) params = params.set('roomId', roomId.toString());
-
       return this.http.get<EquipementRequest[]>(this.apiUrl, { headers, params });
     }
 

@@ -108,7 +108,6 @@ class RoomMapperTest {
         RoomResponseDTO dto = roomMapper.roomToRoomResponseDTO(room);
 
 
-        System.out.println(dto.getEquipments());
         assertTrue(dto.getEquipments().contains("Projector"));
         assertTrue(dto.getEquipments().contains("Whiteboard"));
         assertTrue(dto.getEquipments().contains("Sound system"));

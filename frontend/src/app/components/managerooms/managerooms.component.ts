@@ -63,7 +63,7 @@ export class ManageroomsComponent implements OnInit{
     this.equipmentService.fetAllEquipements(token, roomId).subscribe({
       next: (data) => {
         this.allEquipments = data;
-        console.log(this.allEquipments);
+        console.log("Equipment : " + this.allEquipments[5]);
       },
       error: (error) => console.error('Error fetching rooms:', error)
     });

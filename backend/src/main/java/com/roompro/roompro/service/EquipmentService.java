@@ -34,8 +34,6 @@ public class EquipmentService {
             );
             equipmentResponseDTOs.add(dto);
         }
-        System.out.println(equipmentResponseDTOs.size());
-        System.out.println(equipmentResponseDTOs);
         return equipmentResponseDTOs;
     }
 

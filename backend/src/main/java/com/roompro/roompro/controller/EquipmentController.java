@@ -26,7 +26,6 @@ public class EquipmentController {
 
     @GetMapping("/equipments")
     public List<EquipmentResponseDTO> getEquipments(@RequestParam(required = false) Long roomId) {
-
         return equipmentService.getAllEquipments(roomId);
     }
 
