@@ -83,7 +83,7 @@ class UserServiceIT {
 
         // Save user in DB
         UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO("test@gmail.com", "pass", "testFName", "testLName", "Admin");
+                new UserRegistrationRequestDTO("test@gmail.com", "pass", "testFName", "testLName");
         registrationService.registerUser(userDTO);
 
 
@@ -94,7 +94,6 @@ class UserServiceIT {
         assertTrue(encoder.matches(userDTO.getPassword(), user.getPassword())); // BCrypt is designed to generate a different hash each time
         assertEquals(userDTO.getFirstName(), user.getFirstName());
         assertEquals(userDTO.getLastName(), user.getLastName());
-        assertEquals(userDTO.getRoleName(), user.getRole().getName());
 
     }
 
@@ -103,21 +102,12 @@ class UserServiceIT {
     @Transactional
     void shoudNotRegisterIfEmailAlreayExist() throws Exception {
         UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO("email1@gmail.com", "pass", "testFName", "testLName", "Admin");
+                new UserRegistrationRequestDTO("email1@gmail.com", "pass", "testFName", "testLName");
 
         Exception exception = assertThrows(Exception.class, () -> registrationService.registerUser(userDTO));
         assertEquals("Invalid registration details: User already exists with this email", exception.getMessage());
     }
 
-    @Test
-    @Transactional
-    void shoudNotRegisterIfRoleisInvalid() throws Exception {
-        UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO("test@gmail.com", "pass", "testFName", "testLName", "invalidRole");
-
-        Exception exception = assertThrows(Exception.class, () -> registrationService.registerUser(userDTO));
-        assertEquals("Invalid registration details: Invalid role", exception.getMessage());
-    }
 
     // --------------------- Tests for login ---------------------
 

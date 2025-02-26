@@ -52,7 +52,7 @@ class UserControllerTest {
     void shouldNotRegisterUserIfNullFields() throws Exception {
 
         UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO(null, null, null, null, null);
+                new UserRegistrationRequestDTO(null, null, null, null);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonContent = objectMapper.writeValueAsString(userDTO);
@@ -72,7 +72,7 @@ class UserControllerTest {
     void shouldNotRegisterUserIfInvalidEmail() throws Exception {
 
         UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO("invalidemail", "test", "testname", "testname2", "Admin");
+                new UserRegistrationRequestDTO("invalidemail", "test", "testname", "testname2");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonContent = objectMapper.writeValueAsString(userDTO);
@@ -91,7 +91,7 @@ class UserControllerTest {
     void shouldNotRegisterUserIfEmailAlreadyExist() throws Exception {
 
         UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO("already@gmail.com", "test", "testname", "testname2", "Admin");
+                new UserRegistrationRequestDTO("already@gmail.com", "test", "testname", "testname2");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonContent = objectMapper.writeValueAsString(userDTO);
@@ -107,31 +107,11 @@ class UserControllerTest {
                 .andExpect(content().string("Invalid registration details: User already exists with this email."));
     }
 
-    @Test
-    void shouldNotRegisterUserIfInvalidRole() throws Exception {
-
-        UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO("test@gmail.com", "test", "testname", "testname2", "Footballer");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonContent = objectMapper.writeValueAsString(userDTO);
-
-
-        doThrow(new Exception("Invalid registration details: Invalid role."))
-                .when(registrationService).registerUser(userDTO);
-        mockMvc.perform(post("/roompro/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonContent))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Invalid registration details: Invalid role."));
-    }
-
 
     @Test
     void shouldRegisterUser() throws Exception{
         UserRegistrationRequestDTO userDTO =
-                new UserRegistrationRequestDTO("test@gmail.com", "test", "testname", "testname2", "Admin");
+                new UserRegistrationRequestDTO("test@gmail.com", "test", "testname", "testname2");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonContent = objectMapper.writeValueAsString(userDTO);
