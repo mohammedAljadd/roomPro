@@ -44,13 +44,19 @@
         <div class="modal-body">
 
           <form (ngSubmit)="updateEquipements()">
-            <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="d-flex justify-content-center align-items-center vh-75">
               <div class="col-10">
-                <div *ngFor="let equipment of allEquipments" class="mb-3">
+                <div *ngFor="let equipment of allEquipments" class="mb-1">
                   <input type="checkbox" class="btn-check" id="btncheck{{equipment.equipmentId}}" autocomplete="off" [checked]="equipment.isAvailable" />
                   <label class="btn btn-outline-success w-100" for="btncheck{{equipment.equipmentId}}">{{equipment.name}}</label>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Update List</button>
+
+                <div class="mt-3 text-center">
+                  <span class="legend-box bg-success"></span> Available
+                  <span class="legend-box2 bg-secondary"></span> Not Available
+                </div>
+                
               </div>
             </div>
           </form>
