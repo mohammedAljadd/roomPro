@@ -41,4 +41,18 @@ export class ManageroomsComponent implements OnInit{
   }
 
 
+  openEquipemetForm(): void {
+    const modal = new window.bootstrap.Modal(document.getElementById('equipmentModal'));
+    modal.show();
+  }
+
+
+  updateEquipements(){
+
+  }
+
+  fetchAllEquipements(){
+    
+  }
+
 }
