@@ -3,6 +3,8 @@ import { RoomRequest } from '../../model/class/Request/RoomRequest';
 import { RoomService } from '../../services/room.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EquipementService } from '../../services/equipement.service';
+import { EquipementRequest } from '../../model/class/Request/EquipementRequest';
 
 @Component({
   selector: 'app-managerooms',
@@ -15,8 +17,10 @@ export class ManageroomsComponent implements OnInit{
   rooms: RoomRequest[] = [];
   filteredRooms: RoomRequest[] = [];
   chosenRoomName: string = "";
+  allEquipments: EquipementRequest[] = [];
 
   roomService = inject(RoomService);
+  equipmentService = inject(EquipementService);
 
   ngOnInit(): void {
     this.roomService.getAllRooms().subscribe({
@@ -27,7 +31,7 @@ export class ManageroomsComponent implements OnInit{
       error: (error) => console.error('Error fetching rooms:', error)
     });
 
-    
+    this.fetchAllEquipements();
   }
 
   getChosenRoomName(){
@@ -52,7 +56,16 @@ export class ManageroomsComponent implements OnInit{
   }
 
   fetchAllEquipements(){
-    
-  }
+    const token = localStorage.getItem('jwtToken');
 
+    if (token) {
+    this.equipmentService.fetAllEquipements(token).subscribe({
+      next: (data) => {
+        this.allEquipments = data;
+        console.log(this.allEquipments);
+      },
+      error: (error) => console.error('Error fetching rooms:', error)
+    });
+    }
+  }
 }

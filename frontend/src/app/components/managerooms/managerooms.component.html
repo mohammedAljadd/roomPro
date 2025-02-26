@@ -42,21 +42,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="updateEquipements()">
-            <div class="mb-3">
-              <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-              <label class="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
-            </div>
-            <div class="mb-3">
-                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                <label class="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
-            </div>
 
-            <div class="mb-3">
-                <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-              <label class="btn btn-outline-primary" for="btncheck3">Checkbox 3</label>
+          <form (ngSubmit)="updateEquipements()">
+            
+            <div class="col-md-4" *ngFor="let equipment of allEquipments">
+              <div class="mb-3">
+                <input type="checkbox" class="btn-check" id="btncheck{{equipment.equipmentId}}" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btncheck{{equipment.equipmentId}}">{{equipment.name}}</label>
+              </div>
             </div>
-                <button type="submit" class="btn btn-primary">Submit Booking</button>
+          
+            <button type="submit" class="btn btn-primary">Update List</button>
+          
           </form>
         </div>
       </div>
