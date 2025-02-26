@@ -10,8 +10,10 @@ import java.util.List;
 
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
 
-    @Query("SELECT DISTINCT e, CASE WHEN rem.room.roomId = :roomId THEN true ELSE false END AS isAvailable " +
-            "FROM Equipment e " +
-            "LEFT JOIN RoomEquipmentMapping rem ON rem.equipment.id = e.id")
+    @Query("SELECT e, " +
+            "CASE WHEN EXISTS (SELECT 1 FROM RoomEquipmentMapping rem " +
+            "WHERE rem.equipment.id = e.id AND rem.room.roomId = :roomId) " +
+            "THEN true ELSE false END " +
+            "FROM Equipment e")
     List<Object[]>  findAllEquipments(Long roomId);
 }
