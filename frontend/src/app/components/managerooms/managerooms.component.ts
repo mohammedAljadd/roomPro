@@ -31,7 +31,6 @@ export class ManageroomsComponent implements OnInit{
       error: (error) => console.error('Error fetching rooms:', error)
     });
 
-    this.fetchAllEquipements();
   }
 
   getChosenRoomName(){
@@ -45,9 +44,11 @@ export class ManageroomsComponent implements OnInit{
   }
 
 
-  openEquipemetForm(): void {
+  openEquipemetForm(roomId: number): void {
     const modal = new window.bootstrap.Modal(document.getElementById('equipmentModal'));
     modal.show();
+
+    this.fetchAllEquipements(roomId);
   }
 
 
@@ -55,11 +56,11 @@ export class ManageroomsComponent implements OnInit{
 
   }
 
-  fetchAllEquipements(){
+  fetchAllEquipements(roomId: number){
     const token = localStorage.getItem('jwtToken');
 
     if (token) {
-    this.equipmentService.fetAllEquipements(token).subscribe({
+    this.equipmentService.fetAllEquipements(token, roomId).subscribe({
       next: (data) => {
         this.allEquipments = data;
         console.log(this.allEquipments);

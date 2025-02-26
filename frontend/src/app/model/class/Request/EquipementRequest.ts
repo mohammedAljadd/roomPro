@@ -1,4 +1,5 @@
 export interface EquipementRequest{
     equipmentId: number,
-    name: string
+    name: string,
+    isAvailable: boolean,
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EquipementRequest } from '../model/class/Request/EquipementRequest';
@@ -12,9 +12,12 @@ export class EquipementService {
 
   private apiUrl = "http://localhost:8080/roompro/equipments";
 
-  fetAllEquipements(token: string): Observable<EquipementRequest[]> {
+  fetAllEquipements(token: string, roomId: number): Observable<EquipementRequest[]> {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      return this.http.get<EquipementRequest[]>(this.apiUrl, { headers });
+      let params = new HttpParams();
+      if (roomId) params = params.set('roomId', roomId.toString());
+
+      return this.http.get<EquipementRequest[]>(this.apiUrl, { headers, params });
     }
 
     
