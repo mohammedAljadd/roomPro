@@ -1,6 +1,7 @@
 package com.roompro.roompro.service;
 
 
+import com.roompro.roompro.dto.request.EquipmentUpdateRequestDTO;
 import com.roompro.roompro.dto.response.EquipmentResponseDTO;
 import com.roompro.roompro.model.Equipment;
 import com.roompro.roompro.repository.EquipmentRepository;
@@ -36,5 +37,6 @@ public class EquipmentService {
         }
         return equipmentResponseDTOs;
     }
+
 
 }
