@@ -34,8 +34,7 @@ public class EquipmentMappingService {
         for (Long[] longs : equipmentsAdded) {
 
             mapping = longs;
-            System.out.println("Added " + Arrays.toString(mapping));
-
+            
             // Check if user resend the mapping multiple times
             if (!equipmentMappingRepository.findByRoomIdAndEquipmentId(mapping[0], mapping[1]).isEmpty()) {
                 continue;

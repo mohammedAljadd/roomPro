@@ -18,8 +18,9 @@ export class ManageroomsComponent implements OnInit{
   rooms: RoomRequest[] = [];
   filteredRooms: RoomRequest[] = [];
   chosenRoomName: string = "";
+  roomNameInModal: string = "";
   allEquipments: EquipementRequest[] = [];
-
+  
   roomService = inject(RoomService);
   equipmentService = inject(EquipementService);
 
@@ -28,6 +29,7 @@ export class ManageroomsComponent implements OnInit{
   equipmentUpdate:EquipmentUpdateResponse[] = [];
 
   chosenRoomId!: number;
+  roomToUpdateName!:string;
 
   constructor(private cdr: ChangeDetectorRef){};
 
@@ -56,13 +58,27 @@ export class ManageroomsComponent implements OnInit{
 
 
   openEquipemetForm(roomId: number): void {
+    //this.roomToUpdateName = ;
+    console.log(this.rooms);
     const modal = new window.bootstrap.Modal(document.getElementById('equipmentModal'));
     modal.show();
     this.chosenRoomId = roomId;
     this.fetchAllEquipements(roomId); // fetch all equipements
     this.roomsEquipmentsMappingChange.clear();
+    this.roomNameInModal = this.getRoomName();
   }
 
+
+  getRoomName(): string{
+    let roomname = "";
+    for(const room of this.rooms){
+      if(room.roomId==this.chosenRoomId){
+        roomname = room.name;
+        break;
+      }
+    }
+    return roomname;
+  }
 
 
 
