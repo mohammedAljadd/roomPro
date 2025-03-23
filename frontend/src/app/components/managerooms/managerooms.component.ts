@@ -41,6 +41,8 @@ export class ManageroomsComponent implements OnInit{
   getAllRooms(){
     this.roomService.getAllRooms().subscribe({
       next: (data) => {
+        // sort based on capacity
+        data.sort((a, b) => a.capacity - b.capacity);
         this.rooms = data;
         this.filteredRooms = data;
       },
