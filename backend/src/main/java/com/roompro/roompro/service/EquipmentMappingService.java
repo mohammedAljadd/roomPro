@@ -65,4 +65,17 @@ public class EquipmentMappingService {
         equipmentMappingRepository.deleteAll(mappingToRemove);
 
     }
+
+    public void addEquipmentsToRoom(Long roomId, List<Long> equipmentsIDs){
+
+        RoomEquipmentMapping roomEquipmentMapping = new RoomEquipmentMapping();
+        for(long equipmentId: equipmentsIDs){
+            roomEquipmentMapping = new RoomEquipmentMapping();
+            Optional<Equipment> equipment = equipmentRepository.findById(equipmentId);
+            Optional<Room> room = roomRepository.findById(roomId);
+            roomEquipmentMapping.setEquipment(equipment.get());
+            roomEquipmentMapping.setRoom(room.get());
+            equipmentMappingRepository.save(roomEquipmentMapping);
+        }
+    }
 }

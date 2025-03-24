@@ -1,5 +1,6 @@
 package com.roompro.roompro.service;
 
+import com.roompro.roompro.dto.request.NewRoomRequestDTO;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,11 @@ public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
 
+
+    @Autowired
+    EquipmentMappingService equipmentMappingService;
+
+
     public List<Room> getAllRooms() {
         return roomRepository.findAllWithEquipment();
     }
@@ -22,6 +28,22 @@ public class RoomService {
 
     public List<Room> getFilteredRooms(Integer capacity, String location, List<String>equipmentNames) {
         return roomRepository.findAllWithFilters(capacity, location, equipmentNames);
+    }
+
+    public void saveRoom(NewRoomRequestDTO newRoom){
+
+        // Save room in DB
+        Room room = new Room();
+        room.setName(newRoom.getRoomName());
+        room.setLocation(newRoom.getLocation());
+        room.setCapacity(newRoom.getCapacity());
+        room.setDescription(newRoom.getDescription());
+        List<Long> equipmentsIDs = newRoom.getEquipmentsIDs();
+
+        Room savedRoom = roomRepository.save(room);
+
+        // Add equipments
+        equipmentMappingService.addEquipmentsToRoom(savedRoom.getRoomId(), equipmentsIDs);
     }
 }
 
