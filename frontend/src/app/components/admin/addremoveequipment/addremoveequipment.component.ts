@@ -1,19 +1,19 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { RoomRequest } from '../../model/class/Request/RoomRequest';
-import { RoomService } from '../../services/room.service';
+import { RoomRequest } from '../../../model/class/Request/RoomRequest';
+import { RoomService } from '../../../services/room.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { EquipementService } from '../../services/equipement.service';
-import { EquipementRequest } from '../../model/class/Request/EquipementRequest';
-import { EquipmentUpdateResponse } from '../../model/class/Response/EquipmentUpdateResponse';
+import { EquipementService } from '../../../services/equipement.service';
+import { EquipementRequest } from '../../../model/class/Request/EquipementRequest';
+import { EquipmentUpdateResponse } from '../../../model/class/Response/EquipmentUpdateResponse';
 
 @Component({
-  selector: 'app-managerooms',
+  selector: 'app-addremoveequipment',
   imports: [CommonModule, FormsModule],
-  templateUrl: './managerooms.component.html',
-  styleUrl: './managerooms.component.css'
+  templateUrl: './addremoveequipment.component.html',
+  styleUrl: './addremoveequipment.component.css'
 })
-export class ManageroomsComponent implements OnInit{
+export class AddRemoveEquipmentComponent implements OnInit{
 
   rooms: RoomRequest[] = [];
   filteredRooms: RoomRequest[] = [];
@@ -41,6 +41,8 @@ export class ManageroomsComponent implements OnInit{
   getAllRooms(){
     this.roomService.getAllRooms().subscribe({
       next: (data) => {
+        // sort based on capacity
+        data.sort((a, b) => a.capacity - b.capacity);
         this.rooms = data;
         this.filteredRooms = data;
       },
@@ -58,8 +60,6 @@ export class ManageroomsComponent implements OnInit{
 
 
   openEquipemetForm(roomId: number): void {
-    //this.roomToUpdateName = ;
-    console.log(this.rooms);
     const modal = new window.bootstrap.Modal(document.getElementById('equipmentModal'));
     modal.show();
     this.chosenRoomId = roomId;

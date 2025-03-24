@@ -1,16 +1,21 @@
 package com.roompro.roompro.controller;
 
 
+import com.roompro.roompro.dto.request.NewRoomRequestDTO;
 import com.roompro.roompro.dto.response.RoomResponseDTO;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.service.RoomService;
 import com.roompro.roompro.service.mapper.RoomMapper;
 import com.roompro.roompro.service.mapper.RoomMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -61,5 +66,21 @@ public class RoomController {
         return rooms.stream()
                 .map(roomMapper::roomToRoomResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/add-meeting-rooms")
+    public ResponseEntity<?> addMeetingRoom(@RequestBody NewRoomRequestDTO newRoomRequestDTO) {
+        if (newRoomRequestDTO.getRoomName() == null || newRoomRequestDTO.getRoomName().isEmpty() ||
+                newRoomRequestDTO.getCapacity() == 0 ||
+                newRoomRequestDTO.getDescription() == null || newRoomRequestDTO.getDescription().isEmpty() ||
+                newRoomRequestDTO.getLocation() == null || newRoomRequestDTO.getLocation().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("All fields are required.");
+        }
+
+        roomService.saveRoom(newRoomRequestDTO);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Room was successfully added");
+
+        return ResponseEntity.ok(response);
     }
 }
