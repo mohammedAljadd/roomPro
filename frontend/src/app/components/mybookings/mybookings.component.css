@@ -1,30 +1,30 @@
-/* User Booking Cards Container */
+
 .user-bookings-container {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    justify-content: center; /* Center the cards horizontally */
-    align-items: center; /* Center the cards vertically */
+    justify-content: center; 
+    align-items: center; 
     margin: 20px 0;
-    min-height: 100vh; /* Make the container take full height of the screen */
+    min-height: 100vh; 
   }
   
-  /* User Booking Cards */
+  
   .user-booking-card {
-    width: 380px; /* Adjust width as desired */
+    width: 380px; 
     margin: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background-color: #e9e9e9;
     padding: 20px;
-    cursor: pointer; /* Makes the card look clickable */
+    cursor: pointer; 
     transition: transform 0.2s ease-in-out;
   }
   
   
   .user-booking-card:hover {
-    transform: scale(1.05); /* Slight scale effect when hovering */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhance the shadow when hovering */
+    transform: scale(1.05); 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
   }
   .card-header {
     padding: 15px;
@@ -62,17 +62,17 @@
   }
 
   .card-body {
-    position: relative; /* Make the card-body container relative */
+    position: relative; 
   }
   
   .card-body p {
     position: relative;
-    padding-left: 0px; /* Give some space for the label */
+    padding-left: 0px; 
   }
   
   .card-body span {
     position: absolute;
-    left: 120px; /* The fixed margin from the left border of the card */
+    left: 120px; 
   }
   
   .booking-details {
@@ -87,21 +87,21 @@
   }
   
   .booking-details strong {
-    width: 140px; /* Ensures all labels are aligned */
-    text-align: left; /* Aligns text to the left */
+    width: 140px; 
+    text-align: left; 
   }
   
   .booking-details span {
-    flex: 1; /* Makes sure all values stay aligned */
-    text-align: left; /* Aligns values to the left */
-    padding-left: 10px; /* Adjusts spacing after ":" */
+    flex: 1; 
+    text-align: left; 
+    padding-left: 10px; 
   }
   
   .booking-details-container {
     display: flex;
-    justify-content: center; /* Centers the whole block horizontally */
-    align-items: center; /* Centers vertically (if needed) */
-    width: 100%; /* Makes sure it spans full width */
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
   }
   
   .booking-details {

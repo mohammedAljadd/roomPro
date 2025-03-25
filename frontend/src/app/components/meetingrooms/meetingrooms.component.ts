@@ -50,12 +50,25 @@ export class MeetingroomsComponent implements OnInit {
     this.roomService.getAllRooms().subscribe({
       next: (data) => {
         this.rooms = data;
+        
+        // Sort rooms based on location
+        this.rooms.sort((a, b) => {
+          const order = ['Main', 'North', 'South', 'East', 'West'];
+          const locationComparison =  order.indexOf(a.location.split(' ')[0]) - order.indexOf(b.location.split(' ')[0]);
+          if(locationComparison==0){
+            return a.name.localeCompare(b.name);
+          }
+          return locationComparison;
+        });
+
+
         this.filteredRooms = data;
         this.uniqueLocations = [...new Set(data.map(room => room.location))];
         this.uniqueEquipment = [...new Set(data.flatMap(room => room.equipments))];
       },
       error: (error) => console.error('Error fetching rooms:', error)
     });
+
   }
 
   applyFilters(): void {
@@ -68,7 +81,6 @@ export class MeetingroomsComponent implements OnInit {
     this.roomService.getFilteredRooms(this.selectedCapacity, this.selectedLocation, equipmentFilter).subscribe({
       next: (data) => {
         this.filteredRooms = data; // store filtered rooms in filteredRooms array
-        console.log(data);
       },
       error: (error) => console.error('Error fetching filtered rooms:', error)
     });

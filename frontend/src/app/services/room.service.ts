@@ -32,9 +32,13 @@ export class RoomService {
       'Authorization': `Bearer ${token}`,  // Attach token as Bearer Token
       'Content-Type': 'application/json'   // Ensure JSON payload
     });
-    console.log(room);
     return this.http.post<{ message: string }>('http://localhost:8080/roompro/add-meeting-rooms', room, {headers})
 
   }
+
   
+  deleteRoom(token: string, roomId: number): Observable<{ message: string }> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<{ message: string }>(this.apiUrl+"/delete/"+roomId, {headers});
+  }
 }

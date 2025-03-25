@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,17 @@ public class RoomService {
 
         // Add equipments
         equipmentMappingService.addEquipmentsToRoom(savedRoom.getRoomId(), equipmentsIDs);
+    }
+
+    public Map<String, String> deleteRoom(Long id) throws Exception {
+
+        if(roomRepository.findById(id).isEmpty()){
+            throw new Exception("Room not found.");
+        }
+
+        roomRepository.deleteById(id);
+        return Map.of("message", "Room deleted successfully.");
+
     }
 }
 

@@ -1,1 +1,54 @@
-<p>deleteroom works!</p>
+<div *ngFor="let location of roomLocations; let i = index" class="location-container">
+    <!-- Location Button with collapsible behavior -->
+    <div class="d-grid gap-2 col-12 mb-3">
+        <a href="#submenu{{i}}" data-bs-toggle="collapse" 
+        class="btn bg-primary-subtle text-primary border-0 location-btn">
+            <i class="fs-4 bi-speedometer2"></i> {{ location }}
+        </a>
+    </div>
+    
+    <!-- Collapsible Room List -->
+    <ul class="collapse room-list" id="submenu{{i}}">
+        
+        <ng-container *ngFor="let room of rooms">
+            <li *ngIf="room.location === location" class="room-item" id="room_{{room.roomId}}" (click)="showDeleteForm(room)">
+                <div class="room-link" href="#"> 
+                    <span>{{ room.name }}: {{ room.description }}, Capacity: {{ room.capacity }}</span>
+                </div>
+            </li>
+        </ng-container>
+    </ul>
+</div>
+
+
+
+<div class="modal fade" id="deleteRoomModal" tabindex="-1" aria-labelledby="deleteRoomModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteRoomModalLabel" style="text-align: center;">Please confirm deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+          
+            
+            <div class="room-details-container mb-5">
+                <div class="room-details" *ngIf="selectedRoom != null">
+                    <p><strong>Room :</strong> <span>{{ selectedRoom.name }}</span></p>
+                    <p><strong>Location :</strong> <span>{{ selectedRoom.location }}</span></p>
+                    <p><strong>Description :</strong> <span>{{ selectedRoom.description }}</span></p>
+                    <p><strong>Capacity :</strong> <span>{{ selectedRoom.capacity }}</span></p>
+                </div>
+            </div>
+            
+                        
+          
+        <button type="submit" class="btn btn-danger" (click)="deleteRoom(selectedRoom.roomId)">Cancel Booking</button>
+            
+      
+  
+  
+        </div>
+      </div>
+    </div>
+  </div>

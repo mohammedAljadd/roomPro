@@ -83,4 +83,16 @@ public class RoomController {
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/meeting-rooms/delete/{room_id}")
+    public ResponseEntity<?> cancelBooking(@PathVariable Long room_id) {
+
+        try{
+            Map<String, String>  response = roomService.deleteRoom(room_id);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+    }
 }

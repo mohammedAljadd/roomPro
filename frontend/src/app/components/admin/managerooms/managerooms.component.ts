@@ -18,13 +18,12 @@ export class ManageroomsComponent implements OnInit{
   choosenItem: string | null = null;
   
   ngOnInit(): void {
-    this.choosenItem="addroom";
+    this.choosenItem="deleteroom";
   }
 
 
   setChoosenItem(item: string){
     this.choosenItem=item;
-    console.log(item);
   }
 
 
