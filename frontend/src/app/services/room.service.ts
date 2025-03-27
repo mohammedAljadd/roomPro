@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { RoomRequest } from '../model/class/Request/RoomRequest';
 import { Observable } from 'rxjs';
 import { NewRoomResponse } from '../model/class/Response/NewRoomResponse';
+import { RoomCleaningRequest } from '../model/class/Request/RoomCleaningRequest';
+import { RoomSetCleaningResponse } from '../model/class/Response/RoomSetCleaningResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,14 @@ export class RoomService {
     return this.http.get<RoomRequest[]>(this.apiUrl);
   }
 
+  getRoomsWithCleaningType(token: string): Observable<RoomCleaningRequest[]>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'   
+    });
+    return this.http.get<RoomCleaningRequest[]>(this.apiUrl+"/cleaning", {headers})
+  }
+
 
   getFilteredRooms(capacity?: number, location?: string, equipment?: string): Observable<RoomRequest[]> {
     let params = new HttpParams();
@@ -26,6 +36,20 @@ export class RoomService {
     
     return this.http.get<RoomRequest[]>('http://localhost:8080/roompro/meeting-rooms/filter', { params });
   }
+
+  setCleaningType(roomId: number, cleaningId: number, token: string): Observable<{ message: string }>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,  // Attach token as Bearer Token
+      'Content-Type': 'application/json'   // Ensure JSON payload
+    });
+
+    let params = new HttpParams();
+    params = params.set('roomId', roomId.toString());
+    params = params.set('cleaningId', cleaningId.toString());
+    return this.http.get<{ message: string}>('http://localhost:8080/roompro/meeting-rooms/cleaning/update', { params , headers});
+  }
+
+
 
   addNewRoom(room: NewRoomResponse, token:string): Observable<{ message: string }>{
     const headers = new HttpHeaders({

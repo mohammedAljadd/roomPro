@@ -1,0 +1,89 @@
+
+
+.cleaning-container {
+    margin-bottom: 20px;
+}
+
+
+.cleaning-btn {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    padding: 12px 15px;
+    font-size: 16px;
+    background-color: #17a2b8;
+
+
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    color: #ffffff;
+
+
+}
+
+
+.cleaning-btn i:hover {
+    background-color: #870000;
+
+
+}
+
+
+.cleaning-btn i {
+    margin-right: 10px;
+}
+
+
+
+.room-list {
+    padding-left: 20px;
+    margin-top: 10px;
+
+
+    background-color: #f8f9fa;
+
+
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.room-item {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+
+
+    transition: background-color 0.3s ease;
+}
+
+
+.room-item:last-child {
+    border-bottom: none;
+}
+
+
+.room-item:hover {
+    background-color: #e9ecef;
+
+
+}
+
+
+.room-link {
+    display: flex;
+    justify-content: space-between;
+    color: #495057;
+
+
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+
+.room-link:hover {
+    color: #007bff;
+
+
+}

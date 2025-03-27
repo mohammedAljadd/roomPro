@@ -108,6 +108,8 @@ export class RoomcallendarComponent implements OnInit {
 
   loadEvents(): void {
     const userEmail = this.getUserEmail();
+    
+    
 
     this.calendarOptions.events = this.roomBookings.map(booking => {
 

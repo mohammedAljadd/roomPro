@@ -1,1 +1,69 @@
-<p>cleaningperiods works!</p>
+<div *ngFor="let cleaningType of cleaningTypes; let i = index" class="cleaning-container">
+    <!-- cleaning Button with collapsible behavior -->
+    <div class="d-grid gap-2 col-12 mb-3">
+        <a href="#submenu{{i}}" data-bs-toggle="collapse" 
+        class="btn bg-primary-subtle text-primary border-0 cleaning-btn">
+            <i class="fs-4 bi-speedometer2"></i> {{ cleaningType }}
+        </a>
+    </div>
+    
+    <!-- Collapsible Room List -->
+    <ul class="collapse room-list" id="submenu{{i}}">
+        
+        <ng-container *ngFor="let room of rooms">
+            <li *ngIf="room.cleaningType === cleaningType" class="room-item" id="room_{{room.roomDetails.roomId}}" (click)="showCleaningModal(room)">
+                <div class="room-link" href="#"> 
+                    <span>{{ room.roomDetails.name }}: {{ room.roomDetails.description }}, Capacity: {{ room.roomDetails.capacity }}</span>
+                </div>
+            </li>
+        </ng-container>
+    </ul>
+</div>
+
+
+<div class="modal fade" id="cleaningTypeModal" tabindex="-1" aria-labelledby="cleaningTypeModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h5 class="modal-title" id="cleaningTypeModalLabel" style="text-align: center;">Set Cleaning Type</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     
+
+
+            <div class="modal-body" style="text-align: center;">
+            
+                
+                <div class="room-details-container mb-5">
+                    <div class="room-details" *ngIf="selectedRoom">
+                        <p><strong>Room :</strong> <span>{{ selectedRoom.roomDetails.name }}</span></p>
+                        <p><strong>Location :</strong> <span>{{ selectedRoom.roomDetails.location }}</span></p>
+                        <p><strong>Description :</strong> <span>{{ selectedRoom.roomDetails.description }}</span></p>
+                        <p><strong>Capacity :</strong> <span>{{ selectedRoom.roomDetails.capacity }}</span></p>
+                        
+                        
+                        <div *ngFor="let cleaningType of cleaningTypes; let index">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="{{cleaningType}}" [checked]="selectedRoom.cleaningType==cleaningType"
+                                (change)="setCleaningModal(selectedRoom, $event)">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    {{cleaningType}}
+                                </label>
+                              </div>
+                        </div>
+                      
+                    </div>
+                </div>
+                
+                    
+            <button type="submit" class="btn btn-danger" (click)="setit()">Submit</button>
+                
+        
+            </div>
+
+
+        </div>
+
+        </div>
+    </div>
+  </div>

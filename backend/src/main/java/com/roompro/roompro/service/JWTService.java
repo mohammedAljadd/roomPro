@@ -2,7 +2,6 @@ package com.roompro.roompro.service;
 
 
 import com.roompro.roompro.model.Role;
-import com.roompro.roompro.model.Users;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +34,7 @@ public class JWTService {
                 .claims(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 30))) // 30 hours
+                .expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 15))) // 15 days
                 .signWith(getKey(), Jwts.SIG.HS256)
                 .compact();
 

@@ -2,6 +2,7 @@ package com.roompro.roompro.controller;
 
 
 import com.roompro.roompro.dto.request.NewRoomRequestDTO;
+import com.roompro.roompro.dto.response.RoomCleaningResponseDTO;
 import com.roompro.roompro.dto.response.RoomResponseDTO;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.service.RoomService;
@@ -35,6 +36,24 @@ public class RoomController {
         return rooms.stream()
                 .map(roomMapper::roomToRoomResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/meeting-rooms/cleaning")
+    public List<RoomCleaningResponseDTO> getRoomsWithCleaningType() {
+        return roomService.getAllRoomsWithCleaningType();
+    }
+
+    @GetMapping("/meeting-rooms/cleaning/update")
+    public ResponseEntity<?> updateCleaningType(
+            @RequestParam(required = true) Long roomId,
+            @RequestParam(required = true) Long cleaningId){
+
+
+        roomService.updateCleaningType(roomId, cleaningId);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Cleaning type successfully updated");
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/meeting-rooms/filter")

@@ -1,7 +1,9 @@
 package com.roompro.roompro.repository;
 
 import com.roompro.roompro.model.Room;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -25,4 +27,15 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "      WHERE rem2.room.roomId = r.roomId AND rem2.equipment.name IN :equipmentList) = " +
             "     (SELECT COUNT(DISTINCT e3.name) FROM Equipment e3 WHERE e3.name IN :equipmentList))")
     List<Room> findAllWithFilters(Integer capacity, String location, List<String> equipmentList);
+
+
+    @Query("select r, ct.typeName as cleaningType, ct.description as cleaning_description from Room r " +
+            "join RoomCleaningAssignment rca on rca.room=r " +
+            "join CleaningType ct on ct=rca.cleaningType")
+    List<Object []> findRoomsWithCleaningType();
+
+    @Modifying // for update
+    @Transactional
+    @Query("update  RoomCleaningAssignment r set r.cleaningType.cleaningId=:cleaningId where r.room.roomId=:roomId")
+    void updateCleaningType(long roomId, long cleaningId);
 }
