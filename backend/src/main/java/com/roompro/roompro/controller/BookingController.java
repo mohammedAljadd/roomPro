@@ -5,6 +5,7 @@ import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.response.BookingResponseDTO;
 import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.service.BookingService;
+import com.roompro.roompro.service.CleaningService;
 import com.roompro.roompro.service.mapper.BookingMapperImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class BookingController {
     BookingService bookingService;
 
 
+
     private BookingMapperImp bookingMapper = new BookingMapperImp();
 
 
@@ -37,7 +39,10 @@ public class BookingController {
         }
 
         try{
-            bookingService.createBooking(bookingDto);
+             bookingService.createBooking(bookingDto);
+
+
+
             Map<String, String> response = new HashMap<>();
             response.put("message", "Your booking was successful! Thank you for using our service.");
             return ResponseEntity.ok(response);

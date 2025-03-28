@@ -31,6 +31,8 @@ public class BookingService {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    CleaningService cleaningService;
 
 
     public void createBooking(BookingRequestDTO bookingDto) throws Exception {
@@ -77,6 +79,16 @@ public class BookingService {
         newBooking.setEndTime(endDateTime);
 
         bookingRepository.save(newBooking);
+
+
+        System.out.println(bookingDto.getRoomId());
+        // Check if room needs cleaning after use
+        if(cleaningService.checkIfNeedCleaningAfterUse(bookingDto.getRoomId())){
+            // Add cleaning slot
+            cleaningService.setCleaningSlot(endDateTime, room);
+        }
+
+
     }
 
     public List<Booking> getUserBookings(){

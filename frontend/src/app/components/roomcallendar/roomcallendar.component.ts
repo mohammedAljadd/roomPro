@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookingResponse } from '../../model/class/Response/BookingResponse';
 import { ToastnotificationService } from '../../services/toastnotification.service';
+import { CleaningService } from '../../services/cleaning.service';
 
 @Component({
   selector: 'app-roomcallendar',
@@ -36,6 +37,8 @@ export class RoomcallendarComponent implements OnInit {
 
   roomBookings: { start: Date; end: Date ; userEmail: string}[] = [];
 
+  afterUseCleanings: { start: Date; end: Date}[] = [];
+
   @Input() roomName: string = '';
 
   calendarOptions: CalendarOptions = {
@@ -60,7 +63,7 @@ export class RoomcallendarComponent implements OnInit {
   
 
   bookingService = inject(BookingService);
-  
+  cleaningService = inject(CleaningService);
 
   toastNotif = inject(ToastnotificationService);
 
@@ -74,6 +77,29 @@ export class RoomcallendarComponent implements OnInit {
     this.roomId = Number(this.route.snapshot.paramMap.get('id'));  
     this.roomName = String(this.route.snapshot.paramMap.get('roomName'));
     this.fetchBookings();
+    this.fetchAfterUseCleanings();
+  }
+
+  fetchAfterUseCleanings(): void{
+    const token = localStorage.getItem('jwtToken');
+    if(token){
+      this.cleaningService.fetchAfterUseCleanings(token).subscribe({
+        next: (data)=>{
+          this.afterUseCleanings = data.map(cleaning=>{
+            const start = new Date(cleaning.startTime);
+            const end = new Date(new Date(cleaning.endTime));
+            return {
+              start: start,
+              end: end,
+            }
+          })
+          
+        },
+        error: (error)=>{
+          console.log("Error");
+        }
+      })
+    }
   }
 
   fetchBookings(): void {
@@ -108,34 +134,43 @@ export class RoomcallendarComponent implements OnInit {
 
   loadEvents(): void {
     const userEmail = this.getUserEmail();
-    
-    
-
-    this.calendarOptions.events = this.roomBookings.map(booking => {
-
-        // Check if current booking is the user's
-        const isCurrentUser = userEmail === booking.userEmail;
-        
-        
-        // Calculate the booking duration
-        const startTime = new Date(booking.start);
-        const endTime = new Date(booking.end);
-        const timeDifference = endTime.getTime() - startTime.getTime();
-        const durationInHours = Math.floor(timeDifference / (1000 * 3600));
-        const durationInMinutes = Math.floor((timeDifference % (1000 * 3600)) / (1000 * 60)); 
-        const roundedDuration = `${durationInHours} hour${durationInHours !== 1 ? 's' : ''} ${durationInMinutes} minute${durationInMinutes !== 1 ? 's' : ''}`;
-
-
-        return {
-            title: `${roundedDuration}`,
-            start: booking.start,
-            end: booking.end,
-            email: booking.userEmail,
-            backgroundColor: isCurrentUser ? '#4682fa' : '#f50505',
-            borderColor: isCurrentUser ? '#4682fa' : '#f50505'
-        };
+  
+    // Create cleaning events
+    const cleaningEvents = this.afterUseCleanings.map(cleaning => ({
+      title: 'Cleaning',
+      start: cleaning.start,
+      end: cleaning.end,
+      backgroundColor: '#02ab2f',
+      borderColor: '#02ab2f',
+    }));
+  
+    // Create booking events
+    const bookingEvents = this.roomBookings.map(booking => {
+      const isCurrentUser = userEmail === booking.userEmail;
+      const startTime = new Date(booking.start);
+      const endTime = new Date(booking.end);
+      const timeDifference = endTime.getTime() - startTime.getTime();
+      const durationInHours = Math.floor(timeDifference / (1000 * 3600));
+      const durationInMinutes = Math.floor((timeDifference % (1000 * 3600)) / (1000 * 60));
+      const roundedDuration = `${durationInHours} hour${durationInHours !== 1 ? 's' : ''} ${durationInMinutes} minute${durationInMinutes !== 1 ? 's' : ''}`;
+  
+      return {
+        title: `${roundedDuration}`,
+        start: booking.start,
+        end: booking.end,
+        email: booking.userEmail,
+        backgroundColor: isCurrentUser ? '#4682fa' : '#f50505',
+        borderColor: isCurrentUser ? '#4682fa' : '#f50505'
+      };
     });
+  
+    // Merge both cleaning and booking events
+    this.calendarOptions.events = [...cleaningEvents, ...bookingEvents];
+  
+    // Force Angular to detect changes
+    this.cdr.detectChanges();
   }
+  
 
 
   onSubmitBooking(): void {
