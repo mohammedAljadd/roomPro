@@ -4,6 +4,7 @@ import com.roompro.roompro.dto.request.NewRoomRequestDTO;
 import com.roompro.roompro.dto.response.EquipmentResponseDTO;
 import com.roompro.roompro.dto.response.RoomCleaningResponseDTO;
 import com.roompro.roompro.dto.response.RoomResponseDTO;
+import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.model.Equipment;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.repository.RoomRepository;
@@ -12,6 +13,8 @@ import com.roompro.roompro.service.mapper.RoomMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,11 @@ public class RoomService {
     @Autowired
     EquipmentMappingService equipmentMappingService;
 
+    @Autowired
+    BookingService bookingService;
+
+    @Autowired
+    CleaningService cleaningService;
 
     public List<Room> getAllRooms() {
         return roomRepository.findAllWithEquipment();
@@ -80,8 +88,37 @@ public class RoomService {
 
     }
 
-    public void updateCleaningType(long roomId, long cleaningId){
+    public void updateCleaningType(long roomId, long cleaningId, long previousCleaningId){
         roomRepository.updateCleaningType(roomId, cleaningId);
+        System.out.println("previousCleaningId : "+previousCleaningId);
+        // Remove after use cleaning if no longer used
+        if(previousCleaningId==1){
+            System.out.println("roomId " +roomId);
+            cleaningService.deleteAfterUseCleaningSlots(roomId);
+        }
+
+
+
+        // Add cleaning slots after future booking if no overlap
+        // After use cleaning
+        if(cleaningId==1){
+            // for each room booking add cleaning slot if possible
+            List<Booking> roomBookings = bookingService.getBookingsByRoomId(roomId);
+            for(Booking booking: roomBookings){
+                LocalDateTime cleaningStart = booking.getEndTime();
+                LocalDateTime cleaningEnd = cleaningStart.plusMinutes(20); // 20 minutes of cleaning
+
+                boolean hasOverlap = roomBookings.stream()
+                        .anyMatch(otherBooking ->
+                                cleaningStart.isBefore(otherBooking.getEndTime()) &&
+                                        cleaningEnd.isAfter(otherBooking.getStartTime())
+                        );
+
+                if(!hasOverlap){
+                    cleaningService.setCleaningSlot(cleaningStart, roomRepository.findById(roomId).get());
+                }
+            }
+        }
     }
 }
 

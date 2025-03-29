@@ -21,6 +21,7 @@ import { CleaningService } from '../../services/cleaning.service';
 export class RoomcallendarComponent implements OnInit {
   
 
+
   bookingTime: string = '';  // Time selected for booking
   bookingHours: number = 0;
   userBooking: BookingResponse = {
@@ -31,13 +32,13 @@ export class RoomcallendarComponent implements OnInit {
 
   minDateTime!: string;
 
-
+  isAdmin: boolean = false;
 
   roomId!: number;
 
   roomBookings: { start: Date; end: Date ; userEmail: string}[] = [];
 
-  afterUseCleanings: { start: Date; end: Date}[] = [];
+  afterUseCleanings: { roomId: number, start: Date; end: Date}[] = [];
 
   @Input() roomName: string = '';
 
@@ -45,8 +46,11 @@ export class RoomcallendarComponent implements OnInit {
     initialView: 'timeGridWeek', // Show week view with time slots
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     slotMinTime: '08:00:00', // Start at 08:00 AM
-    slotMaxTime: '18:00:00', // End at 06:00 PM
-    hiddenDays: [0, 6], // Hide Sunday (0) and Saturday (6)
+    slotMaxTime: this.isAdmin ? '18:00:00' : '20:00:00', // End at 06:00 PM
+    hiddenDays: this.isAdmin ? [0, 6] : [], // Hide Sunday (0) and Saturday (6)
+    firstDay: 1,
+   
+
     events: [],
     titleFormat: { 
       month: 'long', // Full month name
@@ -78,17 +82,23 @@ export class RoomcallendarComponent implements OnInit {
     this.roomName = String(this.route.snapshot.paramMap.get('roomName'));
     this.fetchBookings();
     this.fetchAfterUseCleanings();
+
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      this.isAdmin = JSON.parse(atob(token.split('.')[1])).role == "Admin";
+    }
   }
 
   fetchAfterUseCleanings(): void{
     const token = localStorage.getItem('jwtToken');
     if(token){
-      this.cleaningService.fetchAfterUseCleanings(token).subscribe({
+      this.cleaningService.fetchAfterUseCleanings(token, this.roomId).subscribe({
         next: (data)=>{
           this.afterUseCleanings = data.map(cleaning=>{
             const start = new Date(cleaning.startTime);
             const end = new Date(new Date(cleaning.endTime));
             return {
+              roomId: cleaning.roomId,
               start: start,
               end: end,
             }

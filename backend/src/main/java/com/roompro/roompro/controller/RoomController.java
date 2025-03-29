@@ -46,10 +46,11 @@ public class RoomController {
     @GetMapping("/meeting-rooms/cleaning/update")
     public ResponseEntity<?> updateCleaningType(
             @RequestParam(required = true) Long roomId,
-            @RequestParam(required = true) Long cleaningId){
+            @RequestParam(required = true) Long cleaningId,
+            @RequestParam(required = true) Long previousCleaningId){
 
-
-        roomService.updateCleaningType(roomId, cleaningId);
+        System.out.println(roomId + " " + cleaningId + " " + previousCleaningId);
+        roomService.updateCleaningType(roomId, cleaningId, previousCleaningId);
         Map<String, String> response = new HashMap<>();
         response.put("message", "Cleaning type successfully updated");
 

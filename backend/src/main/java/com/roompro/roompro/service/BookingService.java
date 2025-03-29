@@ -81,7 +81,6 @@ public class BookingService {
         bookingRepository.save(newBooking);
 
 
-        System.out.println(bookingDto.getRoomId());
         // Check if room needs cleaning after use
         if(cleaningService.checkIfNeedCleaningAfterUse(bookingDto.getRoomId())){
             // Add cleaning slot

@@ -6,6 +6,7 @@ import com.roompro.roompro.model.Room;
 import com.roompro.roompro.model.RoomCleaningAssignment;
 import com.roompro.roompro.repository.AfterUseCleaningRepository;
 import com.roompro.roompro.repository.CleaningAssignmentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,12 @@ public class CleaningService {
     @Autowired
     AfterUseCleaningRepository afterUseCleaningRepository;
 
-    public List<CleaningAfterUse> getAll(){
-        return afterUseCleaningRepository.findAll();
+    public List<CleaningAfterUse> getAll(long roomId){
+        return afterUseCleaningRepository.findByRoomId(roomId);
     }
 
 
     public boolean checkIfNeedCleaningAfterUse(long roomId){
-        System.out.println("Hah");
        List<RoomCleaningAssignment> result = cleaningRepository.checkIfNeedCleaningAfterUse(roomId);
        return !result.isEmpty();
     }
@@ -41,5 +41,9 @@ public class CleaningService {
 
         afterUseCleaningRepository.save(cleaningAfterUse);
 
+    }
+
+    public void deleteAfterUseCleaningSlots(long roomId){
+        afterUseCleaningRepository.deleteByRoom_RoomId(roomId);
     }
 }

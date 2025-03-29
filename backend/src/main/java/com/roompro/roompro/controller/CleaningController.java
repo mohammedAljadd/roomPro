@@ -21,11 +21,12 @@ public class CleaningController {
 
 
     @GetMapping("/cleaning/after-use")
-    public List<CleaningAfterUseResponseDTO> getAllCleaningAfterUse(){
+    public List<CleaningAfterUseResponseDTO> getAllCleaningAfterUse(
+            @RequestParam(required = true) Long roomId){
 
-        List<CleaningAfterUse> cs = cleaningService.getAll();
+        List<CleaningAfterUse> cs = cleaningService.getAll(roomId);
 
-        return cs.stream().map(c->new CleaningAfterUseResponseDTO(c.getStartTime(), c.getEndTime())).toList();
+        return cs.stream().map(c->new CleaningAfterUseResponseDTO(c.getCleaningId(), c.getStartTime(), c.getEndTime())).toList();
     }
 
 }

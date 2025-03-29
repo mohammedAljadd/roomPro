@@ -25,7 +25,7 @@ export class CleaningperiodsComponent implements OnInit{
   roomService = inject(RoomService);
 
   newCleaningTypeId!: number;
-
+  previousCleaningTypeId!: number;
   
   toastNotif = inject(ToastnotificationService);
 
@@ -70,13 +70,15 @@ export class CleaningperiodsComponent implements OnInit{
     let cleaningTypesIDs = ['After Each Use', 'Weekly Cleaning', 'Custom Cleaning', 'Deep Cleaning'];
 
     this.newCleaningTypeId = cleaningTypesIDs.indexOf(cleaningType)+1;
+    this.previousCleaningTypeId = cleaningTypesIDs.indexOf(this.selectedRoom.cleaningType)+1; 
+
   }
 
 
   setit(){
     const token = localStorage.getItem('jwtToken');
     if(token){
-      this.roomService.setCleaningType(this.selectedRoom.roomDetails.roomId, this.newCleaningTypeId, token).subscribe({
+      this.roomService.setCleaningType(this.selectedRoom.roomDetails.roomId, this.newCleaningTypeId, this.previousCleaningTypeId, token).subscribe({
         next: (data)=>{
           
           this.toastNotif.showSuccess(data.message);

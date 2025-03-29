@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class CleaningAfterUseResponseDTO {
+    private long roomId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 }
