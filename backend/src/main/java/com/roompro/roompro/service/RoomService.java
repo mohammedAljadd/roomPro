@@ -92,7 +92,8 @@ public class RoomService {
 
     public void updateCleaningType(long roomId, long cleaningId, long previousCleaningId){
         roomRepository.updateCleaningType(roomId, cleaningId);
-        // Fill weekly cleaning table
+
+        // Fill weekly cleaning table if cleaning type is weekly
         String cleaningDay = null;
         if(cleaningId==2){
             cleaningDay = "Friday";
@@ -118,6 +119,10 @@ public class RoomService {
             cleaningService.deleteAfterUseCleaningSlots(roomId);
         }
 
+        // Remove weekly cleaning if no longer used
+        if(previousCleaningId==2 || previousCleaningId==3){
+            cleaningService.cleaningWeeklyRepository.deleteByRoom_RoomId(roomId);
+        }
 
 
         // Add cleaning slots after future booking if no overlap

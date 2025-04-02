@@ -2,7 +2,9 @@ package com.roompro.roompro.repository;
 
 import com.roompro.roompro.model.CleaningWeekly;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,5 +18,9 @@ public interface CleaningWeeklyRepository extends JpaRepository<CleaningWeekly, 
     @Query("SELECT COUNT(cw) > 0 FROM CleaningWeekly cw WHERE cw.room.id = :roomId AND " +
             "(cw.starttime < :endTime AND cw.endtime > :startTime)")
     boolean isOverlappingWithCleaningSlots(long roomId, LocalTime startTime, LocalTime endTime);
+
+    @Modifying
+    @Transactional
+    void deleteByRoom_RoomId(Long roomId);
 
 }
