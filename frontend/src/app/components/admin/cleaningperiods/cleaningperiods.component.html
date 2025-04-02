@@ -12,9 +12,13 @@
         
         <ng-container *ngFor="let room of rooms">
             <li *ngIf="room.cleaningType === cleaningType" class="room-item" id="room_{{room.roomDetails.roomId}}" (click)="showCleaningModal(room)">
-                <div class="room-link" href="#"> 
+                <div class="room-link" href="#" *ngIf="room.cleaningDay!=null"> 
+                    <span>{{ room.roomDetails.name }}: {{ room.roomDetails.description }}, Capacity: {{ room.roomDetails.capacity }}, Cleaning day : {{room.cleaningDay}}</span>
+                </div>
+                <div class="room-link" href="#" *ngIf="room.cleaningDay==null"> 
                     <span>{{ room.roomDetails.name }}: {{ room.roomDetails.description }}, Capacity: {{ room.roomDetails.capacity }}</span>
                 </div>
+
             </li>
         </ng-container>
     </ul>

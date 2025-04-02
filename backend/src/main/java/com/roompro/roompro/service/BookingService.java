@@ -6,6 +6,7 @@ import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.model.Users;
 import com.roompro.roompro.repository.BookingRepository;
+import com.roompro.roompro.repository.CleaningAssignmentRepository;
 import com.roompro.roompro.repository.RoomRepository;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class BookingService {
     @Autowired
     CleaningService cleaningService;
 
+    @Autowired
+    CleaningAssignmentRepository cleaningAssignmentRepository;
 
     public void createBooking(BookingRequestDTO bookingDto) throws Exception {
 
@@ -68,7 +71,28 @@ public class BookingService {
             throw new Exception("This time slot is already booked.");
         }
 
+        // Check if overlap with cleaning slots
+        long cleaningId = cleaningAssignmentRepository.findByRoom_RoomId(room.getRoomId()).getFirst().getCleaningType().getCleaningId();
+        System.out.println(cleaningId);
+        boolean isOverlapping = false;
+        if(cleaningId==2){
 
+            // Cleaning day :
+            String cleaningDay = cleaningService.cleaningWeeklyRepository.findByRoomId(room.getRoomId()).getFirst().getCleaningDay();
+            String bookingDay = startDateTime.getDayOfWeek().toString();
+
+            if(cleaningDay.toLowerCase().equals(bookingDay.toLowerCase())){
+                isOverlapping = cleaningService.cleaningWeeklyRepository.isOverlappingWithCleaningSlots(room.getRoomId(), startDateTime.toLocalTime(), endDateTime.toLocalTime());
+            }
+        } else if (cleaningId == 1) {
+            isOverlapping = cleaningService.afterUseCleaningRepository.isOverlappingWithCleaningSlots(room.getRoomId(), startDateTime, endDateTime);
+        }
+
+
+
+        if(isOverlapping){
+            throw new Exception("This time slot is overlapping with a cleaning slot.");
+        }
 
         Users user = userRepository.findByEmail(email);
         Booking newBooking = new Booking();

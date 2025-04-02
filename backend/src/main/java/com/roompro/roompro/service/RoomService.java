@@ -50,9 +50,9 @@ public class RoomService {
 
             String cleaningType = (String) row[1];
             String cleaningDescription = (String) row[2];
+            String cleaningDay = (String) row[3];
 
-
-            roomCleaningResponseDTOs.add(new RoomCleaningResponseDTO(rr, cleaningType, cleaningDescription));
+            roomCleaningResponseDTOs.add(new RoomCleaningResponseDTO(rr, cleaningType, cleaningDescription, cleaningDay));
         }
         return roomCleaningResponseDTOs;
     }

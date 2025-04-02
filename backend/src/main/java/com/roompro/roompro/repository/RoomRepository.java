@@ -29,9 +29,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findAllWithFilters(Integer capacity, String location, List<String> equipmentList);
 
 
-    @Query("select r, ct.typeName as cleaningType, ct.description as cleaning_description from Room r " +
+    @Query("select r, ct.typeName as cleaningType, ct.description as cleaning_description, cw.cleaningDay " +
+            "from Room r " +
             "join RoomCleaningAssignment rca on rca.room=r " +
-            "join CleaningType ct on ct=rca.cleaningType")
+            "join CleaningType ct on ct=rca.cleaningType " +
+            "left join CleaningWeekly cw on cw.room=r")
     List<Object []> findRoomsWithCleaningType();
 
     @Modifying // for update

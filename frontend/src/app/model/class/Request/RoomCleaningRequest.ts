@@ -4,4 +4,5 @@ export class RoomCleaningRequest {
     roomDetails!: RoomDetailsRequest;
     cleaningType!: string;
     cleaningDescription!: string;
+    cleaningDay!: string|null
   }

@@ -2,10 +2,12 @@ package com.roompro.roompro.service;
 
 
 import com.roompro.roompro.model.CleaningAfterUse;
+import com.roompro.roompro.model.CleaningWeekly;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.model.RoomCleaningAssignment;
 import com.roompro.roompro.repository.AfterUseCleaningRepository;
 import com.roompro.roompro.repository.CleaningAssignmentRepository;
+import com.roompro.roompro.repository.CleaningWeeklyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,15 @@ public class CleaningService {
     @Autowired
     AfterUseCleaningRepository afterUseCleaningRepository;
 
-    public List<CleaningAfterUse> getAll(long roomId){
+    @Autowired
+    CleaningWeeklyRepository cleaningWeeklyRepository;
+
+    public List<CleaningAfterUse> getAllAfterUseCleaning(long roomId){
         return afterUseCleaningRepository.findByRoomId(roomId);
+    }
+
+    public List<CleaningWeekly> getAllWeeklyCleaning(long roomId){
+        return cleaningWeeklyRepository.findByRoomId(roomId);
     }
 
 

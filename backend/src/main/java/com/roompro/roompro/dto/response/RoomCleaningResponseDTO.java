@@ -14,4 +14,5 @@ public class RoomCleaningResponseDTO {
     RoomResponseDTO roomDetails;
     private String cleaningType;
     private String cleaningDescription;
+    private String cleaningDay;
 }

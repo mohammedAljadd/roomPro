@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AfterUseCleaningRepository extends JpaRepository<CleaningAfterUse, Long> {
@@ -17,5 +18,8 @@ public interface AfterUseCleaningRepository extends JpaRepository<CleaningAfterU
     @Transactional
     void deleteByRoom_RoomId(Long roomId);
 
+    @Query("SELECT COUNT(cau) > 0 FROM CleaningAfterUse cau WHERE cau.room.id = :roomId AND " +
+            "(cau.startTime < :endTime AND cau.endTime > :startTime)")
+    boolean isOverlappingWithCleaningSlots(long roomId, LocalDateTime startTime, LocalDateTime endTime);
 }
 

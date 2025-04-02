@@ -26,21 +26,22 @@ export class CleaningperiodsComponent implements OnInit{
 
   newCleaningTypeId!: number;
   previousCleaningTypeId!: number;
+  token!: string | null;
   
   toastNotif = inject(ToastnotificationService);
 
   ngOnInit(): void {
+    this.token = localStorage.getItem('jwtToken');
     this.getAllRooms();
     
   }
 
   getAllRooms(){
-    const token = localStorage.getItem('jwtToken');
-    if(token){
-      this.roomService.getRoomsWithCleaningType(token).subscribe({
+    
+    if(this.token){
+      this.roomService.getRoomsWithCleaningType(this.token).subscribe({
         next: (data)=>{
           this.rooms = data;
-
           for(let i=0; i<this.rooms.length; i++){
             let cleaningType = this.rooms[i].cleaningType;
             
@@ -67,7 +68,7 @@ export class CleaningperiodsComponent implements OnInit{
   setCleaningModal(room: RoomCleaningRequest, event: any){
     // get cleaningtype
     const cleaningType = event.target.value;
-    let cleaningTypesIDs = ['After Each Use', 'Weekly Cleaning', 'Custom Cleaning', 'Deep Cleaning'];
+    let cleaningTypesIDs = ['After Each Use', 'Weekly Cleaning', 'Custom Cleaning'];
 
     this.newCleaningTypeId = cleaningTypesIDs.indexOf(cleaningType)+1;
     this.previousCleaningTypeId = cleaningTypesIDs.indexOf(this.selectedRoom.cleaningType)+1; 
