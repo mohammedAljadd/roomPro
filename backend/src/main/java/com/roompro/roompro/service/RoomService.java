@@ -5,6 +5,7 @@ import com.roompro.roompro.dto.response.EquipmentResponseDTO;
 import com.roompro.roompro.dto.response.RoomCleaningResponseDTO;
 import com.roompro.roompro.dto.response.RoomResponseDTO;
 import com.roompro.roompro.model.Booking;
+import com.roompro.roompro.model.CleaningWeekly;
 import com.roompro.roompro.model.Equipment;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.repository.RoomRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -90,10 +92,29 @@ public class RoomService {
 
     public void updateCleaningType(long roomId, long cleaningId, long previousCleaningId){
         roomRepository.updateCleaningType(roomId, cleaningId);
-        System.out.println("previousCleaningId : "+previousCleaningId);
+        // Fill weekly cleaning table
+        String cleaningDay = null;
+        if(cleaningId==2){
+            cleaningDay = "Friday";
+        } else if (cleaningId==3) {
+            cleaningDay = "Wednesday";
+        }
+
+        if(cleaningDay!=null){
+            Room room = roomRepository.findById(roomId).get();
+            LocalTime startTime = LocalTime.parse("17:25:00");
+            LocalTime endTime = LocalTime.parse("18:00:00");
+            CleaningWeekly cleaningWeekly = new CleaningWeekly();
+            cleaningWeekly.setRoom(room);
+            cleaningWeekly.setCleaningDay(cleaningDay);
+            cleaningWeekly.setStarttime(startTime);
+            cleaningWeekly.setEndtime(endTime);
+            cleaningWeekly.setSetDate(LocalDateTime.now());
+            cleaningService.cleaningWeeklyRepository.save(cleaningWeekly);
+        }
+
         // Remove after use cleaning if no longer used
         if(previousCleaningId==1){
-            System.out.println("roomId " +roomId);
             cleaningService.deleteAfterUseCleaningSlots(roomId);
         }
 

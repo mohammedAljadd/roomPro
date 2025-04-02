@@ -126,8 +126,6 @@ export class RoomcallendarComponent implements OnInit {
     ]);
 
     this.loadEvents();
-    console.log(this.userBooking);
-    console.log(this.afterUseCleanings);
     
     
     if (this.token) {
@@ -146,7 +144,6 @@ export class RoomcallendarComponent implements OnInit {
               start: new Date(cleaning.startTime),
               end: new Date(cleaning.endTime)
             }));
-            console.log(data);
             resolve();
           },
           error: (error)=>{

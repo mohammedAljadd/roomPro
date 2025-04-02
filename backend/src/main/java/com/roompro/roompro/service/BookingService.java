@@ -73,7 +73,6 @@ public class BookingService {
 
         // Check if overlap with cleaning slots
         long cleaningId = cleaningAssignmentRepository.findByRoom_RoomId(room.getRoomId()).getFirst().getCleaningType().getCleaningId();
-        System.out.println(cleaningId);
         boolean isOverlapping = false;
         if(cleaningId==2){
 

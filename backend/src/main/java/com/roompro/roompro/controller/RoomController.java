@@ -49,7 +49,6 @@ public class RoomController {
             @RequestParam(required = true) Long cleaningId,
             @RequestParam(required = true) Long previousCleaningId){
 
-        System.out.println(roomId + " " + cleaningId + " " + previousCleaningId);
         roomService.updateCleaningType(roomId, cleaningId, previousCleaningId);
         Map<String, String> response = new HashMap<>();
         response.put("message", "Cleaning type successfully updated");

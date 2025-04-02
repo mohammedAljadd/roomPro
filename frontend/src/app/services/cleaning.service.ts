@@ -24,7 +24,6 @@ export class CleaningService {
 
 
     fetchWeeklyCleaning(token: string, roomId: number):Observable<CleaningWeeklyRequest>{
-      console.log(roomId);
       let params = new HttpParams();
       params = params.set('roomId', roomId.toString());
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

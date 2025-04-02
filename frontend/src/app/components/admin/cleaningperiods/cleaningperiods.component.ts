@@ -18,7 +18,7 @@ export class CleaningperiodsComponent implements OnInit{
 
   rooms: RoomCleaningRequest[] = [];
 
-  cleaningTypes: string[] = [];
+  cleaningTypes: string[] = ['After Each Use', 'Weekly Cleaning - Friday', 'Weekly Cleaning - Wednesday', 'Custom Cleaning'];
 
   selectedRoom!: RoomCleaningRequest;
 
@@ -42,13 +42,7 @@ export class CleaningperiodsComponent implements OnInit{
       this.roomService.getRoomsWithCleaningType(this.token).subscribe({
         next: (data)=>{
           this.rooms = data;
-          for(let i=0; i<this.rooms.length; i++){
-            let cleaningType = this.rooms[i].cleaningType;
-            
-            if(!this.cleaningTypes.includes(cleaningType)){
-              this.cleaningTypes.push(cleaningType);
-            }
-          }
+          
 
         },
         error: (error)=>{
@@ -68,7 +62,7 @@ export class CleaningperiodsComponent implements OnInit{
   setCleaningModal(room: RoomCleaningRequest, event: any){
     // get cleaningtype
     const cleaningType = event.target.value;
-    let cleaningTypesIDs = ['After Each Use', 'Weekly Cleaning', 'Custom Cleaning'];
+    let cleaningTypesIDs = ['After Each Use', 'Weekly Cleaning - Friday', 'Weekly Cleaning - Wednesday', 'Custom Cleaning'];
 
     this.newCleaningTypeId = cleaningTypesIDs.indexOf(cleaningType)+1;
     this.previousCleaningTypeId = cleaningTypesIDs.indexOf(this.selectedRoom.cleaningType)+1; 
