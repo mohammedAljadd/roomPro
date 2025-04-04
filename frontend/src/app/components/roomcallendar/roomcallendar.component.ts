@@ -13,6 +13,7 @@ import { ToastnotificationService } from '../../services/toastnotification.servi
 import { CleaningService } from '../../services/cleaning.service';
 import { RRule } from 'rrule';
 import rrulePlugin from '@fullcalendar/rrule';
+import { MaintenanceService } from '../../services/maintenance.service';
 
 @Component({
   selector: 'app-roomcallendar',
@@ -43,6 +44,9 @@ export class RoomcallendarComponent implements OnInit {
   roomBookings: { start: Date; end: Date ; userEmail: string}[] = [];
 
   afterUseCleanings: { roomId: number, start: Date; end: Date}[] = [];
+
+  maintenanceSlots: { roomId: number, startTime: string; endTime: string, startDate: string, endDate: string}[] = [];
+
   weeklyCleanings: { roomId: number, starttime: string; endtime: string, cleaningDay: string, setDate: string} = {
     roomId: 0,     
     starttime: '',     
@@ -74,7 +78,10 @@ export class RoomcallendarComponent implements OnInit {
 
       else if(arg.event.id === 'recurring_cleaning'){
         return { html: `<div class="fc-event-title">Cleaning - weekly</div>` };
-      
+      }
+
+      else if(arg.event.id  === 'maintenance_slot'){
+        return { html: `<div class="fc-event-title">Under maintenance</div>` };
       }
       
       // For other events, show the default content
@@ -106,6 +113,7 @@ export class RoomcallendarComponent implements OnInit {
 
   bookingService = inject(BookingService);
   cleaningService = inject(CleaningService);
+  maintenanceService = inject(MaintenanceService);
 
   toastNotif = inject(ToastnotificationService);
 
@@ -122,7 +130,8 @@ export class RoomcallendarComponent implements OnInit {
     await Promise.all([
       this.fetchBookings(),
       this.fetchAfterUseCleanings(),
-      this.fetchWeeklyCleaning()
+      this.fetchWeeklyCleaning(),
+      this.fetchMaitenanceSlots()
     ]);
 
     this.loadEvents();
@@ -199,6 +208,27 @@ export class RoomcallendarComponent implements OnInit {
       }
     });
   }
+
+  fetchMaitenanceSlots(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.token) {
+        this.maintenanceService.fetchAMaitenanceSlots(this.token, this.roomId).subscribe({
+          next: (data) => {
+            this.maintenanceSlots = data;
+            resolve();
+          },
+          error: (error) => {
+            console.error('Error fetching maitenance slots:', error);
+            reject(error);
+          }
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
+
   
   
   getDuration(start: string, end: string): string {
@@ -252,6 +282,33 @@ export class RoomcallendarComponent implements OnInit {
       };
     });
 
+    // Maintenance
+    const maintenanceEvents: any[] = [];
+
+    for(let i=0; i<this.maintenanceSlots.length; i++){
+      let slot = this.maintenanceSlots[i];
+      let startDate = slot.startDate.split('T')[0];
+      let endDate = slot.endDate.split('T')[0];
+      let startTime = slot.startTime;
+      let endTime = slot.endTime;
+      
+      maintenanceEvents.push(
+        {
+          title: 'Under maintenance',
+          startRecur: startDate,          
+          endRecur: endDate,            
+          daysOfWeek: ['0', '1', '2', '3', '4', '5', '6'],                 
+          startTime: startTime,             
+          endTime: endTime,               
+          backgroundColor: '#c7c3c3',        
+          borderColor: '#c7c3c3',
+          id: 'maintenance_slot', 
+        }
+      );
+    }
+  
+
+
     // Recurring
     if(this.weeklyCleanings != null){
       const weekdayMap: { [key: string]: any } = {
@@ -283,11 +340,11 @@ export class RoomcallendarComponent implements OnInit {
         borderColor: '#ff9800'
       };
       // Merge both cleaning and booking events
-      this.calendarOptions.events = [recurringEvent, ...cleaningEvents, ...bookingEvents];
+      this.calendarOptions.events = [...maintenanceEvents, recurringEvent, ...cleaningEvents, ...bookingEvents];
   
     }
     else{
-      this.calendarOptions.events = [...cleaningEvents, ...bookingEvents];
+      this.calendarOptions.events = [...maintenanceEvents, ...cleaningEvents, ...bookingEvents];
     }
   
     
@@ -308,7 +365,8 @@ export class RoomcallendarComponent implements OnInit {
         Promise.all([
           this.fetchBookings(),
           this.fetchAfterUseCleanings(),
-          this.fetchWeeklyCleaning()
+          this.fetchWeeklyCleaning(),
+          this.fetchMaitenanceSlots()
         ]).then(() => this.loadEvents());
     
         this.toastNotif.showSuccess('Your booking was successful! Thank you for using our service.', 'Booking Confirmed');
