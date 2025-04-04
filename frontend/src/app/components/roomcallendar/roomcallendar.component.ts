@@ -80,7 +80,7 @@ export class RoomcallendarComponent implements OnInit {
         return { html: `<div class="fc-event-title">Cleaning - weekly</div>` };
       }
 
-      else if(arg.event.id  === 'maintenance_slot'){
+      else if(arg.event.id.startsWith('maintenance_slot')){
         return { html: `<div class="fc-event-title">Under maintenance</div>` };
       }
       
@@ -311,7 +311,7 @@ export class RoomcallendarComponent implements OnInit {
           endTime: '18:00',               
           backgroundColor: '#c7c3c3',        
           borderColor: '#c7c3c3',
-          id: 'maintenance_slot', 
+          id: 'maintenance_slot_firstday', 
         }
       );
       
@@ -332,7 +332,7 @@ export class RoomcallendarComponent implements OnInit {
           endTime: lastTime,               
           backgroundColor: '#c7c3c3',        
           borderColor: '#c7c3c3',
-          id: 'maintenance_slot', 
+          id: 'maintenance_slot_lastday', 
         }
       ); 
 
@@ -358,7 +358,7 @@ export class RoomcallendarComponent implements OnInit {
             endTime: '18:00',               
             backgroundColor: '#c7c3c3',        
             borderColor: '#c7c3c3',
-            id: 'maintenance_slot', 
+            id: 'maintenance_slot_daysinbetween', 
           })
       }
       
