@@ -26,12 +26,6 @@ public class Maintenance {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @Column(name = "startTime")
-    private LocalTime startTime;
-
-    @Column(name = "endTime")
-    private LocalTime endTime;
-
     @Column(name = "startDate")
     private LocalDateTime startDate;
 

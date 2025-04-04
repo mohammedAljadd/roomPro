@@ -26,8 +26,8 @@ public class MaintenanceController {
         List<Maintenance> maintenances = maintenanceService.findMaintenanceSlotsByRoom(roomId);
 
         return maintenances.stream().map(m->new MaintenanceResponseDTO(m.getRoom().getRoomId(),
-                m.getStartTime().toString(), m.getEndTime().toString(),
                 m.getStartDate().toString(), m.getEndDate().toString())).toList();
     }
+
 
 }

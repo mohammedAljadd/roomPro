@@ -45,7 +45,7 @@ export class RoomcallendarComponent implements OnInit {
 
   afterUseCleanings: { roomId: number, start: Date; end: Date}[] = [];
 
-  maintenanceSlots: { roomId: number, startTime: string; endTime: string, startDate: string, endDate: string}[] = [];
+  maintenanceSlots: { roomId: number, startDate: string, endDate: string}[] = [];
 
   weeklyCleanings: { roomId: number, starttime: string; endtime: string, cleaningDay: string, setDate: string} = {
     roomId: 0,     
@@ -287,24 +287,82 @@ export class RoomcallendarComponent implements OnInit {
 
     for(let i=0; i<this.maintenanceSlots.length; i++){
       let slot = this.maintenanceSlots[i];
-      let startDate = slot.startDate.split('T')[0];
-      let endDate = slot.endDate.split('T')[0];
-      let startTime = slot.startTime;
-      let endTime = slot.endTime;
+      let startDate = slot.startDate;
+      let endDate = slot.endDate;
+      let startTime = '08:00';
+      let endTime = '18:00';
       
+      let firstTime = startDate.split('T')[1];
+      let lastTime = endDate.split('T')[1];
+      
+
+      // First day
+      const nextDate = new Date(startDate);
+      nextDate.setDate(nextDate.getDate() + 1);
+
+
       maintenanceEvents.push(
         {
           title: 'Under maintenance',
           startRecur: startDate,          
-          endRecur: endDate,            
-          daysOfWeek: ['0', '1', '2', '3', '4', '5', '6'],                 
-          startTime: startTime,             
-          endTime: endTime,               
+          endRecur: nextDate.toISOString().split('T')[0],            
+          daysOfWeek: [new Date(startDate).getDay().toString()],               
+          startTime: firstTime,             
+          endTime: '18:00',               
           backgroundColor: '#c7c3c3',        
           borderColor: '#c7c3c3',
           id: 'maintenance_slot', 
         }
       );
+      
+      // Last day
+      const lastDate = new Date(endDate);
+      
+      const dateAfter = new Date(lastDate.getTime());
+      dateAfter.setDate(dateAfter.getDate() + 1);
+      
+
+      maintenanceEvents.push(
+        {
+          title: 'Under maintenance',
+          startRecur: lastDate.toISOString().split('T')[0],          
+          endRecur: dateAfter.toISOString().split('T')[0],           
+          daysOfWeek: [new Date(lastDate).getDay().toString()],               
+          startTime: '08:00',             
+          endTime: lastTime,               
+          backgroundColor: '#c7c3c3',        
+          borderColor: '#c7c3c3',
+          id: 'maintenance_slot', 
+        }
+      ); 
+
+      // Days in between
+      const diffInMs = nextDate.getTime() - lastDate.getTime();
+      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))+1;
+
+      const day1 = new Date(nextDate.getTime());
+      
+      const dayn = new Date(lastDate.getTime());
+      
+      
+ 
+
+      if(diffInDays!=0){
+        maintenanceEvents.push(
+          {
+            title: 'Under maintenance',
+            startRecur: day1.toISOString().split('T')[0],          
+            endRecur: dayn.toISOString().split('T')[0],            
+            daysOfWeek: ['0', '1', '2', '3', '4', '5', '6'],                 
+            startTime: '08:00',             
+            endTime: '18:00',               
+            backgroundColor: '#c7c3c3',        
+            borderColor: '#c7c3c3',
+            id: 'maintenance_slot', 
+          })
+      }
+      
+ 
     }
   
 

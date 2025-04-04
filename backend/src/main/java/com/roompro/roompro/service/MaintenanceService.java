@@ -21,7 +21,7 @@ public class MaintenanceService {
     }
 
     boolean isOverlappingWithMaintenanceSlots(long roomId, LocalDateTime startDate, LocalDateTime endDate){
-        return maintenanceRepository.isOverlappingWithMaintenanceSlots(roomId, startDate, endDate, startDate.toLocalTime(), endDate.toLocalTime());
+        return maintenanceRepository.isOverlappingWithMaintenanceSlots(roomId, startDate, endDate);
     }
 
 }

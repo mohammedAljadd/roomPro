@@ -7,8 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class MaintenanceResponseDTO {
     private long roomId;
-    private String startTime;
-    private String endTime;
     private String startDate;
     private String endDate;
 }
