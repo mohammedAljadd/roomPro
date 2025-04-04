@@ -36,6 +36,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "left join CleaningWeekly cw on cw.room=r")
     List<Object []> findRoomsWithCleaningType();
 
+    @Query("select r, m " +
+            "from Room r " +
+            "left join Maintenance m on m.room=r")
+    List<Object []> findRoomsWithMaintenance();
+
     @Modifying // for update
     @Transactional
     @Query("update  RoomCleaningAssignment r set r.cleaningType.cleaningId=:cleaningId where r.room.roomId=:roomId")

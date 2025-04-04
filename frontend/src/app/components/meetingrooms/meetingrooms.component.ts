@@ -53,7 +53,7 @@ export class MeetingroomsComponent implements OnInit {
         
         // Sort rooms based on location
         this.rooms.sort((a, b) => {
-          const order = ['Main', 'North', 'South', 'East', 'West'];
+          const order = ['Main', 'East', 'West'];
           const locationComparison =  order.indexOf(a.location.split(' ')[0]) - order.indexOf(b.location.split(' ')[0]);
           if(locationComparison==0){
             return a.name.localeCompare(b.name);

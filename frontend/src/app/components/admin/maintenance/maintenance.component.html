@@ -1,1 +1,40 @@
-<p>maintenance works!</p>
+<h2>Room Availability and Maintenance Status</h2>
+<br>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Room Name</th>
+        <th scope="col">Location</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Maintenance Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let room of maintenanceDetails">
+        
+        <tr [ngClass]="getLocationClass(room.location)">
+
+        <td style="background-color: inherit !important;">{{ room.name }}</td>
+        <td style="background-color: inherit !important;">{{ room.location }}</td> <!-- 👈 Check this value -->
+        <td style="background-color: inherit !important;">{{ room.capacity }}</td>
+        <td style="background-color: inherit !important;">{{ room.startDate ? room.maintenancePeriod : '✅ Available' }}</td>
+        <td style="background-color: inherit !important;">
+            <!-- Show Add button if startDate is not set -->
+            <button *ngIf="!room.startDate"  (click)="addMaintenance(room)" style="background: none;border: none;">
+              ➕ Add
+            </button>
+          
+            <!-- Show Remove button if startDate is set -->
+            <button *ngIf="room.startDate" (click)="removeMaintenance(room)" style="background: none;border: none;">
+              ❌ Remove
+            </button>
+          </td>
+          
+          
+      
+
+      </tr>
+     
+    </tbody>
+  </table>

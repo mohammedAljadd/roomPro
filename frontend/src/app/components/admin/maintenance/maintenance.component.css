@@ -1,0 +1,21 @@
+.room-west {
+  background: rgb(245, 220, 220) !important;
+}
+.room-main {
+  background: #dbe7f4 !important;
+}
+.room-east {
+  background: #f2fcf4 !important;
+}
+
+
+table {
+    width: 83.8%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: center;
+  }
+  
