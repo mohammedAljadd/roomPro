@@ -3,6 +3,8 @@ import { MaintenanceService } from '../../../services/maintenance.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaintenanceFullDetailsRequest } from '../../../model/class/Request/MaintenanceFullDetailsRequest';
+import { ToastnotificationService } from '../../../services/toastnotification.service';
+import { MaintenanceRequest } from '../../../model/class/Request/MaintenanceRequest';
 
 @Component({
   selector: 'app-maintenance',
@@ -13,6 +15,28 @@ import { MaintenanceFullDetailsRequest } from '../../../model/class/Request/Main
 export class MaintenanceComponent implements OnInit{
 
   maintenanceDetails: { roomId: number, name : string, location: string, capacity: number, maintenanceId: number | null, startDate: string | null, endDate: string | null, maintenancePeriod: string | null}[] = [];
+ 
+  selectedRoom: { roomName: string, location: string, capacity: number, startDate: string, endDate: string} = {
+    roomName: '',
+    location: '',
+    capacity: 0,
+    startDate: '',
+    endDate: ''
+  };
+  
+
+  maintenanceRequest: MaintenanceRequest = {
+    maintenanceId: 0,
+    roomId: 0,
+    startDate: "",
+    endDate: "",
+  };
+
+  selectedMaintenanceId!: number;
+  
+
+  toastNotif = inject(ToastnotificationService);
+
   token!: string | null;
   maintenanceService = inject(MaintenanceService);
 
@@ -56,7 +80,6 @@ export class MaintenanceComponent implements OnInit{
               return locationComparison;
             });
 
-            console.log(this.maintenanceDetails);
             resolve();
           },
           error: (error) => {
@@ -98,12 +121,84 @@ export class MaintenanceComponent implements OnInit{
     }
   }
   
-  addMaintenance(room: any): void{
-    console.log(room)
+  addMaintenanceModal(room: any): void{
+    this.maintenanceRequest.roomId = room.roomId;
+    const modal = new window.bootstrap.Modal(document.getElementById('AddMaintenanceModal'));
+    modal.show();
   }
 
-  removeMaintenance(room: any): void{
-    console.log(room)
+  addMaintenance(): void{
+
+    if (this.token) {
+      this.maintenanceService.addMaintenance(this.token, this.maintenanceRequest).subscribe(
+        {
+          next: response => {
+            // Refresh all data after successful booking
+            this.fetchMaitenanceSlots();
+            this.cdr.detectChanges();
+            this.toastNotif.showSuccess(response.message);
+          },
+          error: error => {
+            this.toastNotif.showError(error.error);
+          }
+        }
+      );
+    }
+
+    document.body.focus();
+
+    const modalElement = document.getElementById('AddMaintenanceModal');
+    if (modalElement) {
+      const modal = window.bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
+  }
+
+
+  removeMaintenanceModal(room: any): void{
+    this.selectedRoom.roomName = room.name;
+    this.selectedRoom.capacity = room.capacity;
+    this.selectedRoom.location = room.location;
+    this.selectedRoom.startDate = room.startDate;
+    this.selectedRoom.endDate = room.endDate;
+    this.selectedMaintenanceId = room.maintenanceId;
+    const modal = new window.bootstrap.Modal(document.getElementById('deleteMaintenanceModal'));
+    modal.show();
+  }
+
+
+
+
+  removeMaintenance(): void{
+    if (this.token) {
+      
+      this.maintenanceService.removeMaintenance(this.token, this.selectedMaintenanceId).subscribe({
+        next: response  => {
+          this.fetchMaitenanceSlots();
+          this.toastNotif.showSuccess(response.message);
+          this.cdr.detectChanges();
+          
+        },
+        error: error => {
+          this.toastNotif.showError(error.error);
+        }
+      });
+    } else {
+      console.log('No token found');
+    }
+
+    document.body.focus();
+
+    
+    const modalElement = document.getElementById('deleteMaintenanceModal');
+    if (modalElement) {
+      const modal = window.bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
   }
 
 

@@ -19,3 +19,39 @@ table {
     text-align: center;
   }
   
+
+
+  .maintenance-details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .maintenance-details p {
+    display: flex;
+    align-items: center;
+  }
+  
+  .maintenance-details strong {
+    width: 120px; 
+    text-align: left; 
+  }
+  
+  .maintenance-details span {
+    flex: 1; 
+    text-align: left; 
+    padding-left: 0px; 
+  }
+  
+  .maintenance-details-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+  }
+  
+  .maintenance-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
