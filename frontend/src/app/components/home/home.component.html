@@ -68,7 +68,7 @@
   </div>
 
   <!-- Call to Action Section -->
-  <div class="cta-section text-black text-center py-5">
+  <div class="cta-section text-black text-center py-5" *ngIf="this.token==null">
     <h2>Get Started Today!</h2>
     <p>Join RoomPro and simplify your meeting room management.</p>
     <a href="/register" class="btn btn-primary btn-lg">Register Now</a>
