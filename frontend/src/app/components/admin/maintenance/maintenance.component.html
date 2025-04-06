@@ -1,1 +1,135 @@
-<p>maintenance works!</p>
+<h2>Room Availability and Maintenance Status</h2>
+<br>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Room Name</th>
+        <th scope="col">Location</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Maintenance Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let room of maintenanceDetails">
+        
+        <tr [ngClass]="getLocationClass(room.location)">
+
+        <td style="background-color: inherit !important;">{{ room.name }}</td>
+        <td style="background-color: inherit !important;">{{ room.location }}</td> <!-- 👈 Check this value -->
+        <td style="background-color: inherit !important;">{{ room.capacity }}</td>
+        <td style="background-color: inherit !important;">{{ room.startDate ? room.maintenancePeriod : '✅ Available' }}</td>
+        <td style="background-color: inherit !important;">
+            <!-- Show Add button if startDate is not set -->
+            <button *ngIf="!room.startDate"  (click)="addMaintenanceModal(room)" style="background: none;border: none;">
+              ➕ Add
+            </button>
+          
+            <!-- Show Remove button if startDate is set -->
+            <button *ngIf="room.startDate" (click)="removeMaintenanceModal(room)" style="background: none;border: none;">
+              ❌ Remove
+            </button>
+          </td>
+          
+          
+      
+
+      </tr>
+     
+    </tbody>
+  </table>
+
+
+  <div class="modal fade" id="AddMaintenanceModal" tabindex="-1" aria-labelledby="AddMaintenanceModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="maintenanceModalLabel" style="text-align: center;">Set maintenance period:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+          
+         
+          <div class="card w-100 border-0 shadow-sm ms-0">
+            <div class="card-body p-3">
+              <h3 class="text-center text-primary mb-3">{{selectedRoom.roomName}}</h3>
+              <form (ngSubmit)="addMaintenance()">
+                <div class="mb-3">
+                  <label class="form-label">Start Date</label>
+                  <input type="datetime-local" class="form-control" [(ngModel)]="maintenanceRequest.startDate" name="startDateTime" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">End Date</label>
+                  <input type="datetime-local" class="form-control" [(ngModel)]="maintenanceRequest.endDate" name="endDateTime" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+              </form>
+            </div>
+
+
+            <div class="mb-3" *ngIf="roomBookings.length > 0">
+              <label class="form-label fw-bold">Booking Timeline</label>
+              <div class="d-flex flex-column gap-2 border p-2 rounded bg-light" 
+                   style="max-height: 250px; overflow-y: auto;">
+                <div *ngFor="let booking of roomBookings" 
+                     class="border rounded p-2 bg-warning text-dark small">
+                  📅 {{ booking.start | date: 'MMM d, y, h:mm a' }} <br>
+                  ⏳ {{ booking.end | date: 'MMM d, y, h:mm a' }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-3" *ngIf="roomBookings.length == 0">
+              No upcoming bookings
+            </div>
+            
+
+
+          </div>
+          
+          
+          
+  
+  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="modal fade" id="deleteMaintenanceModal" tabindex="-1" aria-labelledby="deleteMaintenanceModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="maintenanceModalLabel" style="text-align: center;">Please confirm deletion:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        
+        
+        <div class="maintenance-details-container">
+          <div class="maintenance-details">
+            <p><strong>Room</strong> <span>: {{ selectedRoom.roomName }}</span></p>
+            <p><strong>Location</strong> <span>: {{ selectedRoom.location}}</span></p>
+            <p><strong>Capacity</strong> <span>: {{ selectedRoom.capacity}}</span></p>
+            <p><strong>Start Date</strong> <span>: {{ selectedRoom.startDate | date: 'yyyy-MM-dd HH:mm' }}</span></p>
+            <p><strong>End Date</strong> <span>: {{ selectedRoom.endDate | date: 'yyyy-MM-dd HH:mm' }}</span></p>
+            
+          </div>
+        </div>
+        
+        
+        
+        
+        <form>
+            <button type="submit" class="btn btn-danger" (click)="removeMaintenance()">Delete</button>
+          </form>
+    
+
+
+      </div>
+    </div>
+  </div>
+</div>

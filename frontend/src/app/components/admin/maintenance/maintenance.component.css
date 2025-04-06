@@ -1,0 +1,57 @@
+.room-west {
+  background: rgb(245, 220, 220) !important;
+}
+.room-main {
+  background: #dbe7f4 !important;
+}
+.room-east {
+  background: #f2fcf4 !important;
+}
+
+
+table {
+    width: 83.8%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: center;
+  }
+  
+
+
+  .maintenance-details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .maintenance-details p {
+    display: flex;
+    align-items: center;
+  }
+  
+  .maintenance-details strong {
+    width: 120px; 
+    text-align: left; 
+  }
+  
+  .maintenance-details span {
+    flex: 1; 
+    text-align: left; 
+    padding-left: 0px; 
+  }
+  
+  .maintenance-details-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+  }
+  
+  .maintenance-details {
+    display: flex;
+    flex-direction: column;
+  }
+  

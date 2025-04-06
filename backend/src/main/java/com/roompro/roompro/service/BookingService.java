@@ -3,6 +3,7 @@ package com.roompro.roompro.service;
 
 import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.model.Booking;
+import com.roompro.roompro.model.Maintenance;
 import com.roompro.roompro.model.Room;
 import com.roompro.roompro.model.Users;
 import com.roompro.roompro.repository.BookingRepository;
@@ -34,6 +35,9 @@ public class BookingService {
 
     @Autowired
     CleaningService cleaningService;
+
+    @Autowired
+    MaintenanceService maintenanceService;
 
     @Autowired
     CleaningAssignmentRepository cleaningAssignmentRepository;
@@ -92,6 +96,14 @@ public class BookingService {
         if(isOverlapping){
             throw new Exception("This time slot is overlapping with a cleaning slot.");
         }
+
+
+        // Check if booking in maintenance
+        boolean isOverlappingWithMaintenance = maintenanceService.isOverlappingWithMaintenanceSlots(room.getRoomId(), startDateTime, endDateTime);
+        if(isOverlappingWithMaintenance){
+            throw new Exception("Looks like the room is under maintenance during this time. Please select a time outside the maintenance window.");
+        }
+
 
         Users user = userRepository.findByEmail(email);
         Booking newBooking = new Booking();
