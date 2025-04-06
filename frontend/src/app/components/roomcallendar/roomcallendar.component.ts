@@ -154,6 +154,7 @@ export class RoomcallendarComponent implements OnInit {
               end: new Date(cleaning.endTime)
             }));
             resolve();
+            console.log(this.afterUseCleanings);
           },
           error: (error)=>{
             console.log("Error");

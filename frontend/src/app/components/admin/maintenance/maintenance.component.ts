@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MaintenanceFullDetailsRequest } from '../../../model/class/Request/MaintenanceFullDetailsRequest';
 import { ToastnotificationService } from '../../../services/toastnotification.service';
 import { MaintenanceRequest } from '../../../model/class/Request/MaintenanceRequest';
+import { BookingService } from '../../../services/booking.service';
 
 @Component({
   selector: 'app-maintenance',
@@ -25,6 +26,8 @@ export class MaintenanceComponent implements OnInit{
   };
   
 
+  roomBookings: { start: Date; end: Date}[] = [];
+
   maintenanceRequest: MaintenanceRequest = {
     maintenanceId: 0,
     roomId: 0,
@@ -36,6 +39,8 @@ export class MaintenanceComponent implements OnInit{
   
 
   toastNotif = inject(ToastnotificationService);
+
+  bookingService = inject(BookingService);
 
   token!: string | null;
   maintenanceService = inject(MaintenanceService);
@@ -122,13 +127,14 @@ export class MaintenanceComponent implements OnInit{
   }
   
   addMaintenanceModal(room: any): void{
+    this.selectedRoom.roomName = room.name;
     this.maintenanceRequest.roomId = room.roomId;
+    this.fetchBookings(room.roomId);
     const modal = new window.bootstrap.Modal(document.getElementById('AddMaintenanceModal'));
     modal.show();
   }
 
   addMaintenance(): void{
-
     if (this.token) {
       this.maintenanceService.addMaintenance(this.token, this.maintenanceRequest).subscribe(
         {
@@ -199,6 +205,28 @@ export class MaintenanceComponent implements OnInit{
         modal.hide();
       }
     }
+  }
+
+  fetchBookings(roomId: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.token) {
+        this.bookingService.getBookingsByRoomId(this.token, roomId).subscribe({
+          next: (data) => {
+            this.roomBookings = data.map(booking => ({
+              start: new Date(booking.startTime),
+              end: new Date(booking.endTime)
+            }));
+            resolve();
+          },
+          error: (error) => {
+            console.error('Error fetching bookings:', error);
+            reject(error);
+          }
+        });
+      } else {
+        resolve();
+      }
+    });
   }
 
 
