@@ -14,6 +14,7 @@ import { CleaningService } from '../../services/cleaning.service';
 import { RRule } from 'rrule';
 import rrulePlugin from '@fullcalendar/rrule';
 import { MaintenanceService } from '../../services/maintenance.service';
+import { HolidayService } from '../../services/holiday.service';
 
 @Component({
   selector: 'app-roomcallendar',
@@ -55,6 +56,9 @@ export class RoomcallendarComponent implements OnInit {
     setDate: '',
   };
   
+  holidays: {date: string, name: string}[] = [];
+
+
 
   @Input() roomName: string = '';
 
@@ -82,6 +86,10 @@ export class RoomcallendarComponent implements OnInit {
 
       else if(arg.event.id.startsWith('maintenance_slot')){
         return { html: `<div class="fc-event-title">Under maintenance</div>` };
+      }
+
+      else if(arg.event.id === "holiday_slot"){
+        return { html: `<div class="fc-event-title">${arg.event.title}</div>` };
       }
       
       // For other events, show the default content
@@ -114,6 +122,7 @@ export class RoomcallendarComponent implements OnInit {
   bookingService = inject(BookingService);
   cleaningService = inject(CleaningService);
   maintenanceService = inject(MaintenanceService);
+  holidayService = inject(HolidayService);
 
   toastNotif = inject(ToastnotificationService);
 
@@ -129,6 +138,7 @@ export class RoomcallendarComponent implements OnInit {
     this.roomName = String(this.route.snapshot.paramMap.get('roomName'));
     await Promise.all([
       this.fetchBookings(),
+      this.fetchHolidays(),
       this.fetchAfterUseCleanings(),
       this.fetchWeeklyCleaning(),
       this.fetchMaitenanceSlots()
@@ -154,7 +164,6 @@ export class RoomcallendarComponent implements OnInit {
               end: new Date(cleaning.endTime)
             }));
             resolve();
-            console.log(this.afterUseCleanings);
           },
           error: (error)=>{
             console.log("Error");
@@ -248,8 +257,36 @@ export class RoomcallendarComponent implements OnInit {
 
 
   loadEvents(): void {
+
+    console.log(this.holidays);
+
     const userEmail = this.getUserEmail();
   
+    // Holiday events
+    const holidayEvents: any[] = [];
+    
+    for(let i=0; i<this.holidays.length; i++){
+      let holiday = this.holidays[i];
+      let startDate = holiday.date;
+      const nextDate = new Date(startDate);
+      nextDate.setDate(nextDate.getDate() + 1);
+      holidayEvents.push({
+          title: holiday.name,
+          startRecur: startDate,        
+          endRecur: nextDate.toISOString().split('T')[0],            
+          daysOfWeek: [new Date(startDate).getDay().toString()],               
+          startTime: '08:00',             
+          endTime: '23:59',               
+          backgroundColor: '#ff1f1f',        
+          borderColor: '#ff1f1f',
+          id: `holiday_slot_${i}`, 
+      })
+    }
+
+
+  
+
+
     // Create cleaning events
     const cleaningEvents = this.afterUseCleanings.map((cleaning, index) => ({
       title: 'After use Cleaning',
@@ -278,8 +315,8 @@ export class RoomcallendarComponent implements OnInit {
         start: booking.start,
         end: booking.end,
         email: booking.userEmail,
-        backgroundColor: isCurrentUser ? '#4682fa' : '#f50505',
-        borderColor: isCurrentUser ? '#4682fa' : '#f50505'
+        backgroundColor: isCurrentUser ? '#4682fa' : '#f505dd',
+        borderColor: isCurrentUser ? '#4682fa' : '#f505dd'
       };
     });
 
@@ -290,9 +327,7 @@ export class RoomcallendarComponent implements OnInit {
       let slot = this.maintenanceSlots[i];
       let startDate = slot.startDate;
       let endDate = slot.endDate;
-      let startTime = '08:00';
-      let endTime = '18:00';
-      
+
       let firstTime = startDate.split('T')[1];
       let lastTime = endDate.split('T')[1];
       
@@ -399,11 +434,11 @@ export class RoomcallendarComponent implements OnInit {
         borderColor: '#ff9800'
       };
       // Merge both cleaning and booking events
-      this.calendarOptions.events = [...maintenanceEvents, recurringEvent, ...cleaningEvents, ...bookingEvents];
+      this.calendarOptions.events = [...holidayEvents, ...maintenanceEvents, recurringEvent, ...cleaningEvents, ...bookingEvents];
   
     }
     else{
-      this.calendarOptions.events = [...maintenanceEvents, ...cleaningEvents, ...bookingEvents];
+      this.calendarOptions.events = [...holidayEvents, ...maintenanceEvents, ...cleaningEvents, ...bookingEvents];
     }
   
     
@@ -418,27 +453,73 @@ export class RoomcallendarComponent implements OnInit {
     this.userBooking.startTime = this.bookingTime;
     this.userBooking.bookingHours = this.bookingHours;
     
-    this.bookingService.submitBooking(this.userBooking).subscribe(
-      response => {
-        // Refresh all data after successful booking
-        Promise.all([
-          this.fetchBookings(),
-          this.fetchAfterUseCleanings(),
-          this.fetchWeeklyCleaning(),
-          this.fetchMaitenanceSlots()
-        ]).then(() => this.loadEvents());
-    
-        this.toastNotif.showSuccess('Your booking was successful! Thank you for using our service.', 'Booking Confirmed');
-      },
-      error => {
-        console.error("Booking error:", error); // Log full error for debugging
-    
-        const errorMessage = error?.error || 'An unexpected error occurred. Please try again.';
-        this.toastNotif.showError(errorMessage, 'Booking Failed');
+    // Check if booking done in a holiday
+    let isBookedOnHoliday = false;
+    let holidayName = '';
+    for(let i=0; i<this.holidays.length; i++){
+      let holidayDate = this.holidays[i].date;
+      holidayName = this.holidays[i].name;
+      let bookingDate = this.userBooking.startTime.split('T')[0];
+      if(holidayDate==bookingDate){
+        isBookedOnHoliday = true;
+        break;
       }
-    );
+    }
+
+    if(isBookedOnHoliday){
+      this.toastNotif.showError(`Booking can't be scheduled on a holiday day: ${holidayName}`, "Booking failed");
+    }
+    else{
+
+      this.bookingService.submitBooking(this.userBooking).subscribe(
+        response => {
+          // Refresh all data after successful booking
+          Promise.all([
+            this.fetchBookings(),
+            this.fetchHolidays(),
+            this.fetchAfterUseCleanings(),
+            this.fetchWeeklyCleaning(),
+            this.fetchMaitenanceSlots()
+          ]).then(() => this.loadEvents());
+      
+          this.toastNotif.showSuccess('Your booking was successful! Thank you for using our service.', 'Booking Confirmed');
+        },
+        error => {
+          console.error("Booking error:", error); // Log full error for debugging
+      
+          const errorMessage = error?.error || 'An unexpected error occurred. Please try again.';
+          this.toastNotif.showError(errorMessage, 'Booking Failed');
+        }
+      ); 
+    }
     
   }
+
+
+  fetchHolidays(): Promise<void> {
+    const currentYear = new Date().getFullYear();    
+    let country = "FR";
+    
+    return new Promise((resolve, reject) => {
+      this.holidayService.fetHolidays(currentYear.toString(), country).subscribe({
+        next: (data) => {
+          this.holidays = data.map((holiday: any) => ({
+            date: holiday.date,
+            name: holiday.localName
+          }));
+          resolve();
+        },
+        error: (error) => {
+          console.error('Error fetching holidays:', error);
+          reject(error);
+        }
+      });
+    });
+  }
+  
+
+
+
 
  getUserEmail(): string | null {
   

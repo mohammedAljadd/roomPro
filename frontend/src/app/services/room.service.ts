@@ -11,7 +11,7 @@ import { RoomSetCleaningResponse } from '../model/class/Response/RoomSetCleaning
 })
 export class RoomService {
 
-  private apiUrl = 'http://localhost:8080/roompro/meeting-rooms'; // Change to your backend URL
+  private apiUrl = 'http://localhost:8080/roompro/meeting-rooms';
 
   constructor(private http: HttpClient) {}
 
