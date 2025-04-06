@@ -258,7 +258,6 @@ export class RoomcallendarComponent implements OnInit {
 
   loadEvents(): void {
 
-    console.log(this.holidays);
 
     const userEmail = this.getUserEmail();
   

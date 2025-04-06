@@ -55,7 +55,6 @@ public class MaintenanceController {
     @PostMapping("/maintenance/add")
     public ResponseEntity<?> addMaintenance(@RequestBody MaintenanceResponseDTO maintenanceDTO){
 
-        System.out.println(maintenanceDTO.toString());
         if (maintenanceDTO.getRoomId() == 0 ||
                 maintenanceDTO.getStartDate() == null || maintenanceDTO.getStartDate().isEmpty() ||
                 maintenanceDTO.getEndDate() == null || maintenanceDTO.getEndDate().isEmpty()) {

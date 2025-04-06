@@ -28,7 +28,6 @@ public class CleaningController {
             @RequestParam(required = true) Long roomId){
 
         List<CleaningAfterUse> cs = cleaningService.getAllAfterUseCleaning(roomId);
-        System.out.println(cs.toString());
         return cs.stream().map(c->new CleaningAfterUseResponseDTO(c.getCleaningId(), c.getStartTime(), c.getEndTime())).toList();
     }
 

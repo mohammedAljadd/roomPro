@@ -2,6 +2,7 @@ package com.roompro.roompro.service;
 
 
 import com.roompro.roompro.dto.request.BookingRequestDTO;
+import com.roompro.roompro.dto.request.HolidayDTO;
 import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.model.Maintenance;
 import com.roompro.roompro.model.Room;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -41,6 +43,9 @@ public class BookingService {
 
     @Autowired
     CleaningAssignmentRepository cleaningAssignmentRepository;
+
+    @Autowired
+    HolidayService holidayService;
 
     public void createBooking(BookingRequestDTO bookingDto) throws Exception {
 
@@ -102,6 +107,20 @@ public class BookingService {
         boolean isOverlappingWithMaintenance = maintenanceService.isOverlappingWithMaintenanceSlots(room.getRoomId(), startDateTime, endDateTime);
         if(isOverlappingWithMaintenance){
             throw new Exception("Looks like the room is under maintenance during this time. Please select a time outside the maintenance window.");
+        }
+
+
+        // Check if booking scheduled on a holiday day
+        String year = String.valueOf(LocalDate.now().getYear());
+        List<HolidayDTO> holidays = holidayService.getHolidays(year, "FR");
+
+        for (HolidayDTO holiday : holidays) {
+            String holidayDate = holiday.getDate();
+            String bookingDate = bookingDto.getStartTime().split("T")[0];
+
+            if (holidayDate.equals(bookingDate)) {
+                throw new Exception("Booking can't be scheduled on a holiday: " + holiday.getName());
+            }
         }
 
 
