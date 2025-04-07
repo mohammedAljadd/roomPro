@@ -3,6 +3,8 @@ package com.roompro.roompro.service;
 
 import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.request.HolidayDTO;
+import com.roompro.roompro.dto.response.BookingTrendsResponseDTO;
+import com.roompro.roompro.dto.response.MostBookedRoomResponseDTO;
 import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.model.Maintenance;
 import com.roompro.roompro.model.Room;
@@ -16,10 +18,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -166,4 +171,71 @@ public class BookingService {
         return Map.of("message", "Booking cancelled successfully.");
 
     }
+
+    public BookingTrendsResponseDTO getBookingTrends(int year, int month){
+        BookingTrendsResponseDTO trends = new BookingTrendsResponseDTO();
+
+        // Total Bookings
+        int totalBookings = bookingRepository.findTotalBookings(year, month);
+
+        // Peak Hour
+        List<Object []> peakHourAndBookingNumber = bookingRepository.findPeakHour(year, month);
+
+        // Check if the array is not empty
+        if (peakHourAndBookingNumber != null) {
+            // Print the type of each element
+            for (int i = 0; i < peakHourAndBookingNumber.size(); i++) {
+                int peakHour = ((BigDecimal) peakHourAndBookingNumber.get(i)[0]).intValue();
+                int bookingNumber = ((Long) peakHourAndBookingNumber.get(i)[1]).intValue();
+                trends.setPeakHour(peakHour+":"+bookingNumber);
+            }
+        }
+
+        // Most booked room
+        List<Object []> mostBookedRoomList = roomRepository.findMostBookedRoom(year, month);
+
+        MostBookedRoomResponseDTO mostBookedRoom = new MostBookedRoomResponseDTO();
+        if (!mostBookedRoomList.isEmpty()){
+
+            Object[] row = mostBookedRoomList.get(0);
+
+            String roomName = (String) row[4];
+            mostBookedRoom.setName((String) row[4]);
+            mostBookedRoom.setDescription((String) row[2]);
+            mostBookedRoom.setCapacity(((Number) row[1]).shortValue());
+            mostBookedRoom.setLocation((String) row[3]);
+            mostBookedRoom.setBooking_count((Long) row[5]);
+        }
+        trends.setMostBookedRoom(mostBookedRoom);
+
+
+        // Peak day
+        List<Object []> peakDayList = bookingRepository.findPeakDay(year, month);
+        List<String> daysOfWeek = Arrays.asList(
+                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        );
+
+        if(!peakDayList.isEmpty()){
+            int indexPeakDay = ((BigDecimal) peakDayList.getFirst()[0]).intValue();
+            long peakDayBookingCount = ((Number)  peakDayList.getFirst()[1]).longValue();
+            trends.setPeakDay(daysOfWeek.get(indexPeakDay)+":"+peakDayBookingCount);
+        }
+
+        // Average booking duration
+        List<Object[]> avgBookingDurationList = bookingRepository.findAverageDuration(year, month);
+
+        if(!avgBookingDurationList.isEmpty()){
+            double avgBookingDuration = ((BigDecimal) avgBookingDurationList.getFirst()[0]).doubleValue();
+            avgBookingDuration =  Math.floor(avgBookingDuration * 100) / 100;
+
+            trends.setAverageBookingDuration(avgBookingDuration);
+        }
+
+
+        trends.setTotalBookings(totalBookings);
+
+        return trends;
+    }
+
+
 }

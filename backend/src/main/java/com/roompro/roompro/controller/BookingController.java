@@ -3,6 +3,7 @@ package com.roompro.roompro.controller;
 
 import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.response.BookingResponseDTO;
+import com.roompro.roompro.dto.response.BookingTrendsResponseDTO;
 import com.roompro.roompro.model.Booking;
 import com.roompro.roompro.service.BookingService;
 import com.roompro.roompro.service.CleaningService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,5 +82,12 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         
+    }
+
+
+    @GetMapping("/booking/trends/{year}/{month}")
+    public BookingTrendsResponseDTO getBookingTrends(@PathVariable int year, @PathVariable int month){
+        BookingTrendsResponseDTO trends = bookingService.getBookingTrends(year, month);
+        return trends;
     }
 }

@@ -45,4 +45,14 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query("update  RoomCleaningAssignment r set r.cleaningType.cleaningId=:cleaningId where r.room.roomId=:roomId")
     void updateCleaningType(long roomId, long cleaningId);
+
+
+    @Query(value = "select r.*, count(b.*) as booking_count from rooms r " +
+            "left join bookings b on r.room_id=b.room_id " +
+            "where EXTRACT(YEAR FROM start_time) = :year " +
+            "and EXTRACT(MONTH FROM start_time) = :month " +
+            "group by r.room_id " +
+            "order by booking_count desc " +
+            "limit 1", nativeQuery = true)
+    List<Object []> findMostBookedRoom(int year, int month);
 }
