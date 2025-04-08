@@ -22,9 +22,12 @@ export class AddroomsComponent implements OnInit{
   toastNotif = inject(ToastnotificationService);
   equipmentService = inject(EquipementService);
 
+  locations: string[] = [];
 
   ngOnInit(): void {
     this.fetchAllEquipements();
+    this.locations = ["Main Building", "West Wing", "East Wing"];
+    this.newRoom.location = this.locations[0];
   }
 
   addEquipment(EquipmentId: number, event: any):void{
@@ -45,6 +48,8 @@ export class AddroomsComponent implements OnInit{
         response => {
          this.toastNotif.showSuccess(response.message);
          this.newRoom = new NewRoomResponse();
+         this.newRoom.location = this.locations[0];
+         this.newRoom.equipmentsIDs = [];
         },
         error => {
           this.toastNotif.showWarning(error.error);

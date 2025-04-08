@@ -17,11 +17,11 @@
                 </div>
   
                 <div class="row mt-3">
-                    <div class="col-12">
-                      <label for="location">Location</label>
-                      <input type="text" id="location" class="form-control" [(ngModel)]="newRoom.location">
-                    </div>
-                </div>
+                  <label for="roomname">Location</label>
+                  <select class="form-select" aria-label="Default select example" style="width: 96.5%;margin-left: 10px;" [(ngModel)]="newRoom.location">
+                      <option *ngFor="let location of locations" value="{{location}}">{{location}}</option>
+                    </select>
+                  </div>
 
                 <div class="row mt-3">
                     <div class="col-12">
