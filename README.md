@@ -41,77 +41,67 @@ RoomPro is a web application that simplifies room booking and management. Built 
 
 ### 1️⃣ Home Page
 
-<div style="text-align: center;">
-    <img src="imgs_readme/home.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/home.png" style="border: 1px solid #666666; width: 840px">
 
 
 ### 2️⃣ Rooms Page
 
-<div style="text-align: center;">
-    <img src="imgs_readme/meeting_rooms.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/meeting_rooms.png" style="border: 1px solid #666666; width: 840px">
 
 
 ### 3️⃣ Rooms Page / room callendat
 
-<div style="text-align: center;">
-    <img src="imgs_readme/book_room.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/book_room.png" style="border: 1px solid #666666; width: 840px">
 
 ### 4️⃣ My Bookings Page
 
-<div style="text-align: center;">
-    <img src="imgs_readme/my_bookings.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/my_bookings.png" style="border: 1px solid #666666; width: 840px">
 
 ### 5️⃣ Equipment update
 
 
-<div style="text-align: center;">
-    <img src="imgs_readme/update_equipment.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/update_equipment.png" style="border: 1px solid #666666; width: 840px">
 
 
 
 ### 6️⃣ Manage rooms
 
 
-<div style="text-align: center;">
-    <img src="imgs_readme/manage_rooms.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/manage_rooms.png" style="border: 1px solid #666666; width: 840px">
 
 
 ### 6️⃣.1️⃣ Add new rooms
 
 
-<div style="text-align: center;">
-    <img src="imgs_readme/add_room.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/add_room.png" style="border: 1px solid #666666; width: 840px">
 
 ### 6️⃣.2️⃣ Change cleaning type
 
 
-<div style="text-align: center;">
-    <img src="imgs_readme/cleaning.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/cleaning.png" style="border: 1px solid #666666; width: 840px">
 
 
 ### 6️⃣.3️⃣ Set maintenance periods
 
 
-<div style="text-align: center;">
-    <img src="imgs_readme/maintenance.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/maintenance.png" style="border: 1px solid #666666; width: 840px">
 
 
 ### 6️⃣.4️⃣ Booking trends
 
 
 
-<div style="text-align: center;">
-    <img src="imgs_readme/booking_trends.png" style="border: 1px solid #666666; width: 440px">
-</div>
+
+<img src="imgs_readme/booking_trends.png" style="border: 1px solid #666666; width: 840px">
 
 ## Key Features
 
