@@ -143,7 +143,7 @@ export class RoomcallendarComponent implements OnInit {
       this.fetchWeeklyCleaning(),
       this.fetchMaitenanceSlots()
     ]);
-
+    console.log(this.userBooking)
     this.loadEvents();
     
     

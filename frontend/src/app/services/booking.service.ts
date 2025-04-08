@@ -81,7 +81,7 @@ export class BookingService {
 
   getBookingsByRoomId(token: string, roomId: number):Observable<BookingRequest[]>{
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<BookingRequest[]>(this.apiUrl+"bookings/room/"+roomId, { headers });
+    return this.http.get<BookingRequest[]>(this.apiUrl+"booking/room/"+roomId, { headers });
   }
 
   getBookingTrends(token: string, year: number, month: number): Observable<BookingTrendsRequest>{

@@ -4,7 +4,7 @@
 
 RoomPro is a web application that simplifies room booking and management. Built with `Spring Boot` for the backend and `Angular` for the frontend, it follows a clean architecture that separates concerns into Controllers, Services, Repositories, and Entities for scalability and maintainability. The app securely stores user and room data in a relational database.
 
-# 🚀 Current Release: v2.4.0
+# 🚀 Current Release: v2.5.0
 ## 🎉 Features up to this Release:
 
 - `Admin pannel`: Introduced an Admin Panel :
@@ -15,6 +15,13 @@ RoomPro is a web application that simplifies room booking and management. Built 
     - `Room Status & availability` :
         - Add cleaning periods
         - Add maintenance periods
+
+    - `Booking Trends` :
+        - 📊 Booking Statistics
+        - ⏰ Peak Hour Tracking:
+        - 📈 Peak Day Insights
+        - 🕓 Average Booking Duration
+        - 📋 Most Booked Room
 
 
 - `Adding holidays`:
@@ -30,27 +37,81 @@ RoomPro is a web application that simplifies room booking and management. Built 
 
 - `Calendar Integration`: FullCalendar to display room bookings with week view and dynamic reservations.
 
-## 🏠 Pages Overview (current progress)
+## 🏠 Pages Overview
 
-### 1️⃣ Home Page ( /home )
+### 1️⃣ Home Page
 
-
-<img src="imgs_readme/home.png" style="border: 1px solid #666666; !important;">
-
-### 2️⃣ Rooms Page ( /rooms )
-
-<img src="imgs_readme/meeting_rooms.png" style="border: 1px solid #666666; !important;">
+<div style="text-align: center;">
+    <img src="imgs_readme/home.png" style="border: 1px solid #666666; width: 440px">
+</div>
 
 
-### 3️⃣ My Bookings Page ( /my-bookings )
+### 2️⃣ Rooms Page
 
-<img src="imgs_readme/my_bookings.png" style="border: 1px solid #666666; !important;">
+<div style="text-align: center;">
+    <img src="imgs_readme/meeting_rooms.png" style="border: 1px solid #666666; width: 440px">
+</div>
 
 
-### 4️⃣ Booking cancelation popup ( /my-bookings/cancel )
+### 3️⃣ Rooms Page / room callendat
 
-<img src="imgs_readme/my_bookings_cancel.png" style="border: 1px solid #666666; !important;">
+<div style="text-align: center;">
+    <img src="imgs_readme/book_room.png" style="border: 1px solid #666666; width: 440px">
+</div>
 
+### 4️⃣ My Bookings Page
+
+<div style="text-align: center;">
+    <img src="imgs_readme/my_bookings.png" style="border: 1px solid #666666; width: 440px">
+</div>
+
+### 5️⃣ Equipment update
+
+
+<div style="text-align: center;">
+    <img src="imgs_readme/update_equipment.png" style="border: 1px solid #666666; width: 440px">
+</div>
+
+
+
+### 6️⃣ Manage rooms
+
+
+<div style="text-align: center;">
+    <img src="imgs_readme/manage_rooms.png" style="border: 1px solid #666666; width: 440px">
+</div>
+
+
+### 6️⃣.1️⃣ Add new rooms
+
+
+<div style="text-align: center;">
+    <img src="imgs_readme/add_room.png" style="border: 1px solid #666666; width: 440px">
+</div>
+
+### 6️⃣.2️⃣ Change cleaning type
+
+
+<div style="text-align: center;">
+    <img src="imgs_readme/cleaning.png" style="border: 1px solid #666666; width: 440px">
+</div>
+
+
+### 6️⃣.3️⃣ Set maintenance periods
+
+
+<div style="text-align: center;">
+    <img src="imgs_readme/maintenance.png" style="border: 1px solid #666666; width: 440px">
+</div>
+
+
+### 6️⃣.4️⃣ Booking trends
+
+
+
+<div style="text-align: center;">
+    <img src="imgs_readme/booking_trends.png" style="border: 1px solid #666666; width: 440px">
+</div>
 
 ## Key Features
 
@@ -58,7 +119,7 @@ RoomPro is a web application that simplifies room booking and management. Built 
 
  - Registration: Users can register by providing details such as first name, last name, email, password, and role (e.g., Admin, User).
 
- - Authentication (Planned): Secure user authentication and role-based access control.
+ - Authentication: Secure user authentication and role-based access control.
 
 ### Room Booking:
 
@@ -66,78 +127,73 @@ RoomPro is a web application that simplifies room booking and management. Built 
 
  - Bookings include start and end times, ensuring no overlapping reservations.
 
-### Admin Features (Planned):
+### Admin Features:
 
- - Management of rooms, including adding, updating, and deleting rooms.
-Viewing and managing all bookings.
+ - 📅 Management of Rooms:
+
+    - Add, update, and delete rooms.
+    - Define room attributes (capacity, location, description) for better management.
+    - Set room availability for bookings and maintenance.
+
+ - 🧹Setting cleaning periods : there are tree types
+
+    - Daily Cleaning: Set recurring daily cleaning times for each room.
+    - Weekly Cleaning: Define cleaning schedules on specific days of the week for room rotation.
+    - On-demand Cleaning: Allow users to request cleaning during their stay, with flexible timing and notifications for admins.
+
+ - 🛠 Setting Maintenance Periods:
+
+    - Schedule maintenance periods for each room to ensure readiness and minimize downtime.
+    - Automatically block out room availability during maintenance windows.
+
+
+ - 📈 Admin Views Booking Trends
+    - Admins can get detailed insights into booking data, helping to optimize room usage and management:
+      - Total Bookings: See the total number of bookings monthly.
+      - Peak Hours: Identify the busiest hours of the day when bookings are highest.
+      - Busiest Days: Visualize the days of the week that have the highest booking activity.
+      - Average Booking Duration: View the average duration of bookings, which helps in planning room usage more efficiently.
+      - Most Booked Room: See which room has the highest number of bookings, helping prioritize maintenance or improvements for that space.
 
 ### Database Integration:
 
- - Persistent storage for users, roles, rooms, and bookings using `PostgreSQL` database.
-
- - Validation to ensure data consistency, such as checking for booking overlaps.
+ - Persistent storage for users, rooms, and bookings using `PostgreSQL` database.
 
 
 
 ## Project Architecture
 
 ### 1. Entities
+
 Entities represent the core data structures of the application. These classes are annotated with JPA annotations to map them to database tables.
 
- - User: Contains fields like userId, firstName, lastName, email, password, and role.
 
- - Role: Stores user roles such as Admin or User.
+- `Users` : Represents users of the system, such as admin or regular users.
 
- - Room: Represents rooms with details like roomId, capacity, description, location, and name.
+- `Role` :  Defines the roles available in the system, such as Admin and User. 
 
- - Booking: Tracks bookings with fields such as bookingId, startTime, endTime, room, and user.
-
-### 2. Repositories
-Repositories act as the data access layer and extend Spring Data JPA, providing methods to interact with the database.
- 
- - UserRepository: Handles operations related to the User entity (e.g., finding users by email).
- 
- - RoleRepository: Manages role-related queries.
- 
- - RoomRepository: Manages room data access.
- 
- - BookingRepository: Ensures no overlapping bookings via custom queries.
-
-### 3. Services
-Services contain business logic and act as intermediaries between controllers and repositories.
- 
- - RegistrationService: Handles user registration, including validations (e.g., duplicate email checks) and role assignment.
- 
- - BookingService: Validates booking data and interacts with the database to create new bookings.
-
-### 4. Controllers
-Controllers handle HTTP requests and responses, exposing RESTful APIs to the frontend.
-
- 
- - UserController: Manages endpoints for user registration and authentication.
- 
- - RoomController (Planned): Handles room-related operations.
- 
- - BookingController: Manages booking functionality.
-
-### 5. Database
-The application uses a relational database to persist data. Tables include:
-
- - users: Stores user details. Each user can have multiple bookings.
- - roles: Stores predefined roles. Ther are three roles : `Admin`, `Manager` and `Employee`
- - rooms: Stores room details. A room can be booked multiple times.
- - RoomEquipment : Each rome have some equipments.
- - bookings: Tracks user reservations.
+- `UserPrincipal` : Represents the principal (authenticated user) in the system. This entity typically holds the user details (such as username, password, roles) that are needed for authentication and authorization.
 
 
-## Current Progress
-### Backend:
+- `Booking` : Represents a booking made by a user for a specific room. 
 
-- User registration API implemented and integrated with the database.
-- Room and booking entities created.
-- Validation for booking conflicts implemented.
 
-### Frontend:
+- `Room` : Represents a room in the system. 
 
-- Registration form created with Angular.
-- API integration for user registration.
+
+- `Equipment` : Represents the various equipment available for rooms. 
+
+
+- `RoomEquipmentMapping` : Represents the mapping of equipment to rooms. It shows which equipment is available in which room.
+
+
+- `CleaningType` : Defines various types of cleaning tasks, such as daily, weekly, and on-demand cleaning.
+
+- `CleaningAfterUse` : Represents a specific cleaning task that occurs after a room is used, typically when the room is vacated.
+
+- `CleaningWeekly` : Represents cleaning tasks that occur on a weekly schedule. 
+
+- `RoomCleaningAssignment` : Represents the assignment of cleaning tasks to specific rooms. 
+
+
+- `Maintenance` : Represents scheduled maintenance tasks for rooms. 
