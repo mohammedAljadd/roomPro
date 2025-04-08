@@ -67,28 +67,34 @@
         
 
 
-        <div [ngSwitch]="choosenItem">
-            <div *ngSwitchCase="">
-                <div class="col py-3">
-                    <h4>Welcome Admin!</h4>
-                        <p>Before you begin, here are some quick tips:</p>
-                        <ul>
-                            <li>Add new rooms by clicking the "Add New Room" option in the menu.</li>
-                            <li>Delete rooms from the "Delete Existing Room" section.</li>
-                            <li>Manage room availability and cleaning periods efficiently.</li>
-                        </ul>
-                        <p>Click on any option in the menu to get started.</p>
+        <div class="col py-3">
+            <div [ngSwitch]="choosenItem">
+                <!-- Welcome Message -->
+                <div *ngSwitchCase="null">
+                    <div class="container text-center">
+                        <div class="card shadow-lg p-4 mb-3 bg-light rounded">
+                            <h4 class="mb-3">Welcome Admin!</h4>
+                            <p class="lead mb-4">Here are some quick tips to get started:</p>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Add new rooms by clicking the "Add New Room" option in the menu.</li>
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Delete rooms from the "Delete Existing Room" section.</li>
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Manage room availability and cleaning periods efficiently.</li>
+                            </ul>
+                            <p>Click on any option in the menu to get started.</p>
+                        </div>
+                    </div>
                 </div>
+        
+                <!-- Dynamic Components -->
+                <app-addrooms *ngSwitchCase="'addroom'"></app-addrooms>
+                <app-deleteroom *ngSwitchCase="'deleteroom'"></app-deleteroom>
+                <app-cleaningperiods *ngSwitchCase="'cleaning'"></app-cleaningperiods>
+                <app-maintenance *ngSwitchCase="'maintenance'"></app-maintenance>
+                <app-userstats *ngSwitchCase="'userstats'"></app-userstats>
+                <app-bookingtrends *ngSwitchCase="'bookingtrends'"></app-bookingtrends>
             </div>
-
-            <app-addrooms *ngSwitchCase="'addroom'"></app-addrooms>
-            <app-deleteroom *ngSwitchCase="'deleteroom'"></app-deleteroom>
-            <app-cleaningperiods *ngSwitchCase="'cleaning'"></app-cleaningperiods>
-            <app-maintenance *ngSwitchCase="'maintenance'"></app-maintenance>
-            <app-userstats *ngSwitchCase="'userstats'"></app-userstats>
-            <app-bookingtrends *ngSwitchCase="'bookingtrends'"></app-bookingtrends>
-            
         </div>
+        
         
 
 
