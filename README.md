@@ -187,3 +187,89 @@ Entities represent the core data structures of the application. These classes ar
 
 
 - `Maintenance` : Represents scheduled maintenance tasks for rooms. 
+
+
+### 2. Controllers
+
+- `UserController` : Handles user registration and login functionality.
+
+    - `POST /register`
+        - Validates required fields and email format, then registers a new user via RegistrationService.
+        - Responds with a success message or error if registration fails.
+
+    - `POST /login`
+        - Validates email/password fields and format, then attempts authentication via LoginService.
+        - Returns a JWT token if credentials are valid, otherwise returns an error.
+
+
+
+- `RoomController` : Manages room-related operations including fetching, filtering, updating cleaning types, and CRUD operations.
+
+    - `GET /meeting-rooms`
+        - Returns a list of all meeting rooms.
+
+    - `GET /meeting-rooms/cleaning`
+        - Returns all rooms along with their assigned cleaning type.
+
+    - `GET /meeting-rooms/cleaning/update`
+        - Updates a room's cleaning type by providing room ID, new cleaning type ID, and previous cleaning ID.
+
+    - `GET /meeting-rooms/filter`
+        - Filters rooms based on optional parameters: capacity, location, and equipmentNames.
+
+    - `POST /add-meeting-rooms`
+        - Adds a new meeting room after validating required fields like name, capacity, description, and location.
+
+    - `DELETE /meeting-rooms/delete/{room_id}`
+        - Deletes a room by its ID, returns a message or error if the operation fails.
+
+- `BookingController` : Handles booking-related functionalities for users and admins, including creating, viewing, canceling bookings, and analyzing trends.
+
+   - `POST /booking` : 
+     - Creates a new booking. Requires startTime and bookingHours. Returns success message or validation error.
+
+   - `GET /my-bookings` :  
+     - Returns the list of bookings made by the currently authenticated user.
+
+   - `GET /booking/room/{room_id}`:  
+     - Retrieves all bookings associated with a specific room.
+
+   - `DELETE /my-bookings/cancel/{booking_id}`:  
+     - Cancels a user’s booking by ID. Returns a confirmation or error message.
+
+   - `GET /booking/trends/{year}/{month}` :  
+     - Returns monthly booking trends including total bookings, peak hour/day, average duration, and most booked room.
+
+
+
+- `EquipmentController` : Manages the room-equipment relationships and equipment data.
+
+   - `GET /equipments?roomId=`
+     - Fetches all available equipment, optionally filtered by a specific room ID.
+
+   - `POST /equipments-update`
+     - Updates room-equipment associations. Accepts a list of add/remove actions and applies the mapping accordingly.
+
+
+- `MaintenanceController` : Handles the scheduling and management of room maintenance periods.
+
+   - `GET /maintenance/get-slots?roomId=`
+     - Retrieves all maintenance slots for a specific room.
+
+   - `GET /maintenance/get-slots/all`
+     - Fetches all maintenance periods across all rooms.
+
+   - `DELETE /maintenance/delete/{maintenance_id}`
+     - Deletes a maintenance entry by ID.
+
+   - `POST /maintenance/add`
+     - Adds a new maintenance slot. Requires room ID, start date, and end date.
+
+
+- `CleaningController` : Handles room cleaning schedules based on two types: after-use and weekly.
+
+   - `GET /cleaning/after-use?roomId=`
+     - Retrieves a list of after-use cleaning time slots for a given room.
+
+   - `GET /cleaning/weekly?roomId=`
+     - Returns the weekly cleaning schedule for a specific room (only the most recent set).
