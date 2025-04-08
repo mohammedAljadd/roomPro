@@ -160,7 +160,7 @@ class BookingControllerTest {
         String expectedJson = objectMapper.writeValueAsString(bookingResponseDTOs);
 
 
-        mockMvc.perform(get("/roompro/bookings/room/{room_id}", roomId))
+        mockMvc.perform(get("/roompro/booking/room/{room_id}", roomId))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }

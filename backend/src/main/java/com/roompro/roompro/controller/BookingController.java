@@ -64,7 +64,7 @@ public class BookingController {
 
     }
 
-    @GetMapping("/bookings/room/{room_id}")
+    @GetMapping("/booking/room/{room_id}")
     public List<BookingResponseDTO> getARoomBooking(@PathVariable Long room_id){
         List<Booking> bookings = bookingService.getBookingsByRoomId(room_id);
         return bookings.stream()

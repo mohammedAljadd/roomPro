@@ -1,1 +1,24 @@
-<p>bookingtrends works!</p>
+<div class="text-center my-4">
+    <h2>📈 Booking Trends – {{ currentMonthName }} {{ currentYear }}</h2>
+  </div>
+  
+  <div class="d-flex justify-content-center">
+    <div class="card shadow p-4 rounded" style="max-width: 800px; width: 100%;">
+      <div class="card-body" *ngIf="bookingTrends != null">
+        <p class="mb-3">📅 <strong>Total Bookings:</strong> {{ bookingTrends.totalBookings }}</p>
+        <p class="mb-3">⏰ <strong>Peak Hour:</strong> {{ bookingTrends.peakHour.split(':')[0] }}h00 — {{ bookingTrends.peakHour.split(':')[1] }} bookings</p>
+        <p class="mb-3">📈 <strong>Busiest Day:</strong> {{ bookingTrends.peakDay.split(':')[0] }} — {{ bookingTrends.peakDay.split(':')[1] }} bookings</p>
+        <p class="mb-3">🕓 <strong>Average Booking Duration:</strong> {{ getDurationFormat(bookingTrends.averageBookingDuration) }}</p>
+
+        <div class="mt-4">
+            <h5>🏢 <strong>Most Booked Room:</strong></h5>
+            <p class="mb-2"><strong>Name:</strong> {{ bookingTrends.mostBookedRoom.name }}</p>
+            <p class="mb-2"><strong>Location:</strong> {{ bookingTrends.mostBookedRoom.location }}</p>
+            <p class="mb-2"><strong>Capacity:</strong> {{ bookingTrends.mostBookedRoom.capacity }} people</p>
+            <p class="mb-2"><strong>Description:</strong> {{ bookingTrends.mostBookedRoom.description }}</p>
+            <p><strong>Booking Count:</strong> {{ bookingTrends.mostBookedRoom.booking_count }} bookings</p>
+          </div>
+      </div>
+    </div>
+  </div>
+  

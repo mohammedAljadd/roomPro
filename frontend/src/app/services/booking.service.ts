@@ -3,6 +3,7 @@ import { BookingResponse } from '../model/class/Response/BookingResponse';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BookingRequest } from '../model/class/Request/BookingRequest';
+import { BookingTrendsRequest } from '../model/class/Request/BookingTrendsRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,11 @@ export class BookingService {
   getBookingsByRoomId(token: string, roomId: number):Observable<BookingRequest[]>{
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<BookingRequest[]>(this.apiUrl+"bookings/room/"+roomId, { headers });
+  }
+
+  getBookingTrends(token: string, year: number, month: number): Observable<BookingTrendsRequest>{
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<BookingTrendsRequest>(this.apiUrl+"booking/trends/"+year+"/"+month, { headers });
   }
 
 }
