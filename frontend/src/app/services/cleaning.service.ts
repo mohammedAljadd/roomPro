@@ -29,4 +29,18 @@ export class CleaningService {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       return this.http.get<CleaningWeeklyRequest>('http://localhost:8080/roompro/cleaning/weekly', { params, headers });
     }
+
+
+  requestCleaning(token: string, roomId: number, message: string):Observable<{message: string}>{
+    const request = {
+      roomId: roomId,
+      message: message,
+      requestedAt: new Date().toISOString()
+    };
+    console.log(request);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<{message: string}>('http://localhost:8080/roompro/cleaning/request', request, { headers });
+  }
+
+
 }

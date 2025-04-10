@@ -66,4 +66,17 @@ export class RoomService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.delete<{ message: string }>(this.apiUrl+"/delete/"+roomId, {headers});
   }
+
+
+  getRoomsWithCustomCleaningType(token: string): Observable<RoomRequest[]>{
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<RoomRequest[]>("http://localhost:8080/roompro/meeting-rooms/custom-cleaning", {headers});
+  }
+
+
+
+
+
+
+
 }

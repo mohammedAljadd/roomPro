@@ -55,4 +55,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "order by booking_count desc " +
             "limit 1", nativeQuery = true)
     List<Object []> findMostBookedRoom(int year, int month);
+
+
+
+
+
+    @Query(value = "select r.* from rooms r join room_cleaning_assignments rca on rca.room_id=r.room_id where cleaning_type_id=4", nativeQuery = true)
+    List<Room> getRoomsWithCustomCleaning();
 }

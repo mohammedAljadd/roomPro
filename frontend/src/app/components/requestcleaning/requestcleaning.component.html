@@ -1,0 +1,44 @@
+<div class="d-flex align-items-center" style="height: 90vh;">
+    <div class="container d-flex justify-content-center">
+      <div class="card w-50">
+        <div class="card-body" style="background-color: #d4e7f393;">
+          <div class="row align-items-stretch">
+            
+            <h1 class="pb-3">Request Cleaning</h1>
+  
+            <div class="d-flex flex-column">
+              <div class="h-100 d-flex flex-column justify-content-center">
+              
+       
+                
+                <div class="row mt-3">
+                  <label for="roomname">Room</label>
+                  <select class="form-select" aria-label="Default select example" style="width: 96.5%;margin-left: 10px;" [(ngModel)]="roomId">
+                      <option *ngFor="let room of rooms" value="{{room.roomId}}">{{room.name}}</option>
+                    </select>
+                  </div>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                      <label for="description">Message</label>
+                      <textarea id="description" class="form-control" [(ngModel)]="message"></textarea>
+                    </div>
+                </div>
+
+
+               
+  
+                <div class="row mt-4">
+                  <div class="col text-center">
+                    <button class="btn btn-primary mx-2" (click)="sendRequest()">Send request</button>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -38,6 +38,14 @@ public class RoomController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/meeting-rooms/custom-cleaning")
+    public List<RoomResponseDTO> getRoomsWithCustomCleaning() {
+        List<Room> rooms = roomService.getRoomsWithCustomCleaning();
+        return rooms.stream()
+                .map(roomMapper::roomToRoomResponseDTO)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/meeting-rooms/cleaning")
     public List<RoomCleaningResponseDTO> getRoomsWithCleaningType() {
         return roomService.getAllRoomsWithCleaningType();

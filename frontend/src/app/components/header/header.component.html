@@ -12,6 +12,7 @@
           <a *ngIf="!jwtToken" class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
           <a *ngIf="isAdmin" class="nav-link" routerLink="/add-remove-equipment" routerLinkActive="active-link">Equipment Setup</a>
           <a *ngIf="isAdmin" class="nav-link" routerLink="/manage-rooms" routerLinkActive="active-link">Manage Rooms</a>
+          <a *ngIf="!isAdmin" class="nav-link" routerLink="/request-cleaning" routerLinkActive="active-link">Request Cleaning</a>
           
           
           <div *ngIf="jwtToken" class="nav-link" style="color: white;position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">Welcome {{ userName }}!</div>

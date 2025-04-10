@@ -41,6 +41,10 @@ public class RoomService {
         return roomRepository.findAllWithEquipment();
     }
 
+    public List<Room> getRoomsWithCustomCleaning(){
+        return roomRepository.getRoomsWithCustomCleaning();
+    }
+
 
     public List<RoomCleaningResponseDTO> getAllRoomsWithCleaningType(){
         List<Object[]> rooms = roomRepository.findRoomsWithCleaningType();
