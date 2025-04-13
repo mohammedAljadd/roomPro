@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +49,9 @@ public class CleaningService {
     public List<CleaningAfterUse> getAllAfterUseCleaning(long roomId){
         return afterUseCleaningRepository.findByRoomId(roomId);
     }
+
+
+
 
     public List<CleaningWeekly> getAllWeeklyCleaning(long roomId){
         return cleaningWeeklyRepository.findByRoomId(roomId);
@@ -95,13 +99,29 @@ public class CleaningService {
         // Set message
         cleaningOnRequest.setMessage(cleaningRequest.getMessage());
 
-
+        cleaningOnRequest.setViewedByUser(false);
 
         cleaningUserRequestRepository.save(cleaningOnRequest);
     }
 
-    public List<CleaningOnRequestResponseDTO> getCleaningRequests() {
+    public void markCleaningRequestAsViewed(Long cleaningID){
+        CleaningOnRequest cleaningRequest = cleaningUserRequestRepository.findById(cleaningID).get();
+        cleaningRequest.setViewedByUser(true);
+        cleaningUserRequestRepository.save(cleaningRequest);
+    }
+
+    public List<CleaningOnRequestResponseDTO> getCleaningRequests(boolean showProcessed) {
         List<CleaningOnRequest> cleaningRequests = cleaningUserRequestRepository.findAllRequests();
+
+        if(showProcessed){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            Users user = userRepository.findByEmail(email);
+            cleaningRequests  = cleaningRequests.stream().filter(request->(request.getStatus()!=CleaningStatus.ON_HOLD &&
+                    request.getUser().equals(user) && !request.isViewedByUser()
+            )).toList();
+        }
+
         List<CleaningOnRequestResponseDTO> cRequestsDTO = cleaningRequests.stream().map(
                 request -> {
                     CleaningOnRequestResponseDTO dto = new CleaningOnRequestResponseDTO();

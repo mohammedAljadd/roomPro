@@ -9,10 +9,13 @@ import { AddRemoveEquipmentComponent } from './components/admin/addremoveequipme
 import { ManageroomsComponent } from './components/admin/managerooms/managerooms.component';
 import { RequestcleaningComponent } from './components/requestcleaning/requestcleaning.component';
 import { UserrequestedcleaningComponent } from './components/userrequestedcleaning/userrequestedcleaning.component';
+import { Component } from '@angular/core';
+import { HeaderComponent } from './components/header/header.component';
 
 
 export const routes: Routes = [
     {path: 'home', component: HomeComponent},
+    {path: 'header', component: HeaderComponent},
     {path: 'meeting-rooms', component: MeetingroomsComponent},
     {path: 'meeting-rooms/:id/:roomName', component: RoomcallendarComponent},
     {path: 'register', component: RegisterComponent},

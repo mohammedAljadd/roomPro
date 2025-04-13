@@ -49,6 +49,15 @@ export class CleaningService {
     return this.http.get<CleaningOnRequest[]>('http://localhost:8080/roompro/cleaning/request/get', { headers });
   }
 
+  getProcessedRequest(token: string):Observable<CleaningOnRequest[]>{
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<CleaningOnRequest[]>('http://localhost:8080/roompro/cleaning/request/get/processed', { headers });
+  }
+
+  markProcessedRequestAsViewed(token: string, cleaning_id:number):Observable<void>{
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.patch<void>('http://localhost:8080/roompro/cleaning/request/processed/marked-view/'+cleaning_id, {}, { headers });
+  }
 
   acceptRequest(token: string, cleaningId: number, startTime: string, endTime: string):Observable<{message: string}>{
 

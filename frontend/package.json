@@ -24,6 +24,7 @@
     "@fullcalendar/rrule": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
     "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "jwt-decode": "^4.0.0",
     "ngx-toastr": "^19.0.0",
     "rrule": "^2.8.1",

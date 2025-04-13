@@ -15,9 +15,35 @@
           <a *ngIf="!isAdmin" class="nav-link" routerLink="/request-cleaning" routerLinkActive="active-link">Request Cleaning</a>
           <a *ngIf="isAdmin" class="nav-link" routerLink="/requested-cleaning" routerLinkActive="active-link">User Requests<span *ngIf="pendingCount > 0" class="badge bg-danger">{{ pendingCount }}</span></a>
           <div *ngIf="jwtToken" class="nav-link" style="color: white;position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">Welcome {{ userName }}!</div>
+          <div *ngIf="!isAdmin && jwtToken" class="position-relative" #notifContainer>
+            <i class="bi bi-bell-fill"
+               (click)="toggleNotifications()"
+               style="color: whitesmoke; font-size: 1.5rem; cursor: pointer;"></i>
+          
+            <div *ngIf="showNotifications"
+                 class="position-absolute end-0 mt-2 p-2 bg-white text-dark shadow rounded"
+                 style="width: 250px; z-index: 1000;">
+                 
+              <div *ngIf="notifications.length === 0">
+                No notifications.
+              </div>
+              
+              <div *ngFor="let notif of notifications; let i = index" class="border-bottom py-2 small">
+                {{ notif }} 
+                <button 
+                class="btn-close btn-sm"
+                style="font-size: 0.7rem; padding: 0.2rem;"
+                aria-label="Close" (click)="removeNotification(i)"></button>
+              </div>
+              
+            </div><span style="margin-left: -3px;" *ngIf="notViewedRequestCount > 0" class="badge bg-danger">{{ notViewedRequestCount }}</span>
+          </div>
+          
+          
           <button *ngIf="jwtToken" class="btn btn-danger" style="position: absolute; right: 180px; top: 50%; transform: translateY(-50%); margin-left: 10px;" (click)="logout()">Logout!</button>
         </div>
       </div>
     </div>
   </nav>
   <br><br><br><br>
+

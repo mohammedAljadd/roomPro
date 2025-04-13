@@ -63,8 +63,20 @@ public class CleaningController {
 
     @GetMapping("cleaning/request/get")
     public List<CleaningOnRequestResponseDTO> getCleaningRequests(){
+        return cleaningService.getCleaningRequests(false);
+    }
 
-        return cleaningService.getCleaningRequests();
+    @GetMapping("cleaning/request/get/processed")
+    public List<CleaningOnRequestResponseDTO> getProcessedCleaningRequests(){
+
+        return cleaningService.getCleaningRequests(true);
+    }
+
+    @PatchMapping("cleaning/request/processed/marked-view/{cleaning_id}")
+    public void markProcessedCleaningRequestsAsViewed(
+            @PathVariable Long cleaning_id
+    ){
+        cleaningService.markCleaningRequestAsViewed(cleaning_id);
     }
 
     @PatchMapping("cleaning/request/set_status")

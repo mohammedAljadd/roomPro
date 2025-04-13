@@ -45,4 +45,6 @@ public class CleaningOnRequest {
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
+    private boolean isViewedByUser;
+
 }
