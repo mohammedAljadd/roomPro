@@ -5,6 +5,7 @@ import { RoomRequest } from '../../model/class/Request/RoomRequest';
 import { CleaningService } from '../../services/cleaning.service';
 import { FormsModule } from '@angular/forms';
 import { ToastnotificationService } from '../../services/toastnotification.service';
+import { CleaningOnRequest } from '../../model/class/Request/CleaningOnRequest';
 
 @Component({
   selector: 'app-requestcleaning',
@@ -20,6 +21,7 @@ export class RequestcleaningComponent implements OnInit{
   roomService = inject(RoomService);
   cleaningService = inject(CleaningService);
   toastNotif = inject(ToastnotificationService);
+  
 
   roomId!: number;
   message!: string;
@@ -30,6 +32,7 @@ export class RequestcleaningComponent implements OnInit{
   ngOnInit(): void {
       this.token = localStorage.getItem('jwtToken');
       this.getRoomsWithCustomCleaning();
+
   }
 
 
@@ -58,6 +61,8 @@ export class RequestcleaningComponent implements OnInit{
     })
     }
   }
+
+  
 
 
 }

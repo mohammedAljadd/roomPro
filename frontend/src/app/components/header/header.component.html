@@ -13,8 +13,7 @@
           <a *ngIf="isAdmin" class="nav-link" routerLink="/add-remove-equipment" routerLinkActive="active-link">Equipment Setup</a>
           <a *ngIf="isAdmin" class="nav-link" routerLink="/manage-rooms" routerLinkActive="active-link">Manage Rooms</a>
           <a *ngIf="!isAdmin" class="nav-link" routerLink="/request-cleaning" routerLinkActive="active-link">Request Cleaning</a>
-          
-          
+          <a *ngIf="isAdmin" class="nav-link" routerLink="/requested-cleaning" routerLinkActive="active-link">User Requests<span *ngIf="pendingCount > 0" class="badge bg-danger">{{ pendingCount }}</span></a>
           <div *ngIf="jwtToken" class="nav-link" style="color: white;position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">Welcome {{ userName }}!</div>
           <button *ngIf="jwtToken" class="btn btn-danger" style="position: absolute; right: 180px; top: 50%; transform: translateY(-50%); margin-left: 10px;" (click)="logout()">Logout!</button>
         </div>

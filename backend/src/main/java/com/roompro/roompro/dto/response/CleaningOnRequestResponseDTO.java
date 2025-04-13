@@ -15,6 +15,8 @@ public class CleaningOnRequestResponseDTO {
     private RoomResponseDTO room;
     private LocalDateTime requestedAt;
     private CleaningStatus status;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String message;
     private String userFirstName;
     private String userLastName;

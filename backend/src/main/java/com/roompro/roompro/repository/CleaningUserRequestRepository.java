@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CleaningUserRequestRepository extends JpaRepository<CleaningOnRequest, Long> {
 
-    @Query(value = "select * from cleaning_on_request where status='ON_HOLD'", nativeQuery = true)
-    List<CleaningOnRequest> findOnHoldRequests();
+    @Query(value = "select * from cleaning_on_request", nativeQuery = true)
+    List<CleaningOnRequest> findAllRequests();
 
 }

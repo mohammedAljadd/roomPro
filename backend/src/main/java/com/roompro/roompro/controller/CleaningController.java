@@ -67,7 +67,7 @@ public class CleaningController {
         return cleaningService.getCleaningRequests();
     }
 
-    @PatchMapping("cleaning/request/set-status")
+    @PatchMapping("cleaning/request/set_status")
     public ResponseEntity<?> setCleaningRequestStatus(@RequestBody CleaningAdminSetStatusRequestDTO cleaningSetStatus){
 
         cleaningService.setCleaningRequestStatus(cleaningSetStatus);

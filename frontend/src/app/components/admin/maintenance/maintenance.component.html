@@ -16,7 +16,7 @@
         <tr [ngClass]="getLocationClass(room.location)">
 
         <td style="background-color: inherit !important;">{{ room.name }}</td>
-        <td style="background-color: inherit !important;">{{ room.location }}</td> <!-- 👈 Check this value -->
+        <td style="background-color: inherit !important;">{{ room.location }}</td>
         <td style="background-color: inherit !important;">{{ room.capacity }}</td>
         <td style="background-color: inherit !important;">{{ room.startDate ? room.maintenancePeriod : '✅ Available' }}</td>
         <td style="background-color: inherit !important;">

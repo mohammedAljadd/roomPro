@@ -8,6 +8,7 @@ import { RoomcallendarComponent } from './components/roomcallendar/roomcallendar
 import { AddRemoveEquipmentComponent } from './components/admin/addremoveequipment/addremoveequipment.component';
 import { ManageroomsComponent } from './components/admin/managerooms/managerooms.component';
 import { RequestcleaningComponent } from './components/requestcleaning/requestcleaning.component';
+import { UserrequestedcleaningComponent } from './components/userrequestedcleaning/userrequestedcleaning.component';
 
 
 export const routes: Routes = [
@@ -20,5 +21,6 @@ export const routes: Routes = [
     {path: 'add-remove-equipment', component: AddRemoveEquipmentComponent},
     {path: 'manage-rooms', component: ManageroomsComponent},
     {path: 'request-cleaning', component: RequestcleaningComponent},
+    {path: 'requested-cleaning', component: UserrequestedcleaningComponent},
     { path: '**', redirectTo: 'home' }, 
 ];

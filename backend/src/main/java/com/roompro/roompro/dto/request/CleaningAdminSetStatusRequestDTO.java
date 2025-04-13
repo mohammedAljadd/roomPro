@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 public class CleaningAdminSetStatusRequestDTO {
     private long cleaningId;
     private String status;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private String startTime;
+    private String endTime;
 }

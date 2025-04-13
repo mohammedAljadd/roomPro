@@ -11,6 +11,7 @@ import com.roompro.roompro.service.mapper.RoomMapper;
 import com.roompro.roompro.service.mapper.RoomMapperImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -100,7 +101,7 @@ public class CleaningService {
     }
 
     public List<CleaningOnRequestResponseDTO> getCleaningRequests() {
-        List<CleaningOnRequest> cleaningRequests = cleaningUserRequestRepository.findOnHoldRequests();
+        List<CleaningOnRequest> cleaningRequests = cleaningUserRequestRepository.findAllRequests();
         List<CleaningOnRequestResponseDTO> cRequestsDTO = cleaningRequests.stream().map(
                 request -> {
                     CleaningOnRequestResponseDTO dto = new CleaningOnRequestResponseDTO();
@@ -112,7 +113,8 @@ public class CleaningService {
                     dto.setMessage(request.getMessage());
                     dto.setUserFirstName(request.getUser().getFirstName());
                     dto.setUserLastName(request.getUser().getLastName());
-
+                    dto.setStartTime(request.getStartTime());
+                    dto.setEndTime(request.getEndTime());
 
                     return dto;
 
@@ -125,8 +127,16 @@ public class CleaningService {
 
         long cleaningId = cleaningSetStatus.getCleaningId();
         String status = cleaningSetStatus.getStatus();
-        LocalDateTime startTime = cleaningSetStatus.getStartTime();
-        LocalDateTime endTime = cleaningSetStatus.getEndTime();
+
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+
+        if(!cleaningSetStatus.equals("REJECTED")){
+            startTime = LocalDateTime.parse(cleaningSetStatus.getStartTime());
+            endTime = LocalDateTime.parse(cleaningSetStatus.getEndTime());
+        }
+
+
 
 
 

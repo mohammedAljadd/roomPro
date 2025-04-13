@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import * as JWT from 'jwt-decode';
 import { LoginService } from '../../services/auth/login.service';
+import { CleaningService } from '../../services/cleaning.service';
+import { CleaningRequestsService } from '../../services/cleaning-requests.service';
 
 @Component({
   selector: 'app-header',
@@ -20,10 +22,14 @@ export class HeaderComponent {
   userName: string | null = null;
   isAdmin: boolean = false;
 
+  pendingCount: number = 0;
+
   loginService = inject(LoginService);
+  cleaningService = inject(CleaningService);
+  cleaningStateService = inject(CleaningRequestsService);
 
   ngOnInit(): void {
-    // Subscribe to token changes
+    
     this.loginService.getToken().subscribe(token => {
       this.jwtToken = token;
       if (token) {
@@ -33,11 +39,18 @@ export class HeaderComponent {
       } else {
         this.userName = null;
       }
+      this.fetchPendingCount();
+    });
+
+    
+
+    this.cleaningStateService.pendingCountUpdated$.subscribe(() => {
+      this.fetchPendingCount();
     });
   }
 
   decodeToken(token: string) {
-    // Decode the JWT token (you can use jwt-decode library here)
+    
     return JSON.parse(atob(token.split('.')[1]));
   }
 
@@ -45,4 +58,15 @@ export class HeaderComponent {
     this.loginService.logout();
     this.router.navigate(['/home']);
   }
+
+  fetchPendingCount() {
+    if(this.jwtToken){
+      this.cleaningService.getCleaningRequests(this.jwtToken).subscribe(requests => {
+        this.pendingCount = requests.filter(request=>request.status=='ON_HOLD').length;
+      });
+    }
+    
+  }
+
+
 }

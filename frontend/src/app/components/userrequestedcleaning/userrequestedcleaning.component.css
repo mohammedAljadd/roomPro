@@ -1,0 +1,14 @@
+.accepted{
+    background-color: rgb(156, 215, 156);
+}
+
+.rejected{
+    background-color: rgb(215, 156, 156);
+}
+
+
+.on_hold{
+    background-color: rgb(152, 195, 244);
+}
+
+

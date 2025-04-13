@@ -4,6 +4,7 @@ import { BookingRequest } from '../model/class/Request/BookingRequest';
 import { Observable } from 'rxjs';
 import { CleaningRequest } from '../model/class/Request/CleaningRequest';
 import { CleaningWeeklyRequest } from '../model/class/Request/CleaningWeeklyRequest';
+import { CleaningOnRequest } from '../model/class/Request/CleaningOnRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -35,12 +36,32 @@ export class CleaningService {
     const request = {
       roomId: roomId,
       message: message,
-      requestedAt: new Date().toISOString()
+      requestedAt: new Date().toISOString().split('.')[0]
     };
     console.log(request);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<{message: string}>('http://localhost:8080/roompro/cleaning/request', request, { headers });
   }
 
+
+  getCleaningRequests(token: string):Observable<CleaningOnRequest[]>{
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<CleaningOnRequest[]>('http://localhost:8080/roompro/cleaning/request/get', { headers });
+  }
+
+
+  acceptRequest(token: string, cleaningId: number, startTime: string, endTime: string):Observable<{message: string}>{
+
+    const statusData = {
+      cleaningId: cleaningId,
+      status: "ACCEPTED",
+      startTime : startTime,
+      endTime : endTime,
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    console.log(headers);
+    return this.http.patch<{message: string}>('http://localhost:8080/roompro/cleaning/request/set_status', statusData, { headers });
+  }
 
 }
