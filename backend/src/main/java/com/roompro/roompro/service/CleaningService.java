@@ -131,19 +131,21 @@ public class CleaningService {
         LocalDateTime startTime = null;
         LocalDateTime endTime = null;
 
-        if(!cleaningSetStatus.equals("REJECTED")){
+        CleaningOnRequest cleaningOnRequest = cleaningUserRequestRepository.findById(cleaningId).get();
+        if(!cleaningSetStatus.getStatus().equals("REJECTED")){
             startTime = LocalDateTime.parse(cleaningSetStatus.getStartTime());
             endTime = LocalDateTime.parse(cleaningSetStatus.getEndTime());
+            cleaningOnRequest.setStartTime(startTime);
+            cleaningOnRequest.setEndTime(endTime);
         }
 
 
 
 
 
-        CleaningOnRequest cleaningOnRequest = cleaningUserRequestRepository.findById(cleaningId).get();
+
         cleaningOnRequest.setStatus(CleaningStatus.valueOf(status));
-        cleaningOnRequest.setStartTime(startTime);
-        cleaningOnRequest.setEndTime(endTime);
+
 
         cleaningUserRequestRepository.save(cleaningOnRequest);
 

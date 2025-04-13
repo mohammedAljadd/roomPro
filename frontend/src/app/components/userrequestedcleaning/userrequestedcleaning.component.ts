@@ -84,7 +84,6 @@ export class UserrequestedcleaningComponent implements OnInit{
     this.fetchBookings(request.room.roomId);
     const modal = new window.bootstrap.Modal(document.getElementById('SetCleaningStatuseModal'));
     modal.show();
-
   }
 
  
@@ -137,6 +136,49 @@ export class UserrequestedcleaningComponent implements OnInit{
     
     
   }
+
+  rejectRequestModal(request: CleaningOnRequest): void{
+    this.selectedRequest = request;
+    const modal = new window.bootstrap.Modal(document.getElementById('rejectCleaningRequestModal'));
+    modal.show();
+  }
+
+
+  rejectRequest(){
+    const modalElement = document.getElementById('rejectCleaningRequestModal');
+
+    if(this.token){
+      this.cleaningService.rejectRequest(this.token, this.selectedRequest.cleaningId).subscribe({
+        next: response => {
+          this.toastNotif.showSuccess(response.message);
+
+          this.fetchPendingRequests().then(() => {
+            this.cleaningStateService.notifyPendingCountChanged();
+            this.fetchBookings(this.selectedRequest.room.roomId).then(() => {
+              this.cdr.detectChanges();
+            });
+          });
+          if (modalElement) {
+            const modal = window.bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+              modal.hide();
+            }
+          }
+        },
+        error: error => {
+          this.toastNotif.showError(error.error);
+        }
+      })
+      
+    }
+  }
+
+
+
+
+
+
+
 
   fetchBookings(roomId: number): Promise<void> {
     return new Promise((resolve, reject) => {

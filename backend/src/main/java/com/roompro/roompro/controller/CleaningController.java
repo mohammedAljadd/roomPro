@@ -72,8 +72,11 @@ public class CleaningController {
 
         cleaningService.setCleaningRequestStatus(cleaningSetStatus);
 
+        System.out.println(cleaningSetStatus.getStatus());
+
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Thank you for keeping the workspace clean!");
+        String message = "The cleaning request got "+cleaningSetStatus.getStatus().toLowerCase()+" successfully!";
+        response.put("message", message);
         return ResponseEntity.ok(response);
 
     }

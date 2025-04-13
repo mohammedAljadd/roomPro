@@ -60,7 +60,19 @@ export class CleaningService {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    console.log(headers);
+    return this.http.patch<{message: string}>('http://localhost:8080/roompro/cleaning/request/set_status', statusData, { headers });
+  }
+
+  rejectRequest(token: string, cleaningId: number):Observable<{message: string}>{
+
+    const statusData = {
+      cleaningId: cleaningId,
+      status: "REJECTED",
+      startTime : null,
+      endTime : null,
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.patch<{message: string}>('http://localhost:8080/roompro/cleaning/request/set_status', statusData, { headers });
   }
 

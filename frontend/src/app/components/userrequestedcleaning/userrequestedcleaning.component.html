@@ -1,4 +1,15 @@
 <div class="text-center my-4 p-5">
+
+  <div class="mt-3 text-center">
+    <small>
+        <span class="badge" style="background-color: rgb(156, 215, 156);">&nbsp;</span> Accepted requests&nbsp;
+        <span class="badge" style="background-color: rgb(152, 195, 244);">&nbsp;</span> On hold requests &nbsp;
+        <span class="badge" style="background-color: rgb(220, 131, 131);">&nbsp;</span> Rejected requests &nbsp;
+    </small>
+</div>
+<br>
+<br>
+
 <table class="table">
     <thead>
       <tr>
@@ -34,7 +45,7 @@
                 <button  style="background: none;border: none;" (click)="accepteRequestModal(request)">
                     ➕ Accept
                   </button>
-                  <button style="background: none;border: none;">
+                  <button style="background: none;border: none;" (click)="rejectRequestModal(request)">
                     ❌ Reject
                   </button>
             </div>
@@ -104,6 +115,41 @@
         
         
         
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="rejectCleaningRequestModal" tabindex="-1" aria-labelledby="rejectCleaningRequestModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cleaningModalLabel" style="text-align: center;">Reject the cleaning request!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        
+        
+        <div class="cleaning-details-container" *ngIf="selectedRequest">
+          <div class="cleaning-details">
+            <p><strong>Room</strong> <span>:&nbsp;&nbsp;&nbsp; {{selectedRequest.room.name}} </span></p>
+            <p><strong>Requested at</strong> <span>:&nbsp;&nbsp;&nbsp; {{selectedRequest.requestedAt}} </span></p>
+            <p><strong>By</strong> <span>:&nbsp;&nbsp;&nbsp; {{selectedRequest.userFirstName}} {{selectedRequest.userLastName}}</span></p>
+            <p><strong>Message</strong> <span>:&nbsp;&nbsp;&nbsp; {{selectedRequest.message}}</span></p>
+          </div>
+        </div>
+        
+        <form>
+            <button type="submit" class="btn btn-danger" (click)="rejectRequest()">Reject</button>
+          </form>
+    
 
 
       </div>
