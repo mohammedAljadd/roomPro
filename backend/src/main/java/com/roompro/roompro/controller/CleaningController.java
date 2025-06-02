@@ -68,7 +68,6 @@ public class CleaningController {
 
     @GetMapping("cleaning/request/get/processed")
     public List<CleaningOnRequestResponseDTO> getProcessedCleaningRequests(){
-
         return cleaningService.getCleaningRequests(true);
     }
 

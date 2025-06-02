@@ -131,12 +131,15 @@ public class BookingService {
 
         Users user = userRepository.findByEmail(email);
         Booking newBooking = new Booking();
+
+
         newBooking.setRoom(room);
         newBooking.setUser(user);
 
         newBooking.setStartTime(startDateTime);
         newBooking.setEndTime(endDateTime);
 
+        System.out.println(newBooking.getBookingId());
         bookingRepository.save(newBooking);
 
 
