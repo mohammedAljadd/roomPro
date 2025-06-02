@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, LOCALE_ID, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import * as JWT from 'jwt-decode';
@@ -94,13 +94,22 @@ export class HeaderComponent {
           
           this.userCleaningRequest = data;
           this.notViewedRequestCount = this.userCleaningRequest.length;
+
+          this.userCleaningRequest = this.userCleaningRequest.sort((a, b)=>
+            new Date(b.requestedAt).getTime()-new Date(a.requestedAt).getTime());
+          
+          
+
+
           this.notifications = [];
           for(let i=0; i<this.userCleaningRequest.length; i++){
+            
             let req = this.userCleaningRequest[i];
             let date = req.requestedAt;
             date = date.split('T')[0]+" at "+date.split('T')[1].substring(0, 5)
+            let status = req.status=="ACCEPTED"?'approved.':'declined.';
             this.notifications.push(
-              "You cleaning request for " + req.room.name + " sent on "+ date + " was " + req.status.toLowerCase()
+              "Your cleaning request for " + req.room.name + ", submitted on "+ date + ", has been " + status
             )
           }
         },
@@ -134,6 +143,15 @@ export class HeaderComponent {
 
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;
+  }
+
+  notifClass(i: number){
+    if(this.userCleaningRequest[i].status=="ACCEPTED"){
+      return "accepted";
+    }
+    else{
+      return "rejected";
+    }
   }
 
 }

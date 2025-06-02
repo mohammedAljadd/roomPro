@@ -7,13 +7,13 @@
         <div class="navbar-nav">
 
           <a class="nav-link" routerLink="/home" routerLinkActive="active-link">Home</a>
-          <a class="nav-link" routerLink="/meeting-rooms" routerLinkActive="active-link">Meeting Rooms</a>
-          <a class="nav-link" routerLink="/my-bookings" routerLinkActive="active-link">My bookings</a>
+          <a class="nav-link" *ngIf="jwtToken" routerLink="/meeting-rooms" routerLinkActive="active-link">Meeting Rooms</a>
+          <a class="nav-link" *ngIf="jwtToken" routerLink="/my-bookings" routerLinkActive="active-link">My bookings</a>
           <a *ngIf="!jwtToken" class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
-          <a *ngIf="isAdmin" class="nav-link" routerLink="/add-remove-equipment" routerLinkActive="active-link">Equipment Setup</a>
-          <a *ngIf="isAdmin" class="nav-link" routerLink="/manage-rooms" routerLinkActive="active-link">Manage Rooms</a>
-          <a *ngIf="!isAdmin" class="nav-link" routerLink="/request-cleaning" routerLinkActive="active-link">Request Cleaning</a>
-          <a *ngIf="isAdmin" class="nav-link" routerLink="/requested-cleaning" routerLinkActive="active-link">User Requests<span *ngIf="pendingCount > 0" class="badge bg-danger">{{ pendingCount }}</span></a>
+          <a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/add-remove-equipment" routerLinkActive="active-link">Equipment Setup</a>
+          <a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/manage-rooms" routerLinkActive="active-link">Manage Rooms</a>
+          <a *ngIf="!isAdmin && jwtToken" class="nav-link" routerLink="/request-cleaning" routerLinkActive="active-link">Request Cleaning</a>
+          <a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/requested-cleaning" routerLinkActive="active-link">User Requests<span *ngIf="pendingCount > 0" class="badge bg-danger">{{ pendingCount }}</span></a>
           <div *ngIf="jwtToken" class="nav-link" style="color: white;position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">Welcome {{ userName }}!</div>
           <div *ngIf="!isAdmin && jwtToken" class="position-relative" #notifContainer>
             <i class="bi bi-bell-fill"
@@ -21,19 +21,19 @@
                style="color: whitesmoke; font-size: 1.5rem; cursor: pointer;"></i>
           
             <div *ngIf="showNotifications"
-                 class="position-absolute end-0 mt-2 p-2 bg-white text-dark shadow rounded"
+                 class="position-absolute end-0 mt-2 p-0 bg-white text-dark shadow rounded"
                  style="width: 250px; z-index: 1000;">
                  
-              <div *ngIf="notifications.length === 0">
+              <div *ngIf="notifications.length === 0" class="p-1">
                 No notifications.
               </div>
               
-              <div *ngFor="let notif of notifications; let i = index" class="border-bottom py-2 small">
+              <div *ngFor="let notif of notifications; let i = index" class="border-bottom py-2 small" [ngClass]="notifClass(i)" style="padding: 6px 8px; margin: 0;">
                 {{ notif }} 
                 <button 
                 class="btn-close btn-sm"
                 style="font-size: 0.7rem; padding: 0.2rem;"
-                aria-label="Close" (click)="removeNotification(i)"></button>
+                aria-label="Close" (click)="removeNotification(i); $event.stopPropagation();"></button>
               </div>
               
             </div><span style="margin-left: -3px;" *ngIf="notViewedRequestCount > 0" class="badge bg-danger">{{ notViewedRequestCount }}</span>

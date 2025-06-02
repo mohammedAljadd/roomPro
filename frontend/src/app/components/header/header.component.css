@@ -19,3 +19,22 @@ nav{
   border-radius: 50%;
   margin-left: 5px;
 }
+
+
+.accepted{
+  background-color: rgba(217, 252, 217, 0.85);
+  
+  border-radius: 2px;
+}
+
+.rejected{
+  background-color: rgb(244, 207, 207, 0.85);
+  
+  border-radius: 2px;
+}
+
+#showNotificationsDiv{
+  padding: 0;
+  margin: 0;
+  width: 14px;
+}

@@ -15,7 +15,6 @@ import { HeaderComponent } from './components/header/header.component';
 
 export const routes: Routes = [
     {path: 'home', component: HomeComponent},
-    {path: 'header', component: HeaderComponent},
     {path: 'meeting-rooms', component: MeetingroomsComponent},
     {path: 'meeting-rooms/:id/:roomName', component: RoomcallendarComponent},
     {path: 'register', component: RegisterComponent},

@@ -48,6 +48,8 @@ export class BookingtrendsComponent implements OnInit{
 
       this.currentMonthName = this.months[currentMonth-1];
 
+      console.log(this.currentMonthName);
+
       this.bookingService.getBookingTrends(this.token, currentYear, currentMonth).subscribe({
         next: (data)=>{
           this.bookingTrends = data;
