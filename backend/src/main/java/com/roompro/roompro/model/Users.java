@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long userId;
 
     private String email;
@@ -30,6 +32,23 @@ public class Users {
 
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime lastLoginAt;
+
+    private LocalDateTime updatedAt;
+
+
+    @Column(nullable = false)
+    private int loginCount = 0;
+
+    @Column(nullable = false)
+    private boolean isActive = true;
+
+
+
 
     @Override
     public String toString() {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -49,7 +50,12 @@ public class RegistrationService {
         user.setLastName(userRegistrationDto.getLastName());
         user.setRole(role.get());
 
+        user.setActive(true);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setLoginCount(0);
+        System.out.println(user.getUserId());
         // Save user to the database
-        userRepository.save(user);
+        userRepository.save(user); // capture returned object with generated ID
+
     }
 }
