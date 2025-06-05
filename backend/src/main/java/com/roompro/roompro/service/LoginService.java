@@ -3,6 +3,7 @@ package com.roompro.roompro.service;
 
 import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.request.UserRequestDTO;
+import com.roompro.roompro.model.Users;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,6 +37,15 @@ public class LoginService {
             // If authentication succeeds, generate the token
             if (authentication.isAuthenticated()) {
                 String token = jwtService.generateToken(user.getEmail());
+
+                // increase login count, update last login
+                Users LoggedInUser = userRepository.findByEmail(user.getEmail());
+                LoggedInUser.setLoginCount(LoggedInUser.getLoginCount()+1);
+
+                LoggedInUser.setLastLoginAt(LocalDateTime.now());
+                
+                userRepository.save(LoggedInUser);
+
                 return Optional.of(token);
             }
         } catch (AuthenticationException e) {  // Catches ALL authentication failures
