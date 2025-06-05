@@ -3,7 +3,9 @@ package com.roompro.roompro.service;
 
 import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.request.UserRequestDTO;
+import com.roompro.roompro.model.UserLogins;
 import com.roompro.roompro.model.Users;
+import com.roompro.roompro.repository.UserLoginsRepository;
 import com.roompro.roompro.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +30,9 @@ public class LoginService {
     @Autowired
     JWTService jwtService;
 
+    @Autowired
+    UserLoginsRepository userLoginsRepository;
+
     public Optional<String> authenticate(UserRequestDTO user) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -41,11 +46,15 @@ public class LoginService {
                 // increase login count, update last login
                 Users LoggedInUser = userRepository.findByEmail(user.getEmail());
                 LoggedInUser.setLoginCount(LoggedInUser.getLoginCount()+1);
-
                 LoggedInUser.setLastLoginAt(LocalDateTime.now());
-                
                 userRepository.save(LoggedInUser);
 
+                // Save login record in UserLogins
+                UserLogins userLogin = new UserLogins();
+                userLogin.setLoginTimestamp(LoggedInUser.getLastLoginAt());
+                userLogin.setUser(LoggedInUser);
+
+                userLoginsRepository.save(userLogin);
                 return Optional.of(token);
             }
         } catch (AuthenticationException e) {  // Catches ALL authentication failures
