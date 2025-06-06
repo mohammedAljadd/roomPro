@@ -40,6 +40,7 @@ export class UserstatsComponent implements OnInit{
   ngOnInit(): void {
       this.token = localStorage.getItem('jwtToken');
       this.getUsersStats();
+      setInterval(() => this.getUsersStats(), 1000);
   }
 
 
@@ -57,7 +58,7 @@ export class UserstatsComponent implements OnInit{
       this.loginService.getUsersStats(this.token, currentYear, currentMonth).subscribe({
         next: (data)=>{
           this.usersStats = data;
-          
+          console.log(data);
           this.sortedLoginCounts = Object.entries(this.usersStats.loginCountsByName) // Object.entries :  takes an object and returns an array of its key-value pairs.
           .map(([key, value]) => ({ key, value }))
           .sort((a, b) => b.value - a.value);

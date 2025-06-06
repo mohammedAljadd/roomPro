@@ -37,6 +37,7 @@ export class BookingtrendsComponent implements OnInit{
   ngOnInit(): void {
       this.token = localStorage.getItem('jwtToken');
       this.getBookingTrends();
+      setInterval(() => this.getBookingTrends(), 1000);
   }
 
   getBookingTrends(): void{
