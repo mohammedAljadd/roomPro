@@ -1,10 +1,12 @@
 package com.roompro.roompro.controller;
 
-import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.request.UserRegistrationRequestDTO;
 import com.roompro.roompro.dto.request.UserRequestDTO;
+import com.roompro.roompro.dto.response.BookingTrendsResponseDTO;
+import com.roompro.roompro.dto.response.UsersStatsResponseDTO;
 import com.roompro.roompro.service.LoginService;
 import com.roompro.roompro.service.RegistrationService;
+import com.roompro.roompro.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private UserService userService;
 
 
     // Registration endpoint
@@ -81,6 +86,12 @@ public class UserController {
         }
         Map<String, String> response = Map.of("token", token.get());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/users/stats/{year}/{month}")
+    public UsersStatsResponseDTO getUserStats(@PathVariable int year, @PathVariable int month){
+        UsersStatsResponseDTO stats = userService.getUserStats(year, month);
+        return stats;
     }
 
 }
