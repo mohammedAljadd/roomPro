@@ -4,7 +4,7 @@
 
 RoomPro is a web application that simplifies room booking and management. Built with `Spring Boot` for the backend and `Angular` for the frontend, it follows a clean architecture that separates concerns into Controllers, Services, Repositories, and Entities for scalability and maintainability. The app securely stores user and room data in a relational database.
 
-# 🚀 Current Release: v2.5.0
+# 🚀 Current Release: v2.6.0
 ## 🎉 Features up to this Release:
 
 - `Admin pannel`: Introduced an Admin Panel :
@@ -18,10 +18,18 @@ RoomPro is a web application that simplifies room booking and management. Built 
 
     - `Booking Trends` :
         - 📊 Booking Statistics
-        - ⏰ Peak Hour Tracking:
+        - ⏰ Peak Hour Tracking
         - 📈 Peak Day Insights
         - 🕓 Average Booking Duration
         - 📋 Most Booked Room
+
+    - `Users Stats` :
+        - 👥 Total Users 
+        - 🔢 Logins per User
+        - 🏆 Most & Least Active Users
+        - 📆 Monthly Login Total
+        - ⏰ Peak Login Hour
+        - 📉 Login Average
 
 
 - `Adding holidays`:
