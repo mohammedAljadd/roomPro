@@ -1,14 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { UserLoginResponse } from '../../model/class/Response/UserLoginResponse';
+import { UsersStatsRequest } from '../../model/class/Request/UsersStatsRequest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   
-  private apiUrl = 'http://localhost:8080/roompro/login'; 
+  private apiUrl = 'http://localhost:8080/roompro/'; 
   private jwtTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
 
@@ -34,7 +35,7 @@ export class LoginService {
       }));
     }
 
-    return this.http.post<{ token: string }>(this.apiUrl, user)
+    return this.http.post<{ token: string }>(this.apiUrl+"login", user)
   }
 
 
@@ -54,6 +55,12 @@ export class LoginService {
   logout() {
     localStorage.removeItem('jwtToken');
     this.jwtTokenSubject.next(null);
+  }
+
+
+  getUsersStats(token: string, year: number, month: number): Observable<UsersStatsRequest>{
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<UsersStatsRequest>(this.apiUrl+"users/stats/"+year+"/"+month, { headers });
   }
 }
 

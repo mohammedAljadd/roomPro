@@ -1,1 +1,45 @@
-<p>userstats works!</p>
+<div class="text-center my-4">
+  <h2>👤 User Stats – {{ currentMonthName }} {{ currentYear }}</h2>
+</div>
+
+<div class="d-flex justify-content-center">
+  <div class="card shadow p-4 rounded" style="max-width: 800px; width: 100%;">
+    <div class="card-body" *ngIf="usersStats">
+      <p class="mb-3">👥 <strong>Total Users:</strong> {{ usersStats.totalUser }}</p>
+      <p class="mb-3">🔢 <strong>Average Logins per User:</strong> {{ usersStats.averageLoginsPerUser | number:'1.1-2' }}</p>
+      <p class="mb-3">📆 <strong>Total Logins This Month:</strong> {{ usersStats.totalLoginTheCurrentMonth }}</p>
+
+      <div class="mb-3">
+        <h5>🏆 <strong>Most Active User:</strong></h5>
+        <p *ngFor="let entry of usersStats.userWithMostLogging | keyvalue">
+          {{ entry.key }} – {{ entry.value }} logins
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <h5>🛌 <strong>Least Active User:</strong></h5>
+        <p *ngFor="let entry of usersStats.userWithLeastLogging | keyvalue">
+          {{ entry.key }} – {{ entry.value }} logins
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <h5>⏰ <strong>Most Logged-In Hours:</strong></h5>
+        <ul>
+          <li *ngFor="let hour of usersStats.mostLoggedHour | keyvalue">
+            {{ hour.key }}h00 – {{ hour.value }} logins
+          </li>
+        </ul>
+      </div>
+
+      <div class="mb-3">
+        <h5>🧾 <strong>Login Counts By User:</strong></h5>
+        <ul>
+          <li *ngFor="let entry of sortedLoginCounts">
+            {{ entry.key }} – {{ entry.value }} logins
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
