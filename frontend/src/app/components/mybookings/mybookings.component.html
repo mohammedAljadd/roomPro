@@ -1,4 +1,5 @@
-<div class="container">
+<main>
+  <div class="container">
     <h3 class="mb-4">You can cancel any booking by clicking on it</h3>
     
     <div *ngIf="userBookings.length > 0; else noBookings" class="user-bookings-container">
@@ -11,27 +12,20 @@
           <p>{{ booking.room.location }} | Capacity: {{ booking.room.capacity }}</p>
         </div>
         
-        
-        
         <div class="card-body">
-
           <p><strong>Booking Date</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ booking.startTime | date: 'EEEE, yyyy-MM-dd' }}</span></p>
           <p><strong>Start Time</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ booking.startTime | date: 'h:mm a' }}</span></p>
           <p><strong>End Time</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ booking.endTime | date: 'h:mm a' }}</span></p>
-
         </div>
-
-
-
-
       </div>
     </div>
-  
+    
     <ng-template #noBookings>
       <p>You have no bookings.</p>
     </ng-template>
   </div>
-  
+</main>
+
 
 
 <!-- Modal to cancel booking -->

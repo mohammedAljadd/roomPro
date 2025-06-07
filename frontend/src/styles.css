@@ -1,1 +1,30 @@
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body, app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
+}
+
+app-header {
+  /* header styles */
+  flex: 0 0 auto;
+}
+
+main {
+  flex: 1 0 auto; /* main content grows */
+  display: flex;
+  flex-direction: column;
+  /* optional padding */
+  padding-bottom: 1rem;
+}
+
+app-footer {
+  flex-shrink: 0; /* footer fixed height at bottom */
+}
