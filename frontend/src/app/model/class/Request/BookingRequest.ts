@@ -6,4 +6,5 @@ export interface BookingRequest {
     startTime: string;
     endTime: string;
     userEmail: string;
+    canceled: boolean;
   }

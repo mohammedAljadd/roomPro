@@ -15,4 +15,5 @@ public class BookingResponseDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String userEmail;
+    private boolean isCanceled;
 }

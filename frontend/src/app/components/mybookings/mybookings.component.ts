@@ -15,22 +15,35 @@ export class MybookingsComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef, private router: Router){};
   
   userBookings: BookingRequest[] = [];
+
+  selectedBookings: BookingRequest[] = []; // for active tabs
+
+  activeTab: string = '';
   
-  selectedBooking: BookingRequest | null = null;
+  selectedBooking: BookingRequest | null = null; // to be canceled
 
   userbookingsService = inject(UserbookingsService);
 
+  now!: Date;
   
 
   ngOnInit(): void {
     // Get the token from localStorage or other places
     const token = localStorage.getItem('jwtToken');
 
+    this.activeTab = 'upcoming';
+    
+
     if (token) {
       // Call the service to get user bookings
       this.userbookingsService.getUserBookings(token).subscribe({
         next: (data) => {
           this.userBookings = data;  // Assign the fetched bookings to userBookings
+          this.selectedBookings = this.userBookings.filter(booking=>{
+            const now = new Date();
+            const start = new Date(booking.startTime);
+            return start > now && booking.canceled !== true;
+          });
         },
         error: (error) => {
           console.error('Error fetching user bookings:', error);
@@ -40,6 +53,61 @@ export class MybookingsComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
+  }
+
+
+  getCurrentTime(){
+    this.now = new Date();
+    return this.now;
+  }
+
+  getDateFromString(date: string){
+    return new Date(date);
+  }
+
+  isUpcoming(booking: BookingRequest){
+    return booking.canceled !== true && this.getCurrentTime() < this.getDateFromString(booking.startTime);
+  }
+
+  getNoBookingMessage(): string {
+    switch (this.activeTab) {
+      case 'upcoming':
+        return 'You have no upcoming bookings.';
+      case 'completed':
+        return 'You have no completed bookings.';
+      case 'cancelled':
+        return 'You have no cancelled bookings.';
+      default:
+        return 'You have no bookings.';
+    }
+  }
+
+
+  selectTab(tab: string){
+    this.activeTab = tab;
+
+
+      const now = new Date();
+      
+      this.selectedBookings = this.userBookings.filter(booking=>{
+        const start = new Date(booking.startTime);
+        const end = new Date(booking.endTime);
+
+        if (tab === 'upcoming') {
+    
+          return start > now && booking.canceled !== true;
+        } else if (tab === 'completed') {
+    
+          return end < now && booking.canceled !== true;
+        } else if (tab === 'cancelled') {
+          return booking.canceled === true;
+        }
+
+        return false;
+
+
+      })
+    
   }
 
   openBookingCancelationForm(userBooking: BookingRequest): void {

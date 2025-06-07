@@ -27,7 +27,6 @@ public class Booking {
     private Users user;
 
     @ManyToOne
-
     @JoinColumn(name = "room_id", nullable = false)
 
     private Room room;
@@ -35,6 +34,10 @@ public class Booking {
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isCanceled;
+
 
     @Override
     public String toString() {

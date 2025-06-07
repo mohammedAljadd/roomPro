@@ -25,14 +25,16 @@ public class BookingMapperImp {
         Long bookingId = null;
         LocalDateTime startTime = null;
         LocalDateTime endTime = null;
+        boolean isCanceled = false;
 
         room = roomMapper.roomToRoomResponseDTO( booking.getRoom() );
         userEmail = bookingUserEmail( booking );
         bookingId = booking.getBookingId();
         startTime = booking.getStartTime();
         endTime = booking.getEndTime();
+        isCanceled = booking.isCanceled();
 
-        BookingResponseDTO bookingResponseDTO = new BookingResponseDTO( bookingId, room, startTime, endTime, userEmail );
+        BookingResponseDTO bookingResponseDTO = new BookingResponseDTO( bookingId, room, startTime, endTime, userEmail, isCanceled );
 
         return bookingResponseDTO;
     }

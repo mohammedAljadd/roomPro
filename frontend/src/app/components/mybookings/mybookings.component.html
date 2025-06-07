@@ -1,13 +1,35 @@
+<ul class="nav nav-tabs px-5">
+  
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'upcoming'"  (click)="selectTab('upcoming')">Upcoming</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"  [class.active]="activeTab === 'completed'"  (click)="selectTab('completed')">Completed</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'cancelled'"  (click)="selectTab('cancelled')">Cancelled</a>
+  </li>
+</ul>
+
 <main>
   <div class="container">
-    <h3 class="mb-4">You can cancel any booking by clicking on it</h3>
+    <div *ngIf="selectedBookings.length > 0" style="background-color: white; padding-top: 20px;">
+    <h3 *ngIf="selectedBookings[0].canceled !== true && getDateFromString(selectedBookings[0].startTime)>getCurrentTime()" class="mb-4">Click to cancel</h3>
+    <h3 *ngIf="selectedBookings[0].canceled !== true && getDateFromString(selectedBookings[0].startTime)<getCurrentTime()" class="mb-4">Completed bookings</h3>
+    <h3 *ngIf="selectedBookings[0].canceled === true" class="mb-4">Canceled bookings</h3>
     
-    <div *ngIf="userBookings.length > 0; else noBookings" class="user-bookings-container">
-      <div *ngFor="let booking of userBookings" 
+    
+
+</div>
+
+    
+    <div *ngIf="selectedBookings.length > 0; else noBookings" class="user-bookings-container">
+      <div *ngFor="let booking of selectedBookings" 
            class="user-booking-card" 
-           (click)="openBookingCancelationForm(booking)">
+           [class.clickable]="isUpcoming(booking)"
+           (click)="isUpcoming(booking) && openBookingCancelationForm(booking)"> <!-- disable canceling for cancled bookings -->
         
-        <div class="card-header">
+        <div class="card-header" [class.canceled-header]="booking.canceled === true"> <!-- diffrent color for canceled bookings -->
           <h5>{{ booking.room.name }}</h5>
           <p>{{ booking.room.location }} | Capacity: {{ booking.room.capacity }}</p>
         </div>
@@ -21,7 +43,7 @@
     </div>
     
     <ng-template #noBookings>
-      <p>You have no bookings.</p>
+      <p class="text-center mt-4">{{ getNoBookingMessage() }}</p>
     </ng-template>
   </div>
 </main>

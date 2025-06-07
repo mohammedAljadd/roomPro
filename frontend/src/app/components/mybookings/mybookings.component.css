@@ -106,4 +106,23 @@
     flex-direction: column;
   }
   
-  
+  .nav-link {
+  cursor: pointer;
+}
+
+.nav-link.active {
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+  color: #495057;
+}
+
+.user-booking-card:not(.clickable) {
+  pointer-events: none;
+  opacity: 0.9;
+  cursor: default;
+}
+
+.canceled-header {
+  background-color: #b94a48; /* example: a red-ish color */
+  color: white; /* adjust text color for contrast */
+}
