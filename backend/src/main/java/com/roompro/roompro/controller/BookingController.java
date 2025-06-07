@@ -72,7 +72,7 @@ public class BookingController {
                 .collect(Collectors.toList());
     }
 
-    @DeleteMapping("/my-bookings/cancel/{booking_id}")
+    @PatchMapping("/my-bookings/cancel/{booking_id}")
     public ResponseEntity<?> cancelBooking(@PathVariable Long booking_id) {
         
         try{

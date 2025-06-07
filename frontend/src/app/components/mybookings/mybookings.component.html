@@ -74,7 +74,10 @@
         
         
         <form>
-            <button type="submit" class="btn btn-danger" (click)="cancelBooking(selectedBooking!.bookingId)">Cancel Booking</button>
+            <!-- button click cause page reload, toastnotif will not work, neither console.log instead cancelbooking
+            this is why we add $event.preventDefault() 
+            -->
+            <button type="submit" class="btn btn-danger" (click)="cancelBooking(selectedBooking!.bookingId); $event.preventDefault()">Cancel Booking</button>
           </form>
     
 

@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { UserbookingsService } from '../../services/userbookings.service';
 import { BookingRequest } from '../../model/class/Request/BookingRequest';
 import { Router } from '@angular/router';
+import { ToastnotificationService } from '../../services/toastnotification.service';
 
 @Component({
   selector: 'app-mybookings',
@@ -23,6 +24,7 @@ export class MybookingsComponent implements OnInit {
   selectedBooking: BookingRequest | null = null; // to be canceled
 
   userbookingsService = inject(UserbookingsService);
+  toastNotif = inject(ToastnotificationService);
 
   now!: Date;
   
@@ -117,13 +119,23 @@ export class MybookingsComponent implements OnInit {
     }
 
   cancelBooking(bookingId: number): void {
+    console.log("sdsdsd");
     const token = localStorage.getItem('jwtToken');
     if (token) {
+      
       this.userbookingsService.cancelBooking(token, bookingId).subscribe({
         next: response  => {
-          this.userBookings = this.userBookings.filter(booking => booking.bookingId !== bookingId); // important, we have to make changes to component to be able to use cdr
-          this.cdr.detectChanges();
+          console.log(response.message);
+          this.toastNotif.showSuccess(response.message, 'Booking Cancelled');
 
+          this.selectedBookings = this.userBookings.filter(booking=>{
+            const now = new Date();
+            const start = new Date(booking.startTime);
+            return start > now && booking.canceled !== true;
+          });
+          this.selectedBookings = this.selectedBookings.filter(booking => booking.bookingId !== bookingId); // important, we have to make changes to component to be able to use cdr
+          this.cdr.detectChanges();
+          
         },
         error: error => {
           console.error('Error fetching user bookings:', error);
@@ -136,7 +148,7 @@ export class MybookingsComponent implements OnInit {
     document.body.focus();  // This ensures no element inside the modal retains focus
 
     // Close the modal properly
-    const modalElement = document.getElementById('bookingModal');
+    const modalElement = document.getElementById('cancelBookingModal');
     if (modalElement) {
       const modal = window.bootstrap.Modal.getInstance(modalElement);
       if (modal) {

@@ -19,7 +19,7 @@ export class UserbookingsService {
 
   cancelBooking(token: string, bookingId: number): Observable<{ message: string }> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete<{ message: string }>(this.apiUrl+"/cancel/"+bookingId, {headers});
+    return this.http.patch<{ message: string }>(this.apiUrl+"/cancel/"+bookingId, {}, {headers});
   }
 
 }

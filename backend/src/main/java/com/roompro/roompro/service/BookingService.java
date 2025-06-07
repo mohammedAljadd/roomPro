@@ -23,10 +23,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BookingService {
@@ -170,7 +167,11 @@ public class BookingService {
             throw new Exception("Booking not found.");
         }
 
-        bookingRepository.deleteById(id);
+        Booking booking = bookingRepository.findById(id).get();
+        booking.setCanceled(true);
+
+        bookingRepository.save(booking);
+
         return Map.of("message", "Booking cancelled successfully.");
 
     }
