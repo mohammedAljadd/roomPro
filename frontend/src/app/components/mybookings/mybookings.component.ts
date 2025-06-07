@@ -27,18 +27,26 @@ export class MybookingsComponent implements OnInit {
   toastNotif = inject(ToastnotificationService);
 
   now!: Date;
+
+  token!: string | null;
   
 
   ngOnInit(): void {
     // Get the token from localStorage or other places
-    const token = localStorage.getItem('jwtToken');
+    this.token = localStorage.getItem('jwtToken');
+    this.fetchBookings();
+    
 
+  }
+
+
+  fetchBookings(){
     this.activeTab = 'upcoming';
     
 
-    if (token) {
+    if (this.token) {
       // Call the service to get user bookings
-      this.userbookingsService.getUserBookings(token).subscribe({
+      this.userbookingsService.getUserBookings(this.token).subscribe({
         next: (data) => {
           this.userBookings = data;  // Assign the fetched bookings to userBookings
           this.selectedBookings = this.userBookings.filter(booking=>{
@@ -54,9 +62,7 @@ export class MybookingsComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
-
   }
-
 
   getCurrentTime(){
     this.now = new Date();
@@ -125,9 +131,10 @@ export class MybookingsComponent implements OnInit {
       
       this.userbookingsService.cancelBooking(token, bookingId).subscribe({
         next: response  => {
-          console.log(response.message);
-          this.toastNotif.showSuccess(response.message, 'Booking Cancelled');
 
+          
+          this.toastNotif.showSuccess(response.message, 'Booking Cancelled');
+          this.fetchBookings();
           this.selectedBookings = this.userBookings.filter(booking=>{
             const now = new Date();
             const start = new Date(booking.startTime);
