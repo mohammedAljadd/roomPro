@@ -257,36 +257,30 @@ export class RoomcallendarComponent implements OnInit {
 
 
   loadEvents(): void {
-
-
     const userEmail = this.getUserEmail();
-  
-    // Holiday events
-    const holidayEvents: any[] = [];
-    
-    for(let i=0; i<this.holidays.length; i++){
-      let holiday = this.holidays[i];
-      let startDate = holiday.date;
+
+    // Preprocess holidays
+    const holidayDateSet = new Set(
+      this.holidays.map(h => new Date(h.date).toISOString().split('T')[0])
+    );
+
+    const holidayEvents: any[] = this.holidays.map((holiday, i) => {
+      const startDate = holiday.date;
       const nextDate = new Date(startDate);
       nextDate.setDate(nextDate.getDate() + 1);
-      holidayEvents.push({
-          title: holiday.name,
-          startRecur: startDate,        
-          endRecur: nextDate.toISOString().split('T')[0],            
-          daysOfWeek: [new Date(startDate).getDay().toString()],               
-          startTime: '08:00',             
-          endTime: '23:59',               
-          backgroundColor: '#ff1f1f',        
-          borderColor: '#ff1f1f',
-          id: `holiday_slot_${i}`, 
-      })
-    }
+      return {
+        title: holiday.name,
+        startRecur: startDate,
+        endRecur: nextDate.toISOString().split('T')[0],
+        daysOfWeek: [new Date(startDate).getDay().toString()],
+        startTime: '08:00',
+        endTime: '23:59',
+        backgroundColor: '#ff1f1f',
+        borderColor: '#ff1f1f',
+        id: `holiday_slot_${i}`
+      };
+    });
 
-
-  
-
-
-    // Create cleaning events
     const cleaningEvents = this.afterUseCleanings.map((cleaning, index) => ({
       title: 'After use Cleaning',
       start: cleaning.start,
@@ -296,9 +290,6 @@ export class RoomcallendarComponent implements OnInit {
       id: `cleaning_after_use_${index}_${cleaning.start.getTime()}`,
     }));
 
-
-  
-    // Create booking events
     const bookingEvents = this.roomBookings.map((booking, index) => {
       const isCurrentUser = userEmail === booking.userEmail;
       const startTime = new Date(booking.start);
@@ -307,7 +298,7 @@ export class RoomcallendarComponent implements OnInit {
       const durationInHours = Math.floor(timeDifference / (1000 * 3600));
       const durationInMinutes = Math.floor((timeDifference % (1000 * 3600)) / (1000 * 60));
       const roundedDuration = `${durationInHours} hour${durationInHours !== 1 ? 's' : ''} ${durationInMinutes} minute${durationInMinutes !== 1 ? 's' : ''}`;
-  
+
       return {
         title: `${roundedDuration}`,
         id: `booking_${index}_${startTime.getTime()}`,
@@ -319,91 +310,51 @@ export class RoomcallendarComponent implements OnInit {
       };
     });
 
-    // Maintenance
+    const getDaysBetween = (start: Date, end: Date): Date[] => {
+      const result = [];
+      const current = new Date(start);
+      while (current <= end) {
+        result.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
+      return result;
+    };
+
     const maintenanceEvents: any[] = [];
 
-    for(let i=0; i<this.maintenanceSlots.length; i++){
-      let slot = this.maintenanceSlots[i];
-      let startDate = slot.startDate;
-      let endDate = slot.endDate;
+    for (let i = 0; i < this.maintenanceSlots.length; i++) {
+      const slot = this.maintenanceSlots[i];
+      const start = new Date(slot.startDate);
+      const end = new Date(slot.endDate);
+      const allDates = getDaysBetween(start, end);
 
-      let firstTime = startDate.split('T')[1];
-      let lastTime = endDate.split('T')[1];
-      
+      for (let j = 0; j < allDates.length; j++) {
+        const currentDate = allDates[j];
+        const dateStr = currentDate.toISOString().split('T')[0];
+        if (holidayDateSet.has(dateStr)) continue; // Skip if holiday
 
-      // First day
-      const nextDate = new Date(startDate);
-      nextDate.setDate(nextDate.getDate() + 1);
+        let startTime = '08:00';
+        let endTime = '18:00';
 
+        if (j === 0) startTime = slot.startDate.split('T')[1];
+        if (j === allDates.length - 1) endTime = slot.endDate.split('T')[1];
 
-      maintenanceEvents.push(
-        {
+        maintenanceEvents.push({
           title: 'Under maintenance',
-          startRecur: startDate,          
-          endRecur: nextDate.toISOString().split('T')[0],            
-          daysOfWeek: [new Date(startDate).getDay().toString()],               
-          startTime: firstTime,             
-          endTime: '18:00',               
-          backgroundColor: '#c7c3c3',        
+          startRecur: dateStr,
+          endRecur: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          daysOfWeek: [currentDate.getDay().toString()],
+          startTime,
+          endTime,
+          backgroundColor: '#c7c3c3',
           borderColor: '#c7c3c3',
-          id: 'maintenance_slot_firstday', 
-        }
-      );
-      
-      // Last day
-      const lastDate = new Date(endDate);
-      
-      const dateAfter = new Date(lastDate.getTime());
-      dateAfter.setDate(dateAfter.getDate() + 1);
-      
-
-      maintenanceEvents.push(
-        {
-          title: 'Under maintenance',
-          startRecur: lastDate.toISOString().split('T')[0],          
-          endRecur: dateAfter.toISOString().split('T')[0],           
-          daysOfWeek: [new Date(lastDate).getDay().toString()],               
-          startTime: '08:00',             
-          endTime: lastTime,               
-          backgroundColor: '#c7c3c3',        
-          borderColor: '#c7c3c3',
-          id: 'maintenance_slot_lastday', 
-        }
-      ); 
-
-      // Days in between
-      const diffInMs = nextDate.getTime() - lastDate.getTime();
-      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))+1;
-
-      const day1 = new Date(nextDate.getTime());
-      
-      const dayn = new Date(lastDate.getTime());
-      
-      
- 
-
-      if(diffInDays!=0){
-        maintenanceEvents.push(
-          {
-            title: 'Under maintenance',
-            startRecur: day1.toISOString().split('T')[0],          
-            endRecur: dayn.toISOString().split('T')[0],            
-            daysOfWeek: ['0', '1', '2', '3', '4', '5', '6'],                 
-            startTime: '08:00',             
-            endTime: '18:00',               
-            backgroundColor: '#c7c3c3',        
-            borderColor: '#c7c3c3',
-            id: 'maintenance_slot_daysinbetween', 
-          })
+          id: `maintenance_slot_${slot.roomId}_${j}`
+        });
       }
-      
- 
     }
-  
 
-
-    // Recurring
-    if(this.weeklyCleanings != null){
+    const recurringCleaning: any[] = [];
+    if (this.weeklyCleanings != null) {
       const weekdayMap: { [key: string]: any } = {
         monday: RRule.MO,
         tuesday: RRule.TU,
@@ -413,37 +364,36 @@ export class RoomcallendarComponent implements OnInit {
         saturday: RRule.SA,
         sunday: RRule.SU
       };
-  
-      let cleaningDay = this.weeklyCleanings.cleaningDay.toLocaleLowerCase();
-      let weekDay = weekdayMap[cleaningDay];
-      let dayStart = this.weeklyCleanings.setDate.split('T')[0];
-      let hourStart = this.weeklyCleanings.starttime;
-      let duration = this.getDuration(this.weeklyCleanings.starttime, this.weeklyCleanings.endtime);
-  
-      const recurringEvent = {
+
+      const cleaningDay = this.weeklyCleanings.cleaningDay.toLowerCase();
+      const weekDay = weekdayMap[cleaningDay];
+      const dayStart = this.weeklyCleanings.setDate.split('T')[0];
+      const hourStart = this.weeklyCleanings.starttime;
+      const duration = this.getDuration(this.weeklyCleanings.starttime, this.weeklyCleanings.endtime);
+
+      recurringCleaning.push({
         title: 'Weekly cleaning',
         rrule: {
           freq: 'weekly',
           byweekday: [weekDay],
-          dtstart: dayStart+'T'+hourStart,
+          dtstart: dayStart + 'T' + hourStart,
         },
         id: 'recurring_cleaning',
         duration: duration,
-        backgroundColor: '#ff9800', // Orange color
+        backgroundColor: '#ff9800',
         borderColor: '#ff9800'
-      };
-      // Merge both cleaning and booking events
-      this.calendarOptions.events = [...holidayEvents, ...maintenanceEvents, recurringEvent, ...cleaningEvents, ...bookingEvents];
-  
+      });
     }
-    else{
-      this.calendarOptions.events = [...holidayEvents, ...maintenanceEvents, ...cleaningEvents, ...bookingEvents];
-    }
-  
-    
-    // Force Angular to detect changes
-    this.cdr.detectChanges();
-  }
+
+    this.calendarOptions.events = [
+      ...holidayEvents,
+      ...maintenanceEvents,
+      ...recurringCleaning,
+      ...cleaningEvents,
+      ...bookingEvents
+    ];
+}
+
   
 
 
