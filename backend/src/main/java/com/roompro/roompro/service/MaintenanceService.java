@@ -51,6 +51,13 @@ public class MaintenanceService {
 
             Maintenance m = (Maintenance) row[1];
 
+            // skip expired or cancelled maintenance periods
+            boolean isExpired = m!=null && m.getEndDate().isBefore(LocalDateTime.now());
+            boolean isCanceled = m!=null && m.isCanceled();
+            if (isExpired || isCanceled) {
+                m = null;
+            }
+
 
 
             RoomMaintenanceResponseDTO rm = new RoomMaintenanceResponseDTO();
@@ -69,13 +76,16 @@ public class MaintenanceService {
     }
 
 
-    public Map<String, String> deleteById(Long id) throws Exception {
+    public Map<String, String> cancelMaintenance(Long id) throws Exception {
         if( maintenanceRepository.findById(id).isEmpty()){
             throw new Exception("Maintenance slot not found.");
         }
 
-        maintenanceRepository.deleteById(id);
-        return Map.of("message", "Maintenance slot was deleted successfully.");
+        Maintenance maintenance = maintenanceRepository.findById(id).get();
+        maintenance.setCanceled(true);
+        maintenanceRepository.save(maintenance);
+
+        return Map.of("message", "The maintenance schedule has been canceled successfully.");
     }
 
 

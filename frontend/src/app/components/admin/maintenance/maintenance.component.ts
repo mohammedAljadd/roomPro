@@ -163,14 +163,14 @@ export class MaintenanceComponent implements OnInit{
   }
 
 
-  removeMaintenanceModal(room: any): void{
+  cancelMaintenanceModal(room: any): void{
     this.selectedRoom.roomName = room.name;
     this.selectedRoom.capacity = room.capacity;
     this.selectedRoom.location = room.location;
     this.selectedRoom.startDate = room.startDate;
     this.selectedRoom.endDate = room.endDate;
     this.selectedMaintenanceId = room.maintenanceId;
-    const modal = new window.bootstrap.Modal(document.getElementById('deleteMaintenanceModal'));
+    const modal = new window.bootstrap.Modal(document.getElementById('cancelMaintenanceModal'));
     modal.show();
   }
 
@@ -180,7 +180,7 @@ export class MaintenanceComponent implements OnInit{
   removeMaintenance(): void{
     if (this.token) {
       
-      this.maintenanceService.removeMaintenance(this.token, this.selectedMaintenanceId).subscribe({
+      this.maintenanceService.cancelMaintenance(this.token, this.selectedMaintenanceId).subscribe({
         next: response  => {
           this.fetchMaitenanceSlots();
           this.toastNotif.showSuccess(response.message);
@@ -198,7 +198,7 @@ export class MaintenanceComponent implements OnInit{
     document.body.focus();
 
     
-    const modalElement = document.getElementById('deleteMaintenanceModal');
+    const modalElement = document.getElementById('cancelMaintenanceModal');
     if (modalElement) {
       const modal = window.bootstrap.Modal.getInstance(modalElement);
       if (modal) {

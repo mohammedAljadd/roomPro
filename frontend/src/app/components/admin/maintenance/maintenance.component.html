@@ -32,9 +32,9 @@
               ➕ Add
             </button>
           
-            <!-- Show Remove button if startDate is set -->
-            <button *ngIf="room.startDate" (click)="removeMaintenanceModal(room)" style="background: none;border: none;">
-              ❌ Remove
+            <!-- Show cancel button if startDate is set -->
+            <button *ngIf="room.startDate" (click)="cancelMaintenanceModal(room)" style="background: none;border: none;">
+              ❌ Cancel
             </button>
           </td>
           
@@ -107,7 +107,7 @@
 
 
 
-<div class="modal fade" id="deleteMaintenanceModal" tabindex="-1" aria-labelledby="deleteMaintenanceModalLabel">
+<div class="modal fade" id="cancelMaintenanceModal" tabindex="-1" aria-labelledby="cancelMaintenanceModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

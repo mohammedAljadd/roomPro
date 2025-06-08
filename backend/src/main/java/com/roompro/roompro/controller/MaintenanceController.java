@@ -42,10 +42,10 @@ public class MaintenanceController {
     }
 
 
-    @DeleteMapping("/maintenance/delete/{maintenance_id}")
-    public ResponseEntity<?> deleteMaintenance(@PathVariable Long maintenance_id) throws Exception {
+    @PatchMapping("/maintenance/cancel/{maintenance_id}")
+    public ResponseEntity<?> cancelMaintenance(@PathVariable Long maintenance_id) throws Exception {
         try{
-            Map<String, String>  response = maintenanceService.deleteById(maintenance_id);
+            Map<String, String>  response = maintenanceService.cancelMaintenance(maintenance_id);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

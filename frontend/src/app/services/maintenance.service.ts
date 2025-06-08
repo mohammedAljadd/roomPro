@@ -28,9 +28,9 @@ export class MaintenanceService {
     }
 
 
-    removeMaintenance(token: string, maintenanceId: number): Observable<{ message: string }> {
+    cancelMaintenance(token: string, maintenanceId: number): Observable<{ message: string }> {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      return this.http.delete<{ message: string }>(this.apiUrl+"delete/"+maintenanceId, {headers});
+      return this.http.patch<{ message: string }>(this.apiUrl+"delete/"+maintenanceId, {}, {headers});
     }
 
     addMaintenance(token: string, maintenance: MaintenanceRequest): Observable<{message: string }>{

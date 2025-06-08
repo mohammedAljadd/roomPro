@@ -31,4 +31,7 @@ public class Maintenance {
 
     @Column(name = "endDate")
     private LocalDateTime endDate;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isCanceled;
 }
