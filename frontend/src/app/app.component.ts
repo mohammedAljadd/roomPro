@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,25 @@ import { FooterComponent } from "./components/footer/footer.component";
 export class AppComponent {
   title = 'roompro-frontend';
   name = ''
+
+  paddingTop = '56px'; // default padding
+
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      // Adjust padding based on current route
+      if ( event.url.startsWith('/manage-rooms')) {
+        this.paddingTop = '70px'; // example bigger padding for admin
+      } 
+      else if( event.url.startsWith('/my-bookings')) {
+        this.paddingTop = '100px'; // example bigger padding for admin
+      } 
+      
+
+      else {
+        this.paddingTop = '56px'; // default navbar height
+      }
+    });
+  }
 }

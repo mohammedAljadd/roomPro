@@ -10,8 +10,8 @@
           <a class="nav-link" *ngIf="jwtToken" routerLink="/meeting-rooms" routerLinkActive="active-link">Meeting Rooms</a>
           <a class="nav-link" *ngIf="jwtToken" routerLink="/my-bookings" routerLinkActive="active-link">My bookings</a>
           <a *ngIf="!jwtToken" class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
-          <a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/add-remove-equipment" routerLinkActive="active-link">Equipment Setup</a>
-          <a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/manage-rooms" routerLinkActive="active-link">Manage Rooms</a>
+          <!--<a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/add-remove-equipment" routerLinkActive="active-link">Equipment Setup</a>-->
+          <a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/manage-rooms" routerLinkActive="active-link">Admin Panel</a>
           <a *ngIf="!isAdmin && jwtToken" class="nav-link" routerLink="/request-cleaning" routerLinkActive="active-link">Request Cleaning</a>
           <a *ngIf="isAdmin && jwtToken" class="nav-link" routerLink="/requested-cleaning" routerLinkActive="active-link">User Requests<span *ngIf="pendingCount > 0" class="badge bg-danger">{{ pendingCount }}</span></a>
           <div *ngIf="jwtToken" class="nav-link" style="color: white;position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">Welcome {{ userName }}!</div>
@@ -45,5 +45,4 @@
       </div>
     </div>
   </nav>
-  <br><br><br><br>
-
+  

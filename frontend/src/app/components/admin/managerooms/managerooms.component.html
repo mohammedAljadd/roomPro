@@ -1,40 +1,47 @@
-<div class="container-fluid p-0">
-    <div class="row flex-nowrap m-0">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary-subtle">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+<div class="container-fluid p-0 h-100">
+    <div class="row flex-nowrap m-0 h-100">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #9bbdd880;">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white h-100">
                 <span style="font-weight: bold;color: black;" class="fs-5 d-none d-sm-inline">Menu</span>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 
                     <li>
                         <a style="color: black;font-weight: bold;" href="#submenu_1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Room Setup</span> 
+                            <i class="fs-4 bi bi-door-open-fill"></i> <span class="ms-1 d-none d-sm-inline">Room Setup</span> 
                         </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu_1">
                             <li class="w-100">
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('addroom')"> 
+                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-addroom')"> 
                                     <span class="d-none d-sm-inline">➕ Add New Room</span> 
                                 </div>
                             </li>
                             <li>
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('deleteroom')"> 
+                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-deleteroom')"> 
                                     <span class="d-none d-sm-inline">🗑 Delete Existing Room</span>
                                 </div>
                             </li>
                         </ul>
                     </li>
+
+                    <li>
+                        <a style="color: black;font-weight: bold;" href="#submenu_4" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-hdd-network"></i> <span class="ms-1 d-none d-sm-inline" (click)="setChoosenItem('admincontent-addequipments')">Equipment Setup</span> 
+                        </a>
+                        
+                    </li>
                     
                     <li>
                         <a style="color: black;font-weight: bold;" href="#submenu_2" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Room Status & Availability</span>
+                            <i class="fs-4 bi bi-tools"></i> <span class="ms-1 d-none d-sm-inline">Cleaning & Maintenance</span>
                         </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu_2">
                             <li class="w-100">
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('cleaning')"> 
+                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-cleaning')"> 
                                     <span class="d-none d-sm-inline">🧹 Cleaning Periods</span> 
                                 </div>
                             </li>
                             <li>
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('maintenance')"> 
+                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-maintenance')"> 
                                     <span class="d-none d-sm-inline">🛠 Maintenance</span>
                                 </div>
                             </li>
@@ -43,16 +50,16 @@
 
                     <li>
                         <a style="color: black;font-weight: bold;" href="#submenu_3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-bar-chart"></i> <span class="ms-1 d-none d-sm-inline">Stats</span>
+                            <i class="fs-4 bi bi-bar-chart-line-fill"></i> <span class="ms-1 d-none d-sm-inline">Stats</span>
                         </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu_3">
                             <li class="w-100">
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('userstats')"> 
+                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-userstats')"> 
                                     <span class="d-none d-sm-inline">👥 User Stats</span> 
                                 </div>
                             </li>
                             <li>
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('bookingtrends')"> 
+                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-bookingtrends')"> 
                                     <span class="d-none d-sm-inline">📈 Booking Trends</span>
                                 </div>
                             </li>
@@ -86,12 +93,13 @@
                 </div>
         
                 <!-- Dynamic Components -->
-                <app-addrooms *ngSwitchCase="'addroom'"></app-addrooms>
-                <app-deleteroom *ngSwitchCase="'deleteroom'"></app-deleteroom>
-                <app-cleaningperiods *ngSwitchCase="'cleaning'"></app-cleaningperiods>
-                <app-maintenance *ngSwitchCase="'maintenance'"></app-maintenance>
-                <app-userstats *ngSwitchCase="'userstats'"></app-userstats>
-                <app-bookingtrends *ngSwitchCase="'bookingtrends'"></app-bookingtrends>
+                <app-addrooms *ngSwitchCase="'admincontent-addroom'"></app-addrooms>
+                <app-addremoveequipment *ngSwitchCase="'admincontent-addequipments'"></app-addremoveequipment>
+                <app-deleteroom *ngSwitchCase="'admincontent-deleteroom'"></app-deleteroom>
+                <app-cleaningperiods *ngSwitchCase="'admincontent-cleaning'"></app-cleaningperiods>
+                <app-maintenance *ngSwitchCase="'admincontent-maintenance'"></app-maintenance>
+                <app-userstats *ngSwitchCase="'admincontent-userstats'"></app-userstats>
+                <app-bookingtrends *ngSwitchCase="'admincontent-bookingtrends'"></app-bookingtrends>
             </div>
         </div>
         

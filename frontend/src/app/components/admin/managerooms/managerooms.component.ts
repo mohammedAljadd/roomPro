@@ -6,10 +6,11 @@ import { CleaningperiodsComponent } from "../cleaningperiods/cleaningperiods.com
 import { MaintenanceComponent } from "../maintenance/maintenance.component";
 import { UserstatsComponent } from "../userstats/userstats.component";
 import { BookingtrendsComponent } from "../bookingtrends/bookingtrends.component";
+import { AddRemoveEquipmentComponent } from "../addremoveequipment/addremoveequipment.component";
 
 @Component({
   selector: 'app-managerooms',
-  imports: [CommonModule, AddroomsComponent, DeleteroomComponent, CleaningperiodsComponent, MaintenanceComponent, UserstatsComponent, BookingtrendsComponent],
+  imports: [CommonModule, AddroomsComponent, DeleteroomComponent, CleaningperiodsComponent, MaintenanceComponent, UserstatsComponent, BookingtrendsComponent, AddRemoveEquipmentComponent],
   templateUrl: './managerooms.component.html',
   styleUrl: './managerooms.component.css'
 })
