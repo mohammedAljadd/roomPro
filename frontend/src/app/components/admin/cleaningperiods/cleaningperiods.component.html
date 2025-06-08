@@ -1,26 +1,53 @@
-<div *ngFor="let cleaningType of cleaningTypes; let i = index" class="cleaning-container">
-    <!-- cleaning Button with collapsible behavior -->
-    <div class="d-grid gap-2 col-12 mb-3">
-        <a href="#submenu{{i}}" data-bs-toggle="collapse" 
-        class="btn bg-primary-subtle text-primary border-0 cleaning-btn">
-            <i class="fs-4 bi bi-trash"></i> {{ cleaningType }}
-        </a>
-    </div>
-    
-    <!-- Collapsible Room List -->
-    <ul class="collapse room-list" id="submenu{{i}}">
-        
-        <ng-container *ngFor="let room of rooms">
-            <li *ngIf="room.cleaningType === cleaningType" class="room-item" id="room_{{room.roomDetails.roomId}}" (click)="showCleaningModal(room)">
-              
-                <div class="room-link" href="#"> 
-                    <span>{{ room.roomDetails.name }}: {{ room.roomDetails.description }}, Capacity: {{ room.roomDetails.capacity }}</span>
-                </div>
 
-            </li>
-        </ng-container>
-    </ul>
-</div>
+
+
+<ul class="nav nav-tabs px-5">
+  
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'eachuse'"  (click)="selectTab('eachuse')">Cleaned after each use</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"  [class.active]="activeTab === 'eachfriday'"  (click)="selectTab('eachfriday')">Cleaned each friday</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'eachwednesday'"  (click)="selectTab('eachwednesday')">Cleaned each wednesday</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'onrequest'"  (click)="selectTab('onrequest')">Cleaned on request</a>
+  </li>
+
+  
+</ul>
+
+
+ <div *ngIf="selectedRooms.length > 0" class="rooms-container">
+
+    <div class="container d-flex flex-column justify-content-center align-items-center text-center">
+    <h1>Cleaning Setup</h1>
+    <div>
+        <span class="text-muted">Select a different cleaning type</span>
+    </div>
+    </div>
+
+
+      <div *ngFor="let room of selectedRooms" class="rooms-card clickable" (click)="showCleaningModal(room)"> <!-- clickable, otherwise click will not work-->
+        
+        <div class="card-header bg-gradient"> 
+          <h5>{{ room.roomDetails.name }}</h5>
+          
+        </div>
+        
+        <div class="card-body">
+          <p><strong>Description</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ room.roomDetails.description}}</span></p>
+          <p><strong>Capacity</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ room.roomDetails.capacity }}</span></p>
+        
+        </div>
+       
+      </div>
+    </div>
+
+
 
 
 <div class="modal fade" id="cleaningTypeModal" tabindex="-1" aria-labelledby="cleaningTypeModalLabel">

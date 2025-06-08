@@ -13,6 +13,16 @@
 
 
  <div *ngIf="selectedRooms.length > 0" class="rooms-container">
+
+     <div class="container d-flex flex-column justify-content-center align-items-center text-center">
+    <h1>Room Deletion</h1>
+    <div>
+        <span class="text-muted">Click on a room below to review and confirm deletion</span>
+    </div>
+    </div>
+
+
+
       <div *ngFor="let room of selectedRooms" class="rooms-card clickable" (click)="showDeleteForm(room)"> <!-- clickable, otherwise click will not work-->
         
         <div class="card-header bg-gradient"> 

@@ -18,6 +18,9 @@ export class CleaningperiodsComponent implements OnInit{
 
   rooms: RoomCleaningRequest[] = [];
 
+  selectedRooms:RoomCleaningRequest[] = [];
+
+
   cleaningTypes: string[] = ['After Each Use', 'Weekly Cleaning - Friday', 'Weekly Cleaning - Wednesday', 'Custom Cleaning'];
 
   selectedRoom!: RoomCleaningRequest;
@@ -30,10 +33,32 @@ export class CleaningperiodsComponent implements OnInit{
   
   toastNotif = inject(ToastnotificationService);
 
+  activeTab:string = 'eachuse';
+
   ngOnInit(): void {
     this.token = localStorage.getItem('jwtToken');
     this.getAllRooms();
     
+  }
+
+  selectTab(tab: string){
+    console.log(tab);
+    if(tab==='eachuse'){
+      this.selectedRooms = this.rooms.filter(room=>room.cleaningType==='After Each Use');
+          
+    }
+
+    else if(tab==='eachfriday'){
+      this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Weekly Cleaning - Friday');
+    }
+    else if(tab==='eachwednesday'){
+      this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Weekly Cleaning - Wednesday');
+    }
+    else{
+      console.log(this.rooms[0].cleaningType);
+      
+      this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Custom Cleaning');
+    }
   }
 
   getAllRooms(){
@@ -42,8 +67,7 @@ export class CleaningperiodsComponent implements OnInit{
       this.roomService.getRoomsWithCleaningType(this.token).subscribe({
         next: (data)=>{
           this.rooms = data;
-          
-
+          this.selectedRooms = this.rooms.filter(room=>room.cleaningType==='After Each Use');
         },
         error: (error)=>{
           console.log("error " + error.error);

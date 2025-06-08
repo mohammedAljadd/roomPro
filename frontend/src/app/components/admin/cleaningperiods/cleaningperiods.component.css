@@ -126,3 +126,82 @@
   .d-flex.flex-column.align-items-center {
     width: 100%;
   }
+
+  .room-details {
+    display: grid;
+    grid-template-columns: 120px auto; /* Fixed width for labels, auto for values */
+    gap: 15px 10px; /* Space between columns and rows */
+    text-align: left;
+    max-width: 600px; /* wrapping */
+}
+
+.room-details p {
+    display: contents; /* Removes block-level box around each paragraph */
+}
+
+.room-details strong {
+    text-align: right; /* Aligns labels to the right side */
+}
+
+.room-details span {
+    padding-left: 10px; /* Space between colon and the value */
+}
+
+
+.rooms-container {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 15px;              /* spacing between cards */
+  align-items: center;    /* center cards horizontally */
+  margin: 20px 0;
+}
+.rooms-card:not(.clickable) {
+  pointer-events: none;
+  opacity: 0.9;
+  cursor: default;
+}
+
+.rooms-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Room card styling (unchanged from before, just adapted for full width) */
+.rooms-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.rooms-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+
+.rooms-card .card-header {
+  background-color: #381748da;
+  color: white;
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+.rooms-card .card-body {
+  padding: 16px;
+}
+
+.rooms-card .card-body p {
+  margin: 0 0 10px;
+}
+.nav-tabs .nav-link,
+.rooms-card {
+  cursor: pointer;
+}

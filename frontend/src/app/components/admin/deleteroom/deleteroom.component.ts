@@ -36,9 +36,6 @@ export class DeleteroomComponent implements OnInit{
   selectTab(tab: string){
     
     this.activeTab = tab;
-    console.log(this.activeTab);
-    // West Wing
-    // East Wing
 
     if(tab==='main'){
       this.selectedRooms = this.rooms.filter(room=> room.location==='Main Building');
