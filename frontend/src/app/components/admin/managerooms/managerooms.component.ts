@@ -19,6 +19,7 @@ export class ManageroomsComponent implements OnInit{
   choosenItem: string | null = null;
   
   ngOnInit(): void {
+    this.choosenItem = 'admincontent-deleteroom';
   }
 
 

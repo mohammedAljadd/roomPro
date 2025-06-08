@@ -1,24 +1,35 @@
-<div *ngFor="let location of roomLocations; let i = index" class="location-container">
-    <!-- Location Button with collapsible behavior -->
-    <div class="d-grid gap-2 col-12 mb-3">
-        <a href="#submenu{{i}}" data-bs-toggle="collapse" 
-        class="btn bg-primary-subtle text-primary border-0 location-btn">
-            <i class="bi bi-building-fill"></i> {{ location }}
-        </a>
-    </div>
-    
-    <!-- Collapsible Room List -->
-    <ul class="collapse room-list" id="submenu{{i}}">
+<ul class="nav nav-tabs px-5">
+  
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'main'"  (click)="selectTab('main')">Main Building</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"  [class.active]="activeTab === 'east'"  (click)="selectTab('east')">East Wing</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'west'"  (click)="selectTab('west')">West Wing</a>
+  </li>
+</ul>
+
+
+ <div *ngIf="selectedRooms.length > 0" class="rooms-container">
+      <div *ngFor="let room of selectedRooms" class="rooms-card clickable" (click)="showDeleteForm(room)"> <!-- clickable, otherwise click will not work-->
         
-        <ng-container *ngFor="let room of rooms">
-            <li *ngIf="room.location === location" class="room-item" id="room_{{room.roomId}}" (click)="showDeleteForm(room)">
-                <div class="room-link" href="#"> 
-                    <span>{{ room.name }}: {{ room.description }}, Capacity: {{ room.capacity }}</span>
-                </div>
-            </li>
-        </ng-container>
-    </ul>
-</div>
+        <div class="card-header bg-gradient"> 
+          <h5>{{ room.name }}</h5>
+          
+        </div>
+        
+        <div class="card-body">
+          <p><strong>Description</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ room.description}}</span></p>
+          <p><strong>Capacity</strong> <span><strong>:&nbsp;&nbsp;</strong>{{ room.capacity }}</span></p>
+        
+        </div>
+       
+      </div>
+    </div>
+
+
 
 
 

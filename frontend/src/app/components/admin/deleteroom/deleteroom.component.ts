@@ -19,16 +19,37 @@ export class DeleteroomComponent implements OnInit{
   toastNotif = inject(ToastnotificationService);
 
   rooms: RoomRequest[] = [];
+
+  selectedRooms: RoomRequest[] = [];
   
   roomLocations: string[] = [];
   
   selectedRoom!: RoomRequest;
+
+  activeTab: string = 'main';
   
   ngOnInit(): void {
     this.getAllRooms();
     
   }
 
+  selectTab(tab: string){
+    
+    this.activeTab = tab;
+    console.log(this.activeTab);
+    // West Wing
+    // East Wing
+
+    if(tab==='main'){
+      this.selectedRooms = this.rooms.filter(room=> room.location==='Main Building');
+    }
+    else if(tab==='east'){
+      this.selectedRooms = this.rooms.filter(room=> room.location==='East Wing');
+    }
+    else{
+      this.selectedRooms = this.rooms.filter(room=> room.location==='West Wing');
+    }
+  }
 
   
 
@@ -38,6 +59,9 @@ export class DeleteroomComponent implements OnInit{
         // sort based on name
         data.sort((a, b) => a.name.localeCompare(b.name));
         this.rooms = data;
+        console.log(this.rooms);
+        this.selectedRooms = this.rooms.filter(room=> room.location==='Main Building');
+
           
         // Save locations
         for(let i=0; i<this.rooms.length; i++){
@@ -62,6 +86,7 @@ export class DeleteroomComponent implements OnInit{
 
 
   showDeleteForm(room: RoomRequest){
+    console.log(room);
     this.selectedRoom = room;
     const modal = new window.bootstrap.Modal(document.getElementById('deleteRoomModal'));
     modal.show();
