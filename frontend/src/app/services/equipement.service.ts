@@ -20,9 +20,9 @@ export class EquipementService {
       return this.http.get<EquipementRequest[]>(this.apiUrl, { headers, params });
     }
 
-    updateEquipements(token: string, equipmentsUpdate:EquipmentUpdateResponse[] ): Observable<EquipmentUpdateResponse[]> {
+    updateEquipements(token: string, equipmentsUpdate:EquipmentUpdateResponse[] ): Observable<{message: string}> {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      return this.http.post<any>(this.apiUrl+"-update", equipmentsUpdate, { headers });
+      return this.http.post<{message: string}>(this.apiUrl+"-update", equipmentsUpdate, { headers });
     }
 
     

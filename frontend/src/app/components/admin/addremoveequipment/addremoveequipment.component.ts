@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { EquipementService } from '../../../services/equipement.service';
 import { EquipementRequest } from '../../../model/class/Request/EquipementRequest';
 import { EquipmentUpdateResponse } from '../../../model/class/Response/EquipmentUpdateResponse';
+import { ToastnotificationService } from '../../../services/toastnotification.service';
 
 @Component({
   selector: 'app-addremoveequipment',
@@ -23,6 +24,8 @@ export class AddRemoveEquipmentComponent implements OnInit{
   
   roomService = inject(RoomService);
   equipmentService = inject(EquipementService);
+
+  toastNotif = inject(ToastnotificationService);
 
   roomsEquipmentsMappingChange = new Map<number, { previousValue: boolean, newValue: boolean }>();
 
@@ -126,6 +129,7 @@ export class AddRemoveEquipmentComponent implements OnInit{
         response => {
           this.getAllRooms();
           this.roomsEquipmentsMappingChange.clear();
+          this.toastNotif.showSuccess(response.message, 'Update received');
           this.cdr.detectChanges();
           
         },
@@ -134,6 +138,16 @@ export class AddRemoveEquipmentComponent implements OnInit{
         }
       );
       
+    }
+
+    document.body.focus();
+
+    const modalElement = document.getElementById('equipmentModal');
+    if (modalElement) {
+      const modal = window.bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
     }
     
   }

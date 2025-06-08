@@ -52,7 +52,7 @@ public class EquipmentController {
         equipmentMappingService.updateRoomMapping(equipmentsAdded, equipmentsRemoved);
         
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Update received");
+        response.put("message", "Equipment list was updated successfully!");
 
         return ResponseEntity.ok(response);
 
