@@ -143,7 +143,7 @@ export class RoomcallendarComponent implements OnInit {
       this.fetchWeeklyCleaning(),
       this.fetchMaitenanceSlots()
     ]);
-    console.log(this.userBooking)
+    
     this.loadEvents();
     
     
@@ -259,11 +259,45 @@ export class RoomcallendarComponent implements OnInit {
   loadEvents(): void {
     const userEmail = this.getUserEmail();
 
-    // Preprocess holidays
+    // get all dates between two dates (inclusive)
+    const getDaysBetween = (start: Date, end: Date): Date[] => {
+      const result = [];
+      const current = new Date(start);
+      while (current <= end) {
+        result.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
+      return result;
+    };
+
+    // Prepare holiday date set (only dates, no time)
     const holidayDateSet = new Set(
       this.holidays.map(h => new Date(h.date).toISOString().split('T')[0])
     );
 
+    // Prepare maintenance date set (exclude holidays from maintenance too)
+    const maintenanceDateSet = new Set<string>();
+    for (const slot of this.maintenanceSlots) {
+      const start = new Date(slot.startDate);
+      const end = new Date(slot.endDate);
+      const allDates = getDaysBetween(start, end);
+
+      for (const date of allDates) {
+        const dateStr = date.toISOString().split('T')[0];
+        if (!holidayDateSet.has(dateStr)) {
+          maintenanceDateSet.add(dateStr);
+        }
+      }
+    }
+
+    // Combine holidays + maintenance dates to exclude from weekly cleaning
+    const excludedDates = new Set([...holidayDateSet, ...maintenanceDateSet]);
+
+    // Prepare exdates array for RRule, including time like "2025-09-15T08:00:00"
+    const hourStart = this.weeklyCleanings?.starttime || '08:00';
+    const exdates = Array.from(excludedDates).map(date => `${date}T${hourStart}:00`);
+
+    // Holiday events
     const holidayEvents: any[] = this.holidays.map((holiday, i) => {
       const startDate = holiday.date;
       const nextDate = new Date(startDate);
@@ -281,6 +315,7 @@ export class RoomcallendarComponent implements OnInit {
       };
     });
 
+    // After-use cleaning events
     const cleaningEvents = this.afterUseCleanings.map((cleaning, index) => ({
       title: 'After use Cleaning',
       start: cleaning.start,
@@ -290,6 +325,7 @@ export class RoomcallendarComponent implements OnInit {
       id: `cleaning_after_use_${index}_${cleaning.start.getTime()}`,
     }));
 
+    // Booking events
     const bookingEvents = this.roomBookings.map((booking, index) => {
       const isCurrentUser = userEmail === booking.userEmail;
       const startTime = new Date(booking.start);
@@ -310,18 +346,8 @@ export class RoomcallendarComponent implements OnInit {
       };
     });
 
-    const getDaysBetween = (start: Date, end: Date): Date[] => {
-      const result = [];
-      const current = new Date(start);
-      while (current <= end) {
-        result.push(new Date(current));
-        current.setDate(current.getDate() + 1);
-      }
-      return result;
-    };
-
+    // Maintenance events (split into days)
     const maintenanceEvents: any[] = [];
-
     for (let i = 0; i < this.maintenanceSlots.length; i++) {
       const slot = this.maintenanceSlots[i];
       const start = new Date(slot.startDate);
@@ -331,7 +357,7 @@ export class RoomcallendarComponent implements OnInit {
       for (let j = 0; j < allDates.length; j++) {
         const currentDate = allDates[j];
         const dateStr = currentDate.toISOString().split('T')[0];
-        if (holidayDateSet.has(dateStr)) continue; // Skip if holiday
+        if (holidayDateSet.has(dateStr)) continue; // skip holiday days here
 
         let startTime = '08:00';
         let endTime = '18:00';
@@ -353,6 +379,7 @@ export class RoomcallendarComponent implements OnInit {
       }
     }
 
+    // Weekly cleaning recurring event with exdates (excluded holidays + maintenance)
     const recurringCleaning: any[] = [];
     if (this.weeklyCleanings != null) {
       const weekdayMap: { [key: string]: any } = {
@@ -368,7 +395,6 @@ export class RoomcallendarComponent implements OnInit {
       const cleaningDay = this.weeklyCleanings.cleaningDay.toLowerCase();
       const weekDay = weekdayMap[cleaningDay];
       const dayStart = this.weeklyCleanings.setDate.split('T')[0];
-      const hourStart = this.weeklyCleanings.starttime;
       const duration = this.getDuration(this.weeklyCleanings.starttime, this.weeklyCleanings.endtime);
 
       recurringCleaning.push({
@@ -378,6 +404,7 @@ export class RoomcallendarComponent implements OnInit {
           byweekday: [weekDay],
           dtstart: dayStart + 'T' + hourStart,
         },
+        exdate: exdates, // exclude holidays and maintenance days here
         id: 'recurring_cleaning',
         duration: duration,
         backgroundColor: '#ff9800',
@@ -385,6 +412,7 @@ export class RoomcallendarComponent implements OnInit {
       });
     }
 
+    // Set all events into calendar
     this.calendarOptions.events = [
       ...holidayEvents,
       ...maintenanceEvents,
@@ -392,7 +420,8 @@ export class RoomcallendarComponent implements OnInit {
       ...cleaningEvents,
       ...bookingEvents
     ];
-}
+  }
+
 
   
 
