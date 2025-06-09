@@ -11,6 +11,8 @@ import { RequestcleaningComponent } from './components/requestcleaning/requestcl
 import { UserrequestedcleaningComponent } from './components/userrequestedcleaning/userrequestedcleaning.component';
 import { Component } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
+import { PrivacypolicyComponent } from './components/privacypolicy/privacypolicy.component';
+import { UsagetermsComponent } from './components/usageterms/usageterms.component';
 
 
 export const routes: Routes = [
@@ -24,5 +26,7 @@ export const routes: Routes = [
     {path: 'manage-rooms', component: ManageroomsComponent},
     {path: 'request-cleaning', component: RequestcleaningComponent},
     {path: 'requested-cleaning', component: UserrequestedcleaningComponent},
+    {path: 'privacy', component: PrivacypolicyComponent},
+    {path: 'terms', component: UsagetermsComponent},
     { path: '**', redirectTo: 'home' }, 
 ];
