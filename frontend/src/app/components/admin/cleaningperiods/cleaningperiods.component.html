@@ -31,7 +31,7 @@
     </div>
 
 
-      <div *ngFor="let room of selectedRooms" class="rooms-card clickable" (click)="showCleaningModal(room)"> <!-- clickable, otherwise click will not work-->
+      <div *ngFor="let room of selectedRooms" class="rooms-card clickable w-50" (click)="showCleaningModal(room)"> <!-- clickable, otherwise click will not work-->
         
         <div class="card-header bg-gradient"> 
           <h5>{{ room.roomDetails.name }}</h5>

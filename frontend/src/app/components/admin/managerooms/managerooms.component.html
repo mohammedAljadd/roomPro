@@ -1,66 +1,66 @@
 <div class="container-fluid p-0 h-100">
     <div class="row flex-nowrap m-0 h-100">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #8ec6f37d;">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #2c3e50;">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white h-100">
-                <span style="font-weight: bold;color: black;" class="fs-5 d-none d-sm-inline">Menu</span>
+                <!--  <span style="font-weight: bold;color: black;" class="fs-5 d-none d-sm-inline">Menu</span> -->
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 
                     <li>
-                        <a style="color: black;font-weight: bold;" href="#submenu_1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi bi-door-open-fill"></i> <span class="ms-1 d-none d-sm-inline">Room Setup</span> 
+                        <a style="color: white;font-size:20px;" class="nav-link px-0 align-middle">
+                            <span class="ms-1 d-none d-sm-inline">Room Setup</span> 
                         </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu_1">
                             <li class="w-100">
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-addroom')"> 
-                                    <span class="d-none d-sm-inline">➕ Add New Room</span> 
+                                <div style="color: white;cursor: pointer" href="#" class="nav-link linkIcon px-0" [ngClass]="{'fw-bold': choosenItem === 'admincontent-addroom'}" (click)="setChoosenItem('admincontent-addroom')"> 
+                                    <span class="d-none d-sm-inline"><i class="fa-solid fa-plus"></i> Add New Room</span> 
                                 </div>
                             </li>
                             <li>
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-deleteroom')"> 
-                                    <span class="d-none d-sm-inline">🗑 Delete Existing Room</span>
+                                <div style="color: white;cursor: pointer" href="#" class="nav-link linkIcon px-0" [ngClass]="{'fw-bold': choosenItem === 'admincontent-deleteroom'}" (click)="setChoosenItem('admincontent-deleteroom')"> 
+                                    <span class="d-none d-sm-inline"><i class="fa-solid fa-trash"></i> Delete Existing Room</span>
                                 </div>
+
+                                <div style="color: white;cursor: pointer" href="#" class="nav-link linkIcon px-0" [ngClass]="{'fw-bold': choosenItem === 'admincontent-addequipments'}" (click)="setChoosenItem('admincontent-addequipments')"> 
+                                    <span class="d-none d-sm-inline"><i class="fa-solid fa-laptop"></i> Equipment Setup</span>
+                                </div>
+
+                                
                             </li>
                         </ul>
                     </li>
 
+                 
                     <li>
-                        <a style="color: black;font-weight: bold;" href="#submenu_4" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-hdd-network"></i> <span class="ms-1 d-none d-sm-inline" (click)="setChoosenItem('admincontent-addequipments')">Equipment Setup</span> 
-                        </a>
-                        
-                    </li>
-                    
-                    <li>
-                        <a style="color: black;font-weight: bold;" href="#submenu_2" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi bi-tools"></i> <span class="ms-1 d-none d-sm-inline">Cleaning & Maintenance</span>
+                        <a style="color: white;font-size:20px;" class="nav-link px-0 align-middle">
+                            <span class="ms-1 d-none d-sm-inline">Cleaning & Maintenance</span>
                         </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu_2">
                             <li class="w-100">
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-cleaning')"> 
-                                    <span class="d-none d-sm-inline">🧹 Cleaning Periods</span> 
+                                <div style="color: white;cursor: pointer" href="#" class="nav-link linkIcon px-0" [ngClass]="{'fw-bold': choosenItem === 'admincontent-cleaning'}" (click)="setChoosenItem('admincontent-cleaning')"> 
+                                    <span class="d-none d-sm-inline"><i class="fa-solid fa-broom"></i> Cleaning Periods</span> 
                                 </div>
                             </li>
                             <li>
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-maintenance')"> 
-                                    <span class="d-none d-sm-inline">🛠 Maintenance</span>
+                                <div style="color: white;cursor: pointer" href="#" class="nav-link linkIcon px-0" [ngClass]="{'fw-bold': choosenItem === 'admincontent-maintenance'}" (click)="setChoosenItem('admincontent-maintenance')"> 
+                                    <span class="d-none d-sm-inline"><i class="fa-solid fa-screwdriver-wrench"></i> Maintenance</span>
                                 </div>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a style="color: black;font-weight: bold;" href="#submenu_3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi bi-bar-chart-line-fill"></i> <span class="ms-1 d-none d-sm-inline">Stats</span>
+                        <a style="color: white;font-size:20px;" class="nav-link px-0 align-middle">
+                             <span class="ms-1 d-none d-sm-inline">Stats</span>
                         </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu_3">
                             <li class="w-100">
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-userstats')"> 
-                                    <span class="d-none d-sm-inline">👥 User Stats</span> 
+                                <div style="color: white;cursor: pointer" href="#" class="nav-link linkIcon px-0" [ngClass]="{'fw-bold': choosenItem === 'admincontent-userstats'}" (click)="setChoosenItem('admincontent-userstats')"> 
+                                    <span class="d-none d-sm-inline"><i class="fa-solid fa-users"></i> User Stats</span> 
                                 </div>
                             </li>
                             <li>
-                                <div style="color: black;cursor: pointer" href="#" class="nav-link px-0" (click)="setChoosenItem('admincontent-bookingtrends')"> 
-                                    <span class="d-none d-sm-inline">📈 Booking Trends</span>
+                                <div style="color: white;cursor: pointer" href="#" class="nav-link linkIcon px-0" [ngClass]="{'fw-bold': choosenItem === 'admincontent-bookingtrends'}" (click)="setChoosenItem('admincontent-bookingtrends')"> 
+                                    <span class="d-none d-sm-inline"><i class="fa-solid fa-arrow-trend-up"></i> Booking Trends</span>
                                 </div>
                             </li>
                         </ul>
@@ -78,8 +78,8 @@
             <div [ngSwitch]="choosenItem">
                 <!-- Welcome Message -->
                 <div *ngSwitchCase="null">
-                    <div class="container text-center">
-                        <div class="card shadow-lg p-4 mb-3 bg-light rounded">
+                    <div class="container text-center w-50 mt-5">
+                        <div class="card shadow-sm p-4 mb-3 bg-white rounded">
                             <h4 class="mb-3">Welcome Admin!</h4>
                             <p class="lead mb-4">Here are some quick tips to get started:</p>
                             <ul class="list-unstyled text-start">
@@ -87,7 +87,7 @@
                                 <li><i class="bi bi-check-circle-fill text-success"></i> Delete rooms from the "Delete Existing Room" section.</li>
                                 <li><i class="bi bi-check-circle-fill text-success"></i> Manage room availability and cleaning periods efficiently.</li>
                             </ul>
-                            <p>Click on any option in the menu to get started.</p>
+                            <p>Click on any option in the left menu to get started.</p>
                         </div>
                     </div>
                 </div>
@@ -109,3 +109,4 @@
 
     </div>
 </div>
+

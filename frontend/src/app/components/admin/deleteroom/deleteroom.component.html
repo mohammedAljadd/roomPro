@@ -23,7 +23,7 @@
 
 
 
-      <div *ngFor="let room of selectedRooms" class="rooms-card clickable" (click)="showDeleteForm(room)"> <!-- clickable, otherwise click will not work-->
+      <div *ngFor="let room of selectedRooms" class="rooms-card clickable w-50" (click)="showDeleteForm(room)"> <!-- clickable, otherwise click will not work-->
         
         <div class="card-header bg-gradient"> 
           <h5>{{ room.name }}</h5>

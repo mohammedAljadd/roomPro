@@ -7,3 +7,17 @@ html, body {
   height: 100%;
   margin: 0;
 }
+
+.linkIcon {
+  transition: transform 0.3s ease;
+  margin-left: 10px
+}
+
+.linkIcon:hover {
+  transform: translateX(6px);
+}
+
+
+ul{
+  margin-bottom: 30px;
+}

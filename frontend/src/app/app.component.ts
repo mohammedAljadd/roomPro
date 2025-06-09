@@ -22,11 +22,21 @@ export class AppComponent {
     ).subscribe((event: NavigationEnd) => {
       // Adjust padding based on current route
       if ( event.url.startsWith('/manage-rooms')) {
-        this.paddingTop = '70px'; // example bigger padding for admin
+        this.paddingTop = '70px'; 
       } 
+      
       else if( event.url.startsWith('/my-bookings')) {
-        this.paddingTop = '100px'; // example bigger padding for admin
+        this.paddingTop = '100px'; 
       } 
+      
+      else if( event.url.startsWith('/meeting-rooms')) {
+        this.paddingTop = '85px'; 
+      } 
+
+      else if( event.url.startsWith('/home')) {
+        this.paddingTop = '85px'; 
+      } 
+      
       
 
       else {

@@ -42,7 +42,9 @@ export class CleaningperiodsComponent implements OnInit{
   }
 
   selectTab(tab: string){
-    console.log(tab);
+    
+    this.activeTab = tab;
+
     if(tab==='eachuse'){
       this.selectedRooms = this.rooms.filter(room=>room.cleaningType==='After Each Use');
           
@@ -55,7 +57,6 @@ export class CleaningperiodsComponent implements OnInit{
       this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Weekly Cleaning - Wednesday');
     }
     else{
-      console.log(this.rooms[0].cleaningType);
       
       this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Custom Cleaning');
     }
