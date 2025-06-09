@@ -47,6 +47,11 @@ export class UserrequestedcleaningComponent implements OnInit{
         next: (data)=>{
           this.cleaningRequests = data;
 
+          this.cleaningRequests.sort((req1, req2) => {
+            return new Date(req2.requestedAt).getTime() - new Date(req1.requestedAt).getTime();
+          });
+
+
           this.cleaningRequests.map(request=>{
             if(request.status=='ON_HOLD'){
               request.status = 'ON HOLD';
