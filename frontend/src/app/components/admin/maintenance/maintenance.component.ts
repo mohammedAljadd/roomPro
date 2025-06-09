@@ -212,6 +212,14 @@ export class MaintenanceComponent implements OnInit{
       if (this.token) {
         this.bookingService.getBookingsByRoomId(this.token, roomId).subscribe({
           next: (data) => {
+
+            data = data.filter(booking=> {
+              const startDate = new Date(booking.startTime);
+              return startDate>= new Date()
+
+
+            });
+
             this.roomBookings = data.map(booking => ({
               start: new Date(booking.startTime),
               end: new Date(booking.endTime)
