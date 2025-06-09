@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
 import { PrivacypolicyComponent } from './components/privacypolicy/privacypolicy.component';
 import { UsagetermsComponent } from './components/usageterms/usageterms.component';
+import { AboutComponent } from './components/about/about.component';
 
 
 export const routes: Routes = [
@@ -28,5 +29,6 @@ export const routes: Routes = [
     {path: 'requested-cleaning', component: UserrequestedcleaningComponent},
     {path: 'privacy', component: PrivacypolicyComponent},
     {path: 'terms', component: UsagetermsComponent},
+    {path: 'about', component: AboutComponent},
     { path: '**', redirectTo: 'home' }, 
 ];
