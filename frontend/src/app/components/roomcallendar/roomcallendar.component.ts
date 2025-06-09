@@ -201,11 +201,18 @@ export class RoomcallendarComponent implements OnInit {
       if (this.token) {
         this.bookingService.getBookingsByRoomId(this.token, this.roomId).subscribe({
           next: (data) => {
+            
+            // Exclude cancelled bookings
+            data = data.filter(booking=>booking.canceled!=true);
+
             this.roomBookings = data.map(booking => ({
               start: new Date(booking.startTime),
               end: new Date(booking.endTime),
               userEmail: booking.userEmail
             }));
+
+            
+
             resolve();
           },
           error: (error) => {
