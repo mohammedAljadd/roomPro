@@ -79,7 +79,7 @@ public class BookingService {
 
 
         if(bookingRepository.isOverlappingWithOtherBookings(room.getRoomId(), startDateTime, endDateTime)){
-            throw new Exception("This time slot is already booked.");
+            throw new Exception("The selected time overlaps with an existing booking.");
         }
 
         // Check if overlap with cleaning slots

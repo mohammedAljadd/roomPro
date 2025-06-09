@@ -31,7 +31,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByRoomId(long roomId);
 
     @Query("SELECT COUNT(b) > 0 FROM Booking b WHERE b.room.id = :roomId AND " +
-            "(b.startTime < :endTime AND b.endTime > :startTime)")
+            "(b.startTime < :endTime AND b.endTime > :startTime) AND b.isCanceled=false")
     boolean isOverlappingWithOtherBookings(long roomId, LocalDateTime startTime, LocalDateTime endTime);
 
     @Query(value = "SELECT COUNT(*) FROM bookings WHERE EXTRACT(YEAR FROM start_time) = :year AND EXTRACT(MONTH FROM start_time) = :month", nativeQuery = true)
