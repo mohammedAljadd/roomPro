@@ -111,7 +111,6 @@ export class CleaningperiodsComponent implements OnInit{
           }
 
           this.getAllRooms();
-          
           this.cdr.detectChanges();
         },
         error: (error)=>{

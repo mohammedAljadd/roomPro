@@ -5,15 +5,10 @@ import com.roompro.roompro.dto.request.BookingRequestDTO;
 import com.roompro.roompro.dto.request.HolidayDTO;
 import com.roompro.roompro.dto.response.BookingTrendsResponseDTO;
 import com.roompro.roompro.dto.response.MostBookedRoomResponseDTO;
-import com.roompro.roompro.model.Booking;
-import com.roompro.roompro.model.Maintenance;
-import com.roompro.roompro.model.Room;
-import com.roompro.roompro.model.Users;
-import com.roompro.roompro.repository.BookingRepository;
-import com.roompro.roompro.repository.CleaningAssignmentRepository;
-import com.roompro.roompro.repository.RoomRepository;
-import com.roompro.roompro.repository.UserRepository;
+import com.roompro.roompro.model.*;
+import com.roompro.roompro.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -39,6 +35,10 @@ public class BookingService {
 
     @Autowired
     CleaningService cleaningService;
+
+    @Autowired
+    AfterUseCleaningRepository afterUseCleaningRepository;
+
 
     @Autowired
     MaintenanceService maintenanceService;
@@ -167,9 +167,23 @@ public class BookingService {
             throw new Exception("Booking not found.");
         }
 
+
+
         Booking booking = bookingRepository.findById(id).get();
         booking.setCanceled(true);
 
+        // delete cleaning slot
+        Long roomId = booking.getRoom().getRoomId();
+        LocalDateTime startDate = booking.getEndTime();
+        List<CleaningAfterUse> cleanings = cleaningService.getAllAfterUseCleaning(roomId);
+        List<CleaningAfterUse> matchedCleanings = cleanings.stream()
+                .filter(c -> c.getStartTime().equals(startDate) &&
+                        Objects.equals(c.getRoom().getRoomId(), roomId))
+                .collect(Collectors.toList());
+        afterUseCleaningRepository.deleteAll(matchedCleanings);
+
+
+        // Save
         bookingRepository.save(booking);
 
         return Map.of("message", "Booking cancelled successfully.");
