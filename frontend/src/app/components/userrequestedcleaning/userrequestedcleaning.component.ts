@@ -45,11 +45,14 @@ export class UserrequestedcleaningComponent implements OnInit{
     if(this.token){
       this.cleaningService.getCleaningRequests(this.token).subscribe({
         next: (data)=>{
+
+
           this.cleaningRequests = data;
 
           this.cleaningRequests.sort((req1, req2) => {
             return new Date(req2.requestedAt).getTime() - new Date(req1.requestedAt).getTime();
           });
+
 
 
           this.cleaningRequests.map(request=>{
@@ -190,6 +193,13 @@ export class UserrequestedcleaningComponent implements OnInit{
       if (this.token) {
         this.bookingService.getBookingsByRoomId(this.token, roomId).subscribe({
           next: (data) => {
+
+            data = data.filter(booking => {
+              const now = new Date();
+              return new Date(booking.startTime) >= now;
+            });
+
+
             this.roomBookings = data.map(booking => ({
               start: new Date(booking.startTime),
               end: new Date(booking.endTime)
