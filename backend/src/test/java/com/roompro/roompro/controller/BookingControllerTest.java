@@ -113,9 +113,9 @@ class BookingControllerTest {
         user.setEmail("test@gmail.com");
         LocalDateTime startTime = LocalDateTime.now();
 
-        Booking booking1 = new Booking(1L, user, room, startTime, startTime.plusHours(2));
-        Booking booking2 = new Booking(2L, user, room, startTime, startTime.plusHours(4));
-        Booking booking3 = new Booking(3L, user, room, startTime, startTime.plusHours(3));
+        Booking booking1 = new Booking(1L, user, room, startTime, startTime.plusHours(2), false);
+        Booking booking2 = new Booking(2L, user, room, startTime, startTime.plusHours(4), false);
+        Booking booking3 = new Booking(3L, user, room, startTime, startTime.plusHours(3), false);
 
 
         List<Booking> bookings = List.of(booking1, booking2, booking3);
@@ -144,9 +144,9 @@ class BookingControllerTest {
         user.setEmail("test@gmail.com");
         LocalDateTime startTime = LocalDateTime.now();
 
-        Booking booking1 = new Booking(1L, user, room, startTime, startTime.plusHours(2));
-        Booking booking2 = new Booking(2L, user, room, startTime, startTime.plusHours(4));
-        Booking booking3 = new Booking(3L, user, room2, startTime, startTime.plusHours(3));
+        Booking booking1 = new Booking(1L, user, room, startTime, startTime.plusHours(2), false);
+        Booking booking2 = new Booking(2L, user, room, startTime, startTime.plusHours(4), false);
+        Booking booking3 = new Booking(3L, user, room2, startTime, startTime.plusHours(3), false);
 
         List<Booking> bookings = List.of(booking1, booking2, booking3);
 

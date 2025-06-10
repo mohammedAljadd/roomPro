@@ -9,6 +9,7 @@ import com.roompro.roompro.model.Users;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class BookingMapperTest {
 
-    private RoomMapper roomMapper = new RoomMapperImpl();
+    private RoomMapper roomMapper = Mappers.getMapper(RoomMapper.class);
 
     private BookingMapperImp bookingMapper = new BookingMapperImp();
 
@@ -35,7 +36,7 @@ class BookingMapperTest {
     @BeforeEach
     void setUp() {
         Role role = new Role(52L, "Admin", "Admin with full access", Collections.emptyList());
-        user = new Users(1L, "test@gmail.com", "testpassword", "Said", "Hamza", role);
+        user = new Users(1L, "test@gmail.com", "testpassword", "Said", "Hamza", role, null, null, null, 0, true);
         room = new Room(1L, "Room1", (short) 50, "5th floor", "Very large room", Collections.emptyList(), Collections.emptyList());
         start =  LocalDateTime.of(2025, 2, 19, 8, 0);
         end =  LocalDateTime.of(2025, 2, 19, 10, 30);
@@ -45,7 +46,7 @@ class BookingMapperTest {
     @Test
     public void shouldMapBookingEntToBookingDTO(){
 
-        Booking booking = new Booking(2L, user, room,  start, end);
+        Booking booking = new Booking(2L, user, room,  start, end, false);
 
         BookingResponseDTO bookingDTO = bookingMapper.bookingToBookingResponseDTO(booking);
 
@@ -59,7 +60,7 @@ class BookingMapperTest {
 
     @Test
     public void shouldMapBookingEntToBookingDTONullDates(){
-        Booking booking = new Booking(2L, user, room,  null, null);
+        Booking booking = new Booking(2L, user, room,  null, null, false);
         BookingResponseDTO bookingDTO = bookingMapper.bookingToBookingResponseDTO(booking);
 
         assertNull(bookingDTO.getStartTime());
@@ -68,7 +69,7 @@ class BookingMapperTest {
 
     @Test
     public void shouldMapBookingEntToBookingDTONullUser(){
-        Booking booking = new Booking(982L, null, room,  start, end);
+        Booking booking = new Booking(982L, null, room,  start, end, false);
         BookingResponseDTO bookingDTO = bookingMapper.bookingToBookingResponseDTO(booking);
         RoomResponseDTO roomDTO = roomMapper.roomToRoomResponseDTO(room);
 
