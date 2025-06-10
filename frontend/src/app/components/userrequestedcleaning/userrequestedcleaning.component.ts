@@ -30,7 +30,7 @@ export class UserrequestedcleaningComponent implements OnInit{
 
   startDate!: Date;
   cleaningDuration!: number;
-  adminComment!: string;
+  adminComment: string = "";
   
 
   token!: string | null;
@@ -159,7 +159,7 @@ export class UserrequestedcleaningComponent implements OnInit{
     const modalElement = document.getElementById('rejectCleaningRequestModal');
 
     if(this.token){
-      this.cleaningService.rejectRequest(this.token, this.selectedRequest.cleaningId).subscribe({
+      this.cleaningService.rejectRequest(this.token, this.selectedRequest.cleaningId, this.adminComment).subscribe({
         next: response => {
           this.toastNotif.showSuccess(response.message);
 

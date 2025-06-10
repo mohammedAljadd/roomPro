@@ -154,6 +154,10 @@
         </div>
         
         <form>
+             <div class="mb-3">
+                <label for="cleaningDuration" class="form-label">Comment</label>
+                <textarea class="form-control" id="adminComment" [(ngModel)]="adminComment" name="adminComment"></textarea>
+              </div>
             <button type="submit" class="btn btn-danger" (click)="rejectRequest()">Reject</button>
           </form>
     

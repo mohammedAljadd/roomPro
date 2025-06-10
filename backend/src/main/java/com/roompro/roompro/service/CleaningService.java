@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -157,13 +158,14 @@ public class CleaningService {
             endTime = LocalDateTime.parse(cleaningSetStatus.getEndTime());
             cleaningOnRequest.setStartTime(startTime);
             cleaningOnRequest.setEndTime(endTime);
-            cleaningOnRequest.setAdminComment(cleaningSetStatus.getAdminComment());
         }
 
 
 
 
-
+        if(!Objects.equals(cleaningSetStatus.getAdminComment(), "")){
+            cleaningOnRequest.setAdminComment(cleaningSetStatus.getAdminComment());
+        }
 
         cleaningOnRequest.setStatus(CleaningStatus.valueOf(status));
 

@@ -73,13 +73,14 @@ export class CleaningService {
     return this.http.patch<{message: string}>('http://localhost:8080/roompro/cleaning/request/set_status', statusData, { headers });
   }
 
-  rejectRequest(token: string, cleaningId: number):Observable<{message: string}>{
+  rejectRequest(token: string, cleaningId: number, adminComment: string):Observable<{message: string}>{
 
     const statusData = {
       cleaningId: cleaningId,
       status: "REJECTED",
       startTime : null,
       endTime : null,
+      adminComment: adminComment
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
