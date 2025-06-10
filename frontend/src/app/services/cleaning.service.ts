@@ -59,13 +59,14 @@ export class CleaningService {
     return this.http.patch<void>('http://localhost:8080/roompro/cleaning/request/processed/marked-view/'+cleaning_id, {}, { headers });
   }
 
-  acceptRequest(token: string, cleaningId: number, startTime: string, endTime: string):Observable<{message: string}>{
+  acceptRequest(token: string, cleaningId: number, startTime: string, endTime: string, adminComment:string):Observable<{message: string}>{
 
     const statusData = {
       cleaningId: cleaningId,
       status: "ACCEPTED",
       startTime : startTime,
       endTime : endTime,
+      adminComment: adminComment
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

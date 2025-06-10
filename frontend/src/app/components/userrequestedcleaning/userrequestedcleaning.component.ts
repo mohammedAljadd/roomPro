@@ -30,6 +30,7 @@ export class UserrequestedcleaningComponent implements OnInit{
 
   startDate!: Date;
   cleaningDuration!: number;
+  adminComment!: string;
   
 
   token!: string | null;
@@ -48,6 +49,8 @@ export class UserrequestedcleaningComponent implements OnInit{
 
 
           this.cleaningRequests = data;
+
+          console.log(this.cleaningRequests);
 
           this.cleaningRequests.sort((req1, req2) => {
             return new Date(req2.requestedAt).getTime() - new Date(req1.requestedAt).getTime();
@@ -117,7 +120,7 @@ export class UserrequestedcleaningComponent implements OnInit{
 
     if(this.token){
       
-      this.cleaningService.acceptRequest(this.token, this.selectedRequest.cleaningId, startTime, endTime).subscribe({
+      this.cleaningService.acceptRequest(this.token, this.selectedRequest.cleaningId, startTime, endTime, this.adminComment).subscribe({
         next: response => {
           this.toastNotif.showSuccess(response.message);
 

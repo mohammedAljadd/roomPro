@@ -80,7 +80,7 @@ public class CleaningController {
 
     @PatchMapping("cleaning/request/set_status")
     public ResponseEntity<?> setCleaningRequestStatus(@RequestBody CleaningAdminSetStatusRequestDTO cleaningSetStatus){
-
+        System.out.println(cleaningSetStatus);
         cleaningService.setCleaningRequestStatus(cleaningSetStatus);
 
         System.out.println(cleaningSetStatus.getStatus());

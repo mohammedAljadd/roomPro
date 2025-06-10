@@ -20,5 +20,6 @@ public class CleaningOnRequestResponseDTO {
     private String message;
     private String userFirstName;
     private String userLastName;
+    private String adminComment;
 }
 

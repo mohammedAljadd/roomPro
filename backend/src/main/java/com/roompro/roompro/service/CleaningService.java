@@ -135,7 +135,7 @@ public class CleaningService {
                     dto.setUserLastName(request.getUser().getLastName());
                     dto.setStartTime(request.getStartTime());
                     dto.setEndTime(request.getEndTime());
-
+                    dto.setAdminComment(request.getAdminComment());
                     return dto;
 
                 }).collect(Collectors.toList());
@@ -157,6 +157,7 @@ public class CleaningService {
             endTime = LocalDateTime.parse(cleaningSetStatus.getEndTime());
             cleaningOnRequest.setStartTime(startTime);
             cleaningOnRequest.setEndTime(endTime);
+            cleaningOnRequest.setAdminComment(cleaningSetStatus.getAdminComment());
         }
 
 

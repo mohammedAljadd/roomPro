@@ -14,4 +14,5 @@ public class CleaningAdminSetStatusRequestDTO {
     private String status;
     private String startTime;
     private String endTime;
+    private String adminComment;
 }

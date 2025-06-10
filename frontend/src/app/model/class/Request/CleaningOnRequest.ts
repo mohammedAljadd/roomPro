@@ -10,4 +10,5 @@ export class CleaningOnRequest{
     userLastName!: number;
     startTime!: string;
     endTime!: string;
+    adminComment!: string;
 }

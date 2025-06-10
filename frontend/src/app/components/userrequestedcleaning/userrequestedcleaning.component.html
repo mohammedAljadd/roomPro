@@ -21,6 +21,7 @@
         <th scope="col">Status</th>
         <th scope="col">User First Name</th>
         <th scope="col">User Last Name</th>
+        <th scope="col">Admin comment</th>
         <th scope="col">Approve</th>
         
       </tr>
@@ -38,7 +39,7 @@
         <td style="background-color: inherit !important;">{{ request.status }}</td>
         <td style="background-color: inherit !important;">{{ request.userFirstName }}</td>
         <td style="background-color: inherit !important;">{{ request.userLastName }}</td>
-        
+        <td style="background-color: inherit !important;">{{ (request.status!='ON HOLD') ? request.adminComment : ''  }}</td>
         <td style="background-color: inherit !important;">
             
             <div *ngIf="request.status=='ON HOLD'">
@@ -88,6 +89,12 @@
                 <label for="cleaningDuration" class="form-label">Cleaning duration in minutes</label>
                 <input type="number" class="form-control" id="cleaningDuration" [(ngModel)]="cleaningDuration" name="cleaningDuration" min="10" max="45" required />
               </div>
+
+              <div class="mb-3">
+                <label for="cleaningDuration" class="form-label">Comment</label>
+                <textarea class="form-control" id="adminComment" [(ngModel)]="adminComment" name="adminComment"></textarea>
+              </div>
+
               <button type="submit" class="btn btn-primary w-100">Submit</button>
             </form>
           </div>

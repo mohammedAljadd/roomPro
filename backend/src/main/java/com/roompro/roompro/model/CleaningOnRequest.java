@@ -41,8 +41,9 @@ public class CleaningOnRequest {
     @Column(length = 500)
     private String message;
 
-    @Column(length = 500, columnDefinition = "varchar(500) default 'No comment'")
-    private String adminComment;
+    @Column(length = 500)
+    private String adminComment = "No comment";
+
 
 
     @ManyToOne
