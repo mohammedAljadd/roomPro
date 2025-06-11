@@ -4,6 +4,126 @@
 
 RoomPro is a web application that simplifies room booking and management. Built with `Spring Boot` for the backend and `Angular` for the frontend, it follows a clean architecture that separates concerns into Controllers, Services, Repositories, and Entities for scalability and maintainability. The app securely stores user and room data in a relational database.
 
+## Local Setup
+
+### Prerequisites
+
+- `Java 21` (required by backend `pom.xml`)
+- `Node.js 20+` and `npm` (for Angular frontend)
+- `PostgreSQL 14+` (local install)
+- `psql` CLI (used to seed the database from `.sql` files)
+
+### Project Setup
+
+```bash
+# from repository root
+cd frontend
+npm install
+cd ..
+```
+
+> Backend uses Maven Wrapper (`backend/mvnw`, `backend/mvnw.cmd`), so a separate Maven install is optional.
+
+### Configure Database (PostgreSQL)
+
+The backend expects:
+
+- Database name: `roompro_db`
+- JDBC URL: `jdbc:postgresql://localhost:5432/roompro_db`
+- Username and password from environment variables:
+  - `SPRING_DATASOURCE_USERNAME`
+  - `SPRING_DATASOURCE_PASSWORD`
+
+Create the database:
+
+```sql
+CREATE DATABASE roompro_db;
+```
+
+### Backend Environment Variables
+
+Set these before starting the backend:
+
+- `SPRING_DATASOURCE_USERNAME` (example: `roompro`)
+- `SPRING_DATASOURCE_PASSWORD` (example: `roompro`)
+- `JWT_SECRET_KEY` (Base64-encoded secret, minimum 32 bytes before encoding)
+
+PowerShell example:
+
+```powershell
+$env:SPRING_DATASOURCE_USERNAME="roompro"
+$env:SPRING_DATASOURCE_PASSWORD="roompro"
+$env:JWT_SECRET_KEY="<your-base64-secret>"
+```
+
+Generate a valid Base64 secret in PowerShell:
+
+```powershell
+$bytes = New-Object byte[] 32
+[System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
+[Convert]::ToBase64String($bytes)
+```
+
+### Run the Backend (Spring Boot)
+
+From the `backend` folder:
+
+Windows:
+
+```powershell
+cd backend
+.\mvnw.cmd spring-boot:run
+```
+
+macOS/Linux:
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+Backend default URL: `http://localhost:8080`  
+API base path: `http://localhost:8080/roompro`
+
+### Initialize Schema and Seed Data
+
+This project does not currently use Flyway/Liquibase migrations. Schema is created/updated by Hibernate (`spring.jpa.hibernate.ddl-auto=update`) when the backend starts.
+
+1. Start backend once so tables are created.
+2. Stop backend.
+3. Run one seed file:
+   - `backend/seed_roompro.sql` (minimal dataset)
+   - `backend/seed_roompro_2.sql` (expanded dataset, recommended)
+
+Seed command:
+
+```bash
+psql -h localhost -U roompro -d roompro_db -f backend/seed_roompro_2.sql
+```
+
+Note: seeded users contain `CHANGE_ME_BCRYPT_HASH` placeholders. For local development, you can generate BCrypt hashes with [Browserling BCrypt Generator](https://www.browserling.com/tools/bcrypt) using `10` rounds and replace the placeholders in the seed SQL files. You can also register users directly in the app through `/roompro/register` anyway.
+
+### Run the Angular Frontend
+
+From the `frontend` folder:
+
+```bash
+cd frontend
+npm start -- --port 4209
+```
+
+Frontend URL: `http://localhost:4209`
+
+Port `4209` is important because backend CORS is currently configured for `http://localhost:4209`.
+
+### Start Full Application Locally
+
+1. Start PostgreSQL.
+2. Export backend env vars (`SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `JWT_SECRET_KEY`).
+3. Start backend from `backend` (`mvnw spring-boot:run`).
+4. Start frontend from `frontend` on port `4209` (`npm start -- --port 4209`).
+5. Open `http://localhost:4209`.
+
 # 🚀 Current Release: v2.6.0
 ## 🎉 Features up to this Release:
 
@@ -252,7 +372,7 @@ Entities represent the core data structures of the application. These classes ar
    - `GET /booking/room/{room_id}`:  
      - Retrieves all bookings associated with a specific room.
 
-   - `DELETE /my-bookings/cancel/{booking_id}`:  
+   - `PATCH /my-bookings/cancel/{booking_id}`:  
      - Cancels a user’s booking by ID. Returns a confirmation or error message.
 
    - `GET /booking/trends/{year}/{month}` :  
