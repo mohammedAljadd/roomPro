@@ -26,26 +26,23 @@ export class DeleteroomComponent implements OnInit{
   
   selectedRoom!: RoomRequest;
 
-  activeTab: string = 'main';
+  activeTab: string = '';
   
   ngOnInit(): void {
     this.getAllRooms();
     
   }
 
-  selectTab(tab: string){
-    
-    this.activeTab = tab;
+  private getLocationPriority(location: string): number {
+    const firstWord = location.split(' ')[0];
+    const order = ['Main', 'North', 'South', 'East', 'West'];
+    const index = order.indexOf(firstWord);
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+  }
 
-    if(tab==='main'){
-      this.selectedRooms = this.rooms.filter(room=> room.location==='Main Building');
-    }
-    else if(tab==='east'){
-      this.selectedRooms = this.rooms.filter(room=> room.location==='East Wing');
-    }
-    else{
-      this.selectedRooms = this.rooms.filter(room=> room.location==='West Wing');
-    }
+  selectTab(location: string){
+    this.activeTab = location;
+    this.selectedRooms = this.rooms.filter(room => room.location === location);
   }
 
   
@@ -53,29 +50,23 @@ export class DeleteroomComponent implements OnInit{
   getAllRooms(){
     this.roomService.getAllRooms().subscribe({
       next: (data) => {
-        // sort based on name
-        data.sort((a, b) => a.name.localeCompare(b.name));
-        this.rooms = data;
-        console.log(this.rooms);
-        this.selectedRooms = this.rooms.filter(room=> room.location==='Main Building');
-
-          
-        // Save locations
-        for(let i=0; i<this.rooms.length; i++){
-          let location = this.rooms[i].location;
-          
-          if(!this.roomLocations.includes(location)){
-            this.roomLocations.push(location);
-          }
-        }
-        
+        this.rooms = data.sort((a, b) => a.name.localeCompare(b.name));
+        this.roomLocations = [...new Set(this.rooms.map(room => room.location))];
         this.roomLocations.sort((a, b) => {
-          const order = ['Main', 'North', 'South', 'East', 'West'];
-          return order.indexOf(a.split(' ')[0]) - order.indexOf(b.split(' ')[0]);
-          
+          const byPriority = this.getLocationPriority(a) - this.getLocationPriority(b);
+          if (byPriority !== 0) return byPriority;
+          return a.localeCompare(b);
         });
-        
-        
+
+        if (this.roomLocations.length > 0) {
+          const defaultLocation = this.roomLocations.includes(this.activeTab)
+            ? this.activeTab
+            : this.roomLocations[0];
+          this.selectTab(defaultLocation);
+        } else {
+          this.activeTab = '';
+          this.selectedRooms = [];
+        }
       },
       error: (error) => console.error('Error fetching rooms:', error)
     });

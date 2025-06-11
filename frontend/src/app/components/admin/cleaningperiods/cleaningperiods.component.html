@@ -21,7 +21,11 @@
 </ul>
 
 
- <div *ngIf="selectedRooms.length > 0" class="rooms-container">
+<div *ngIf="rooms.length > 0 && selectedRooms.length === 0" class="container mt-4">
+  <div class="alert alert-secondary mb-0">No rooms found in this cleaning category.</div>
+</div>
+
+<div *ngIf="selectedRooms.length > 0" class="rooms-container">
 
     <div class="container d-flex flex-column justify-content-center align-items-center text-center">
     <h1>Cleaning Setup</h1>

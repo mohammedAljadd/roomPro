@@ -42,24 +42,21 @@ export class CleaningperiodsComponent implements OnInit{
   }
 
   selectTab(tab: string){
-    
     this.activeTab = tab;
+    this.selectedRooms = this.getRoomsForTab(tab);
+  }
 
-    if(tab==='eachuse'){
-      this.selectedRooms = this.rooms.filter(room=>room.cleaningType==='After Each Use');
-          
+  private getRoomsForTab(tab: string): RoomCleaningRequest[] {
+    if (tab === 'eachuse') {
+      return this.rooms.filter(room => room.cleaningType === 'After Each Use');
     }
-
-    else if(tab==='eachfriday'){
-      this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Weekly Cleaning - Friday');
+    if (tab === 'eachfriday') {
+      return this.rooms.filter(room => room.cleaningType === 'Weekly Cleaning - Friday');
     }
-    else if(tab==='eachwednesday'){
-      this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Weekly Cleaning - Wednesday');
+    if (tab === 'eachwednesday') {
+      return this.rooms.filter(room => room.cleaningType === 'Weekly Cleaning - Wednesday');
     }
-    else{
-      
-      this.selectedRooms = this.rooms.filter(room=> room.cleaningType==='Custom Cleaning');
-    }
+    return this.rooms.filter(room => room.cleaningType === 'Custom Cleaning');
   }
 
   getAllRooms(){
@@ -68,7 +65,11 @@ export class CleaningperiodsComponent implements OnInit{
       this.roomService.getRoomsWithCleaningType(this.token).subscribe({
         next: (data)=>{
           this.rooms = data;
-          this.selectedRooms = this.rooms.filter(room=>room.cleaningType==='After Each Use');
+
+          const tabOrder = ['eachuse', 'eachfriday', 'eachwednesday', 'onrequest'];
+          const firstTabWithData = tabOrder.find(tab => this.getRoomsForTab(tab).length > 0);
+          this.activeTab = firstTabWithData ?? 'eachuse';
+          this.selectedRooms = this.getRoomsForTab(this.activeTab);
         },
         error: (error)=>{
           console.log("error " + error.error);

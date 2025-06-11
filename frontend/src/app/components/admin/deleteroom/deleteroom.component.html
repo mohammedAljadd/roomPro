@@ -1,18 +1,18 @@
-<ul class="nav nav-tabs px-5">
-  
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="activeTab === 'main'"  (click)="selectTab('main')">Main Building</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link"  [class.active]="activeTab === 'east'"  (click)="selectTab('east')">East Wing</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="activeTab === 'west'"  (click)="selectTab('west')">West Wing</a>
+<ul class="nav nav-tabs px-5" *ngIf="roomLocations.length > 0">
+  <li class="nav-item" *ngFor="let location of roomLocations">
+    <a class="nav-link" [class.active]="activeTab === location" (click)="selectTab(location)">{{ location }}</a>
   </li>
 </ul>
 
+<div *ngIf="roomLocations.length === 0" class="container mt-4">
+  <div class="alert alert-info mb-0">No rooms found.</div>
+</div>
 
- <div *ngIf="selectedRooms.length > 0" class="rooms-container">
+<div *ngIf="roomLocations.length > 0 && selectedRooms.length === 0" class="container mt-4">
+  <div class="alert alert-secondary mb-0">No rooms found for {{ activeTab }}.</div>
+</div>
+
+<div *ngIf="selectedRooms.length > 0" class="rooms-container">
 
      <div class="container d-flex flex-column justify-content-center align-items-center text-center">
     <h1>Room Deletion</h1>
