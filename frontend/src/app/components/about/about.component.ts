@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AboutComponent {
 
-  mymail = "mohammedaljadd8@gmail.com";
+  mymail = "test@gmail.com";
 }
