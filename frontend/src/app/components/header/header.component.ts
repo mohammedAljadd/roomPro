@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, LOCALE_ID, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import * as JWT from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { LoginService } from '../../services/auth/login.service';
 import { CleaningService } from '../../services/cleaning.service';
 import { CleaningRequestsService } from '../../services/cleaning-requests.service';
@@ -45,16 +45,46 @@ export class HeaderComponent {
 
   notViewedRequestCount: number = 0;
 
+  private decodeToken(token: string): { firstName?: string; role?: string } | null {
+    try {
+      return jwtDecode<{ firstName?: string; role?: string }>(token);
+    } catch (error) {
+      console.error('Invalid token payload:', error);
+      return null;
+    }
+  }
+
+  private hasAdminRole(decoded: any): boolean {
+    if (!decoded) return false;
+
+    const normalize = (value: string) => value.toLowerCase().replace(/^role_/, '');
+
+    if (typeof decoded.role === 'string') {
+      return normalize(decoded.role) === 'admin';
+    }
+
+    if (Array.isArray(decoded.roles)) {
+      return decoded.roles.some((value: unknown) => typeof value === 'string' && normalize(value) === 'admin');
+    }
+
+    if (Array.isArray(decoded.authorities)) {
+      return decoded.authorities.some((value: unknown) => typeof value === 'string' && normalize(value) === 'admin');
+    }
+
+    return false;
+  }
+
   ngOnInit(): void {
     
     this.loginService.getToken().subscribe(token => {
       this.jwtToken = token;
       if (token) {
-        this.userName = this.decodeToken(token).firstName;
-        this.isAdmin = this.decodeToken(token).role == "Admin";
-        
+        const decoded = this.decodeToken(token);
+        this.userName = decoded?.firstName ?? null;
+        this.isAdmin = this.hasAdminRole(decoded);
       } else {
         this.userName = null;
+        this.isAdmin = false;
       }
       this.fetchPendingCount();
       this.fetchNotViewedRequest();
@@ -66,11 +96,6 @@ export class HeaderComponent {
     this.cleaningStateService.pendingCountUpdated$.subscribe(() => {
       this.fetchPendingCount();
     });
-  }
-
-  decodeToken(token: string) {
-    
-    return JSON.parse(atob(token.split('.')[1]));
   }
 
   logout(): void{

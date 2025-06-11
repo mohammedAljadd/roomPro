@@ -15,6 +15,7 @@ import { RRule } from 'rrule';
 import rrulePlugin from '@fullcalendar/rrule';
 import { MaintenanceService } from '../../services/maintenance.service';
 import { HolidayService } from '../../services/holiday.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-roomcallendar',
@@ -127,9 +128,52 @@ export class RoomcallendarComponent implements OnInit {
   toastNotif = inject(ToastnotificationService);
 
   constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+
+  private decodeToken(token: string): { role?: string; sub?: string } | null {
+    try {
+      return jwtDecode<{ role?: string; sub?: string }>(token);
+    } catch (error) {
+      console.error('Invalid token payload:', error);
+      return null;
+    }
+  }
+
+  private hasAdminRole(decoded: any): boolean {
+    if (!decoded) return false;
+
+    const normalize = (value: string) => value.toLowerCase().replace(/^role_/, '');
+
+    if (typeof decoded.role === 'string') {
+      return normalize(decoded.role) === 'admin';
+    }
+
+    if (Array.isArray(decoded.roles)) {
+      return decoded.roles.some((value: unknown) => typeof value === 'string' && normalize(value) === 'admin');
+    }
+
+    if (Array.isArray(decoded.authorities)) {
+      return decoded.authorities.some((value: unknown) => typeof value === 'string' && normalize(value) === 'admin');
+    }
+
+    return false;
+  }
+
+  private applyAdminCalendarSettings(): void {
+    this.calendarOptions = {
+      ...this.calendarOptions,
+      slotMaxTime: this.isAdmin ? '18:00:00' : '20:00:00',
+      hiddenDays: this.isAdmin ? [0, 6] : []
+    };
+  }
   
   async ngOnInit(): Promise<void> {
     this.token = localStorage.getItem('jwtToken');
+    if (this.token) {
+      const decoded = this.decodeToken(this.token);
+      this.isAdmin = this.hasAdminRole(decoded);
+      this.applyAdminCalendarSettings();
+    }
+
     const now = new Date();
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust for timezone
     this.minDateTime = now.toISOString().slice(0, 16);
@@ -145,11 +189,6 @@ export class RoomcallendarComponent implements OnInit {
     ]);
     
     this.loadEvents();
-    
-    
-    if (this.token) {
-      this.isAdmin = JSON.parse(atob(this.token.split('.')[1])).role == "Admin";
-    }
 
   }
 
@@ -511,7 +550,7 @@ export class RoomcallendarComponent implements OnInit {
   if (!this.token) return null;
 
   try {
-    const payload = JSON.parse(atob(this.token.split('.')[1])); // Decode and parse payload
+    const payload = this.decodeToken(this.token);
     return payload?.sub || null;
   } catch (e) {
     console.error('Invalid token:', e);
